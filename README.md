@@ -25,10 +25,14 @@ This project is a backend REST API built using Next.js 15, designed to support t
 ## API Endpoints
 
 - **GET /api/problems**: Fetch all problem reports.
+- **GET /api/problems/?status=status&cat_id=cat_id&\_sort=status&\_order=asc/desc** : Filter/sorting problems
 - **POST /api/problems**: Create a new problem report.
 - **GET /api/problems/id**: Fetch a specific problem by ID.
 - **PUT /api/problems/**: Update an existing problem.
 - **DELETE /api/problems/id**: Delete a problem report.
+
+- **GET /api/categories**: Fetch all problem categories.
+- **GET /api/categories/id**: Fetch a specific problem category.
 
 ## License
 

@@ -30,13 +30,16 @@ export async function GET(
     });
 
     if (!problem) {
-      return NextResponse.json({ error: "Problem not found" }, { status: 404 });
+      return NextResponse.json(
+        { error: "Problem nije pronađen" },
+        { status: 404 }
+      );
     }
 
     return NextResponse.json(problem, { status: 200 });
   } catch (error) {
     return NextResponse.json(
-      { error: "Failed to fetch problem" },
+      { error: "Greška prilikom preuzimanja problema" },
       { status: 500 }
     );
   }

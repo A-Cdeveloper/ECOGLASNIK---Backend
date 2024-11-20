@@ -2,17 +2,33 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/db/db";
 
-export async function GET() {
+export async function GET(request: NextRequest) {
+  const { searchParams } = new URL(request.url);
+
+  const status = searchParams.get("status") || undefined;
+  const cat_id = searchParams.get("cat_id") || undefined;
+  const sort = searchParams.get("sort") || "createdAt"; // Default sort field
+  const order = searchParams.get("order") || "desc"; // Default order
+
   try {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const conditions: any = {};
+    if (status) conditions.status = status;
+    if (cat_id) conditions.cat_id = +cat_id;
+
     const problems = await prisma.problem.findMany({
+      where: conditions,
       orderBy: {
-        createdAt: "desc",
+        [sort]: order.toLowerCase() === "asc" ? "asc" : "desc",
       },
     });
-    return NextResponse.json(problems, { status: 200 });
+    return NextResponse.json(
+      { results: problems.length, data: problems },
+      { status: 200 }
+    );
   } catch (error) {
     return NextResponse.json(
-      { error: "Failed to fetch problems" },
+      { error: "Greška prilikom preuzimanja problema" },
       { status: 500 }
     );
   }
