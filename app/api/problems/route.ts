@@ -38,8 +38,14 @@ export async function GET(request: NextRequest) {
 // Define Zod schema for validation
 const problemSchema = z.object({
   id: z.string().uuid(),
-  title: z.string().min(1, "Title is required"),
-  description: z.string().min(1, "Description is required"),
+  title: z
+    .string()
+    .min(1, "Naslov je obavezan")
+    .max(30, "Naslov mora biti maksimalno 30 karaktera"),
+  description: z
+    .string()
+    .min(1, "Opis problema je obavezan.")
+    .max(50, "Opis problema mora biti maksimalno 50 karaktera"),
   position: z.object({
     lat: z.string().min(1, "Latitude is required"),
     lng: z.string().min(1, "Longitude is required"),
@@ -48,6 +54,8 @@ const problemSchema = z.object({
   uid: z.number().int(),
   image: z.string().optional().default(""),
 });
+
+///
 
 export async function POST(req: NextRequest) {
   try {
@@ -96,8 +104,6 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: error.errors }, { status: 400 });
     }
 
-    // Handle other errors
-    //console.error("Error creating problem:", error);
     return NextResponse.json(
       { error: "Error creating problem" },
       { status: 500 }
