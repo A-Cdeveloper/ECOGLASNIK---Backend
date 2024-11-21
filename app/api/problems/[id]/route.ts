@@ -58,6 +58,7 @@ const updateProblemSchema = z.object({
     .min(1, "Opis problema je obavezan.")
     .max(50, "Opis problema mora biti maksimalno 50 karaktera")
     .optional(),
+  status: z.union([z.literal("done"), z.undefined()]),
   cat_id: z.number().int().optional(),
   image: z.string().optional(),
 });
@@ -91,6 +92,7 @@ export async function PUT(request: NextRequest, { params }: { params: any }) {
         title: updatedData.title ?? problem.title,
         description: updatedData.description ?? problem.description,
         cat_id: updatedData.cat_id ?? problem.cat_id, // Ensure field name matches schema
+        status: updatedData.status ?? problem.status,
         image: updatedData.image ?? problem.image,
         updatedAt: new Date(), // Set updatedAt to the current timestamp
       },
