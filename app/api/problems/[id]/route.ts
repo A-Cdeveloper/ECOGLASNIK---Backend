@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { NextRequest, NextResponse } from "next/server";
-import prisma from "@/db/db";
+import prisma from "@/app/db/db";
 import { z } from "zod";
 import { updateProblemSchema } from "@/app/zod/problemSchemas";
 
