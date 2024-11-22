@@ -2,6 +2,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/db/db";
 import { z } from "zod";
+import { problemSchema } from "@/app/zod/problemSchemas";
 
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
@@ -34,28 +35,6 @@ export async function GET(request: NextRequest) {
     );
   }
 }
-
-// Define Zod schema for validation
-const problemSchema = z.object({
-  id: z.string().uuid(),
-  title: z
-    .string()
-    .min(1, "Naslov je obavezan")
-    .max(30, "Naslov mora biti maksimalno 30 karaktera"),
-  description: z
-    .string()
-    .min(1, "Opis problema je obavezan.")
-    .max(50, "Opis problema mora biti maksimalno 50 karaktera"),
-  position: z.object({
-    lat: z.string().min(1, "Latitude is required"),
-    lng: z.string().min(1, "Longitude is required"),
-  }),
-  cat_id: z.number().int(),
-  uid: z.number().int(),
-  image: z.string().optional().default(""),
-});
-
-///
 
 export async function POST(req: NextRequest) {
   try {

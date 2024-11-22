@@ -2,12 +2,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/db/db";
 import { z } from "zod";
+import { updateProblemSchema } from "@/app/zod/problemSchemas";
 
-export async function GET(
-  req: NextRequest,
-  { params }: { params: { id: string } }
-) {
-  const { id } = params;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export async function GET(request: NextRequest, { params }: { params: any }) {
+  const { id } = await params;
 
   try {
     const problem = await prisma.problem.findUnique({
@@ -45,23 +44,6 @@ export async function GET(
     );
   }
 }
-
-//////////////
-const updateProblemSchema = z.object({
-  title: z
-    .string()
-    .min(1, "Naslov je obavezan")
-    .max(40, "Naslov mora biti maksimalno 30 karaktera")
-    .optional(),
-  description: z
-    .string()
-    .min(1, "Opis problema je obavezan.")
-    .max(50, "Opis problema mora biti maksimalno 50 karaktera")
-    .optional(),
-  status: z.union([z.literal("done"), z.undefined()]),
-  cat_id: z.number().int().optional(),
-  image: z.string().optional(),
-});
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export async function PUT(request: NextRequest, { params }: { params: any }) {
