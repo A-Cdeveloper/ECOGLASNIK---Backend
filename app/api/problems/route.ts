@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { NextRequest, NextResponse } from "next/server";
-import prisma from "@/app/db/db";
+import prisma from "@/app/_utils/db/db";
 import { z } from "zod";
-import { problemSchema } from "@/app/zod/problemSchemas";
+import { problemSchema } from "@/app/_utils/zod/problemSchemas";
 
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);

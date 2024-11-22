@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { NextRequest, NextResponse } from "next/server";
-import prisma from "@/app/db/db";
+import prisma from "@/app/_utils/db/db";
 import { z } from "zod";
-import { updateProblemSchema } from "@/app/zod/problemSchemas";
+import { updateProblemSchema } from "@/app/_utils/zod/problemSchemas";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export async function GET(request: NextRequest, { params }: { params: any }) {
