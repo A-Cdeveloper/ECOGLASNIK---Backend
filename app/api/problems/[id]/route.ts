@@ -94,3 +94,40 @@ export async function PUT(request: NextRequest, { params }: { params: any }) {
     );
   }
 }
+
+export async function DELETE(
+  request: NextRequest,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  { params }: { params: any }
+) {
+  const { id } = await params;
+
+  const problem = await prisma.problem.findUnique({
+    where: {
+      id: id,
+    },
+  });
+  if (!problem) {
+    return NextResponse.json(
+      { error: "Problem nije pronađen" },
+      { status: 404 }
+    );
+  }
+
+  try {
+    const problem = await prisma.problem.delete({
+      where: {
+        id: id,
+      },
+    });
+    return NextResponse.json(
+      { message: "Problem je uspesno obrisan" },
+      { status: 200 }
+    );
+  } catch (error) {
+    return NextResponse.json(
+      { error: "Greška prilikom brisanja problema" },
+      { status: 500 }
+    );
+  }
+}
