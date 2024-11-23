@@ -9,8 +9,14 @@ export async function GET(request: NextRequest) {
 
   const status = searchParams.get("status") || undefined;
   const cat_id = searchParams.get("cat_id") || undefined;
-  const sort = searchParams.get("sort") || "createdAt"; // Default sort field
-  const order = searchParams.get("order") || "desc"; // Default order
+  const sort = searchParams.get("sort")?.split(",") || ["createdAt"]; // Default sort field
+  const order = searchParams.get("order")?.split(",") || ["desc"]; // Default order
+
+  const orderBy = sort.map((field: string, index: number) => ({
+    [field]: order[index]?.toLowerCase() as "asc" | "desc",
+  }));
+
+  console.log(orderBy);
 
   try {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -20,9 +26,7 @@ export async function GET(request: NextRequest) {
 
     const problems = await prisma.problem.findMany({
       where: conditions,
-      orderBy: {
-        [sort]: order.toLowerCase() === "asc" ? "asc" : "desc",
-      },
+      orderBy,
     });
     return NextResponse.json(
       { results: problems.length, data: problems },
