@@ -16,8 +16,6 @@ export async function GET(request: NextRequest) {
     [field]: order[index]?.toLowerCase() as "asc" | "desc",
   }));
 
-  console.log(orderBy);
-
   try {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const conditions: any = {};
