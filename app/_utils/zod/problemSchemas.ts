@@ -28,7 +28,6 @@ export const problemSchema = problemBaseSchema.extend({
 
 export const updateProblemSchema = problemBaseSchema
   .extend({
-    title: problemBaseSchema.shape.title.max(40).optional(), // Adjust max length for title
     status: z.union([z.literal("done"), z.undefined()]), // Additional field for updates
   })
   .partial(); // Make all fields optional
