@@ -115,15 +115,12 @@ export async function DELETE(
   }
 
   try {
-    const problem = await prisma.problem.delete({
+    const deletedProblem = await prisma.problem.delete({
       where: {
         id: id,
       },
     });
-    return NextResponse.json(
-      { message: "Problem je uspesno obrisan" },
-      { status: 200 }
-    );
+    return NextResponse.json(deletedProblem, { status: 200 });
   } catch (error) {
     return NextResponse.json(
       { error: "Greška prilikom brisanja problema" },
