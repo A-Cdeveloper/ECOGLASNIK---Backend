@@ -2,15 +2,24 @@ import { pinata } from "@/app/_utils/pinata/config";
 import { NextRequest, NextResponse } from "next/server";
 
 // Helper function to delete a file from Pinata
-const deleteFileFromPinata = async (fid: string) => {
+const deleteFileFromPinata = async (cid: string) => {
   try {
     // Use Pinata SDK to delete the file by its UUID
-    const response = await pinata.files.delete([fid]);
+    const response = await pinata.files.delete([cid]);
+    console.log(response);
+
+    if (response[0].status !== "OK") {
+      const errorObj = JSON.parse(
+        response[0].status.replace(/^HTTP error: /, "")
+      ).error;
+
+      throw new Error(errorObj.message);
+    }
 
     return response;
-  } catch (error) {
-    console.error("Error deleting file from Pinata:", error);
-    throw new Error("Failed to delete file from Pinata.");
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (error: any) {
+    throw new Error(error.message);
   }
 };
 
@@ -37,10 +46,6 @@ export async function POST(request: NextRequest) {
     });
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
-    console.error("Error in API route:", error.message);
-    return NextResponse.json(
-      { error: "Failed to delete file.", details: error.message },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }
