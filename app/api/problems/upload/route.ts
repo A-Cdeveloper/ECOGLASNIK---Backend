@@ -27,7 +27,7 @@ export async function POST(request: NextRequest) {
     const uploadData = await pinata.upload.file(file);
     const url = await pinata.gateways.createSignedURL({
       cid: uploadData.cid,
-      expires: 3600,
+      expires: 31536000000,
     });
     return NextResponse.json(
       { imageUrl: url, cid: uploadData.id },
