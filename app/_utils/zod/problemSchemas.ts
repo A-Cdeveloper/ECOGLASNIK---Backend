@@ -15,7 +15,7 @@ const problemBaseSchema = z.object({
   description: z
     .string()
     .min(1, "Opis problema je obavezan.")
-    .max(50, "Opis problema mora biti maksimalno 50 karaktera"),
+    .max(80, "Opis problema mora biti maksimalno 80 karaktera"),
   cat_id: z.number().int(),
   image: z.string().optional().default(""),
 });
@@ -28,6 +28,6 @@ export const problemSchema = problemBaseSchema.extend({
 
 export const updateProblemSchema = problemBaseSchema
   .extend({
-    status: z.union([z.literal("done"), z.undefined()]), // Additional field for updates
+    status: z.union([z.literal("done"), z.literal("active"), z.undefined()]), // Additional field for updates
   })
   .partial(); // Make all fields optional
