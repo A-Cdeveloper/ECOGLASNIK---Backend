@@ -73,7 +73,7 @@ export async function POST(req: NextRequest) {
         status: "active",
         cat_id: data.cat_id, // Match your database column name
         uid: data.uid, // Match your database column name
-        image: data.image,
+        image: data.image || "",
       },
     });
 
