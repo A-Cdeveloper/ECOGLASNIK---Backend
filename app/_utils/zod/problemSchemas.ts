@@ -10,14 +10,14 @@ const positionSchema = z.object({
 const problemBaseSchema = z.object({
   title: z
     .string()
-    .min(1, "Naslov je obavezan")
+    .min(1, "Naslov problema je obavezan")
     .max(60, "Naslov mora biti maksimalno 60 karaktera"),
   description: z
     .string()
     .min(1, "Opis problema je obavezan.")
     .max(120, "Opis problema mora biti maksimalno 120 karaktera"),
   cat_id: z.number().int(),
-  image: z.string().optional().default(""),
+  image: z.string().min(1, "Fotografija problema je obavezna").optional(),
 });
 
 export const problemSchema = problemBaseSchema.extend({
