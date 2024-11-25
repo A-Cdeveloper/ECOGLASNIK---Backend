@@ -1,5 +1,6 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { pinata } from "@/app/_utils/pinata/config";
+import { MAX_UPLOAD_FILE_SIZE } from "@/app/_utils/contants";
 
 export async function POST(request: NextRequest) {
   try {
@@ -7,19 +8,22 @@ export async function POST(request: NextRequest) {
     const file: File | null = data.get("file") as unknown as File;
 
     if (file.size === 0) {
-      return NextResponse.json({ error: "No file uploaded" }, { status: 400 });
+      return NextResponse.json(
+        { error: "Fotografija nije uploadovana." },
+        { status: 400 }
+      );
     }
 
-    if (file.size > 1000000) {
+    if (file.size > MAX_UPLOAD_FILE_SIZE) {
       return NextResponse.json(
-        { error: "File size too large" },
+        { error: "Dozvoljena veličina fotografije je 5MB" },
         { status: 400 }
       );
     }
 
     if (file.type !== "image/jpeg" && file.type !== "image/png") {
       return NextResponse.json(
-        { error: "File must be a JPEG or PNG image" },
+        { error: "Fotografija mora biti u JPG ili PNG formatu" },
         { status: 400 }
       );
     }
