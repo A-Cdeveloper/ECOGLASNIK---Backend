@@ -74,6 +74,7 @@ export async function POST(req: NextRequest) {
         cat_id: data.cat_id, // Match your database column name
         uid: data.uid, // Match your database column name
         image: data.image || "",
+        cid: data.cid || "",
       },
     });
 
