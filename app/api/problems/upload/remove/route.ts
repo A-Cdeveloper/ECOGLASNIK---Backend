@@ -27,18 +27,18 @@ const deleteFileFromPinata = async (cid: string) => {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { fid } = body;
+    const { cid } = body;
 
     // Validate the fileIds array
-    if (!fid) {
+    if (!cid) {
       return NextResponse.json(
-        { error: "Invalid or missing fid." },
+        { error: "Invalid or missing cid." },
         { status: 400 }
       );
     }
 
     // Call helper to delete files
-    const result = await deleteFileFromPinata(fid);
+    const result = await deleteFileFromPinata(cid);
 
     return NextResponse.json({
       message: "File deleted successfully",
