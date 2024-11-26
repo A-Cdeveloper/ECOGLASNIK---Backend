@@ -76,6 +76,7 @@ export async function PUT(request: NextRequest, { params }: { params: any }) {
         cat_id: updatedData.cat_id ?? problem.cat_id, // Ensure field name matches schema
         status: updatedData.status ?? problem.status,
         image: updatedData.image ?? problem.image,
+        cid: updatedData.cid ?? problem.cid,
         updatedAt: new Date(), // Set updatedAt to the current timestamp
       },
     });
