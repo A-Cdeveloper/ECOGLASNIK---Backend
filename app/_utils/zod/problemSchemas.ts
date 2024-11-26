@@ -15,7 +15,7 @@ const problemBaseSchema = z.object({
   description: z
     .string()
     .min(1, "Opis problema je obavezan.")
-    .max(120, "Opis problema mora biti maksimalno 120 karaktera"),
+    .max(300, "Opis problema mora biti maksimalno 300 karaktera"),
   cat_id: z.number().int(),
   image: z.string().min(1, "Fotografija problema je obavezna").optional(),
   cid: z.string().optional(),
