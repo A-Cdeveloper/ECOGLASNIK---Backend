@@ -2,11 +2,22 @@ import { pinata } from "@/app/_utils/pinata/config";
 import { NextRequest, NextResponse } from "next/server";
 
 // Helper function to delete a file from Pinata
-const deleteFileFromPinata = async (cid: string) => {
+const deleteFileFromPinata = async (pinata_id: string) => {
   try {
     // Use Pinata SDK to delete the file by its UUID
-    const response = await pinata.files.delete([cid]);
+    const response = await pinata.files.delete([pinata_id]);
     console.log(response);
+
+    // async function testPinataAuth() {
+    //   try {
+    //     const result = await pinata.testAuthentication();
+    //     console.log("Authentication Success:", result);
+    //   } catch (error) {
+    //     console.error("Authentication Failed:", error?.message);
+    //   }
+    // }
+
+    // testPinataAuth();
 
     if (response[0].status !== "OK") {
       const errorObj = JSON.parse(
@@ -27,10 +38,10 @@ const deleteFileFromPinata = async (cid: string) => {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { cid } = body;
+    const { pinata_id } = body;
 
     // Validate the fileIds array
-    if (!cid) {
+    if (!pinata_id) {
       return NextResponse.json(
         { error: "Invalid or missing cid." },
         { status: 400 }
@@ -38,7 +49,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Call helper to delete files
-    const result = await deleteFileFromPinata(cid);
+    const result = await deleteFileFromPinata(pinata_id);
 
     return NextResponse.json({
       message: "File deleted successfully",

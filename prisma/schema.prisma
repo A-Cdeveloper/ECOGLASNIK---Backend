@@ -32,7 +32,7 @@ model Problem {
   cat_id      Int
   uid         Int
   image       String
-  cid         String    @default("")
+  pinata_id   String    @default("")
 
   category ProblemCategory @relation(fields: [cat_id], references: [cat_id])
   user     User            @relation(fields: [uid], references: [uid])

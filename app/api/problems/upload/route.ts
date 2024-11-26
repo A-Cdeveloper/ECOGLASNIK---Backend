@@ -29,12 +29,13 @@ export async function POST(request: NextRequest) {
     }
 
     const uploadData = await pinata.upload.file(file);
+    console.log(uploadData);
     const url = await pinata.gateways.createSignedURL({
       cid: uploadData.cid,
       expires: 31536000000,
     });
     return NextResponse.json(
-      { imageUrl: url, cid: uploadData.id },
+      { imageUrl: url, pinata_id: uploadData.id },
       { status: 200 }
     );
   } catch (e) {
