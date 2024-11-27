@@ -1,5 +1,5 @@
 import { NextResponse, type NextRequest } from "next/server";
-import { pinata } from "@/app/_utils/pinata/config";
+import { getOptimizedImageURL, pinata } from "@/app/_utils/pinata/config";
 import { MAX_UPLOAD_FILE_SIZE } from "@/app/_utils/contants";
 
 export async function POST(request: NextRequest) {
@@ -29,11 +29,14 @@ export async function POST(request: NextRequest) {
     }
 
     const uploadData = await pinata.upload.file(file);
-    console.log(uploadData);
-    const url = await pinata.gateways.createSignedURL({
-      cid: uploadData.cid,
-      expires: 31536000000,
-    });
+
+    // const url = await pinata.gateways.createSignedURL({
+    //   cid: uploadData.cid,
+    //   expires: 31536000000,
+    // });
+
+    const url = await getOptimizedImageURL(uploadData.cid);
+
     return NextResponse.json(
       { imageUrl: url, pinata_id: uploadData.id },
       { status: 200 }
