@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
-import { registerSchema } from "../../../_utils/zod/authSchemas"; // Import your Zod schema
-import prisma from "../../../_utils/db/db"; // Adjust path to your Prisma client
+import { registerSchema } from "@/app/_utils/zod/authSchemas"; // Import your Zod schema
+import prisma from "@/app/_utils/db/db"; // Adjust path to your Prisma client
 import { randomBytes } from "crypto";
 import { z } from "zod";
 import { hashPassword } from "@/app/_utils/auth";
@@ -49,8 +49,7 @@ export async function POST(req: Request) {
 
     return NextResponse.json(
       {
-        message: `Proverite svoju email adresu ${data.email} za verifikaciju naloga. Molimo proverite i spam folder. 
-        Nakon verifikacije, možete se prijaviti.`,
+        message: `Proverite svoju email adresu ${data.email} za verifikaciju naloga. Molimo proverite i spam folder. Nakon verifikacije, možete se prijaviti.`,
       },
       { status: 201 }
     );
