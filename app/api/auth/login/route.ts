@@ -60,13 +60,8 @@ export async function POST(req: Request) {
     });
   } catch (error) {
     if (error instanceof z.ZodError) {
-      // If Zod validation fails, return validation errors
-      return NextResponse.json(
-        { message: "Logovanje neuspešno.", errors: error.errors },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: error.errors }, { status: 400 });
     }
-
     return NextResponse.json({ error: error }, { status: 500 });
   }
 }
