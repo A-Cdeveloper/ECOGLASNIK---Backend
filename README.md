@@ -21,6 +21,16 @@ This project is a backend REST API built using Next.js 15, designed to support t
 - **JWT**: JSON Web Tokens for secure user authentication.
 - **Node.js**: JavaScript runtime used to build the backend.
 - **Middleware**: Used for handling API security, validation, and error handling.
+- **Zod**: A schema validation library for validating and parsing API request payloads.
+- **Nodemailer**: A library for sending emails, utilized for user email verification and notifications.
+- **jose**: A library for managing JWT signing, verification, and encryption processes.
+
+## Features
+
+- **User Authentication**: Secure login, registration, and email verification using JWTs and Nodemailer.
+- **CRUD Operations**: Manage problems, categories.
+- **Database Integration**: Robust database interactions using Prisma and MySQL.
+- **Validation**: Comprehensive schema validation with Zod for secure API inputs.
 
 ## API Endpoints
 
@@ -38,7 +48,8 @@ This project is a backend REST API built using Next.js 15, designed to support t
 **POST /api/auth/login** Login user  
 **POST /api/auth/register** Register user  
 **GET /api/auth/verify** Verify user account  
-**POST /api/auth/forgot-password -** Forgot password reset
+**POST /api/auth/forgot-password -** Forgot password reset  
+**POST /api/auth/reset-password -** Reset password
 
 ## License
 
