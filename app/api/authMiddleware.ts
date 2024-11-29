@@ -13,17 +13,19 @@ type AuthResponseError = {
 
 export async function authMiddleware(
   request: NextRequest
-): Promise<
-  NextResponse<AuthResponseError> | NextResponse<AuthResponseSuccess>
-> {
+): Promise<NextResponse<AuthResponseSuccess | AuthResponseError>> {
   const cookieHeader = request.headers.get("cookie");
 
+  console.log(cookieHeader);
+
   if (!cookieHeader) {
-    return NextResponse.json({
-      error: "Pristup nije autorizovan.",
-      status: 401,
-      userId: null,
-    });
+    return NextResponse.json(
+      {
+        error: "Pristup nije autorizovan.",
+        userId: null,
+      },
+      { status: 401 }
+    );
   }
 
   const cookies = Object.fromEntries(
@@ -31,24 +33,31 @@ export async function authMiddleware(
   );
   const token = cookies.authToken;
 
+  console.log(token);
+
   if (!token) {
-    return NextResponse.json({
-      error: "Pristup nije autorizovan.",
-      status: 401,
-      userId: null,
-    });
+    return NextResponse.json(
+      {
+        error: "Pristup nije autorizovan.",
+        userId: null,
+      },
+      { status: 401 }
+    );
   }
 
   try {
     const { payload } = await verifyJWT(token);
 
     return NextResponse.json({ userId: payload.userId });
+    // return NextResponse.next();
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (error) {
-    return NextResponse.json({
-      error: "Pristup nije autorizovan.",
-      status: 401,
-      userId: null,
-    });
+    return NextResponse.json(
+      {
+        error: "Pristup nije autorizovan.",
+        userId: null,
+      },
+      { status: 401 }
+    );
   }
 }
