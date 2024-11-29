@@ -43,9 +43,12 @@ export const loginSchema = z.object({
   password: loginPasswordSchema,
 });
 
-// Login Schema Using Shared Fields
 export const forgotPasswordSchema = z.object({
   email: emailSchema,
+});
+
+export const resetPasswordSchema = z.object({
+  password: registerPasswordSchema,
 });
 
 export type RegisterInput = z.infer<typeof registerSchema>;
