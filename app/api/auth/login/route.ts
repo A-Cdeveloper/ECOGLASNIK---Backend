@@ -3,7 +3,7 @@ import { loginSchema } from "@/app/_utils/zod/authSchemas"; // Adjust this impor
 import prisma from "@/app/_utils/db/db"; // Prisma client setup
 import { z } from "zod";
 import { createJWT, verifyPassword } from "@/app/_utils/auth";
-
+import { cookies } from "next/headers";
 // API handler for login
 export async function POST(req: Request) {
   try {
@@ -46,10 +46,9 @@ export async function POST(req: Request) {
     // Generate JWT token
     const token = await createJWT(user.uid.toString());
 
-    // Return successful response with token
-    return NextResponse.json({
+    // Set token in HTTP-only cookie
+    const response = NextResponse.json({
       message: "Uspešna prijava.",
-      token,
       data: {
         uid: user.uid,
         email: user.email,
@@ -58,6 +57,15 @@ export async function POST(req: Request) {
         phone: user.phone,
       },
     });
+    response.cookies.set("authToken", token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production" || true, // Use secure cookies in production
+      sameSite: "strict",
+      path: "/",
+      maxAge: 60 * 60, // 1 hour
+    });
+
+    return response;
   } catch (error) {
     if (error instanceof z.ZodError) {
       return NextResponse.json({ error: error.errors }, { status: 400 });
