@@ -16,8 +16,6 @@ export async function authMiddleware(
 ): Promise<NextResponse<AuthResponseSuccess | AuthResponseError>> {
   const cookieHeader = request.headers.get("cookie");
 
-  console.log(cookieHeader);
-
   if (!cookieHeader) {
     return NextResponse.json(
       {
