@@ -3,7 +3,7 @@ import { loginSchema } from "@/app/_utils/zod/authSchemas"; // Adjust this impor
 import prisma from "@/app/_utils/db/db"; // Prisma client setup
 import { z } from "zod";
 import { createJWT, verifyPassword } from "@/app/_utils/auth";
-import { cookies } from "next/headers";
+
 // API handler for login
 export async function POST(req: Request) {
   try {
