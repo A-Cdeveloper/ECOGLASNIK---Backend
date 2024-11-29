@@ -30,19 +30,14 @@ export async function POST(request: NextRequest) {
 
     const uploadData = await pinata.upload.file(file);
 
-    // const url = await pinata.gateways.createSignedURL({
-    //   cid: uploadData.cid,
-    //   expires: 31536000000,
-    // });
-
     const url = await getOptimizedImageURL(uploadData.cid);
 
     return NextResponse.json(
       { imageUrl: url, pinata_id: uploadData.id },
       { status: 200 }
     );
-  } catch (e) {
-    console.log(e);
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  } catch (error) {
     return NextResponse.json(
       { error: "Internal Server Error" },
       { status: 500 }

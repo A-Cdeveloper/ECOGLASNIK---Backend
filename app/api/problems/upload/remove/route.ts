@@ -8,17 +8,6 @@ const deleteFileFromPinata = async (pinata_id: string) => {
     const response = await pinata.files.delete([pinata_id]);
     console.log(response);
 
-    // async function testPinataAuth() {
-    //   try {
-    //     const result = await pinata.testAuthentication();
-    //     console.log("Authentication Success:", result);
-    //   } catch (error) {
-    //     console.error("Authentication Failed:", error?.message);
-    //   }
-    // }
-
-    // testPinataAuth();
-
     if (response[0].status !== "OK") {
       const errorObj = JSON.parse(
         response[0].status.replace(/^HTTP error: /, "")
