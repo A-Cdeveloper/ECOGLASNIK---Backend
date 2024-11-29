@@ -3,6 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/app/_utils/db/db";
 import { z } from "zod";
 import { problemSchema } from "@/app/_utils/zod/problemSchemas";
+import { authMiddleware } from "../authMiddleware";
 
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
@@ -38,10 +39,14 @@ export async function GET(request: NextRequest) {
   }
 }
 
-export async function POST(req: NextRequest) {
+export async function POST(request: NextRequest) {
+  const authResponse = await authMiddleware(request);
+  if (!authResponse.ok) {
+    return authResponse; // If unauthorized, return the middleware response
+  }
   try {
     // Parse and validate the incoming data
-    const body = await req.json();
+    const body = await request.json();
     const data = problemSchema.parse(body);
 
     // Check if problem already exist
