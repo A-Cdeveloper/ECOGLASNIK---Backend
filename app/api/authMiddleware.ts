@@ -31,8 +31,6 @@ export async function authMiddleware(
   );
   const token = cookies.authToken;
 
-  console.log(token);
-
   if (!token) {
     return NextResponse.json(
       {

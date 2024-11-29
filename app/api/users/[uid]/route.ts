@@ -13,11 +13,18 @@ export async function GET(request: NextRequest, { params }: { params: any }) {
   const authData = await authResponse.json();
   const authenticatedUserId = +authData.userId;
 
+  const admin = await prisma.user.findUnique({
+    where: {
+      uid: authenticatedUserId,
+      role: "admin",
+    },
+  });
+
   const { uid } = await params;
 
-  if (authenticatedUserId !== +uid) {
+  if (authenticatedUserId !== +uid && !admin) {
     return NextResponse.json(
-      { error: "Nemate dozvolu za preuzimanje ovog korisnika" },
+      { error: "Samo administratori mogu preuzeti druge korisnike." },
       { status: 403 }
     );
   }
@@ -67,11 +74,18 @@ export async function DELETE(
   const authData = await authResponse.json();
   const authenticatedUserId = +authData.userId;
 
+  const admin = await prisma.user.findUnique({
+    where: {
+      uid: authenticatedUserId,
+      role: "admin",
+    },
+  });
+
   const { uid } = await params;
 
-  if (authenticatedUserId !== +uid && authenticatedUserId !== 1) {
+  if (authenticatedUserId !== +uid && !admin) {
     return NextResponse.json(
-      { error: "Nemate dozvolu za brisanje ovog korisnika" },
+      { error: "Samo administratori mogu brisati korisnike." },
       { status: 403 }
     );
   }

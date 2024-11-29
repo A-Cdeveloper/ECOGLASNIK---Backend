@@ -13,9 +13,16 @@ export async function GET(request: NextRequest) {
   const authData = await authResponse.json();
   const adminId = +authData.userId;
 
-  if (adminId !== 1) {
+  const admin = await prisma.user.findUnique({
+    where: {
+      uid: adminId,
+      role: "admin",
+    },
+  });
+
+  if (!admin) {
     return NextResponse.json(
-      { error: "Nemate dozvolu za preuzimanje korisnika" },
+      { error: "Samo administratori mogu preuzeti korisnike." },
       { status: 403 }
     );
   }
