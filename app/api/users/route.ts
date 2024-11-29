@@ -10,6 +10,16 @@ export async function GET(request: NextRequest) {
     return authResponse; // If unauthorized, return the middleware response
   }
 
+  const authData = await authResponse.json();
+  const adminId = +authData.userId;
+
+  if (adminId !== 1) {
+    return NextResponse.json(
+      { error: "Nemate dozvolu za preuzimanje korisnika" },
+      { status: 403 }
+    );
+  }
+
   try {
     const users = await prisma.user.findMany();
     const sanitizedUsers = users.map(
