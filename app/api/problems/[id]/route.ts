@@ -3,6 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/app/_utils/db/db";
 import { z } from "zod";
 import { updateProblemSchema } from "@/app/_utils/zod/problemSchemas";
+import { authMiddleware } from "../../authMiddleware";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export async function GET(request: NextRequest, { params }: { params: any }) {
@@ -47,6 +48,11 @@ export async function GET(request: NextRequest, { params }: { params: any }) {
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export async function PUT(request: NextRequest, { params }: { params: any }) {
+  const authResponse = await authMiddleware(request);
+  if (!authResponse.ok) {
+    return authResponse; // If unauthorized, return the middleware response
+  }
+
   const { id } = await params;
   const problem = await prisma.problem.findUnique({
     where: {
@@ -101,6 +107,11 @@ export async function DELETE(
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   { params }: { params: any }
 ) {
+  const authResponse = await authMiddleware(request);
+  if (!authResponse.ok) {
+    return authResponse; // If unauthorized, return the middleware response
+  }
+
   const { id } = await params;
 
   const problem = await prisma.problem.findUnique({
