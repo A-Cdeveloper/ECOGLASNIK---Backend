@@ -50,6 +50,7 @@ This project is a backend REST API built using Next.js 15, designed to support t
 **GET /api/auth/verify** Verify user account  
 **POST /api/auth/forgot-password -** Forgot password reset  
 **POST /api/auth/reset-password -** Reset password
+**POST /api/auth/logout -** Logout user
 
 ## License
 
