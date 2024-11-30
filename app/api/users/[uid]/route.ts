@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/app/_utils/db/db";
-import { authMiddleware } from "../../authMiddleware";
+import { authMiddleware } from "../../../_utils/auth/authMiddleware";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export async function GET(request: NextRequest, { params }: { params: any }) {

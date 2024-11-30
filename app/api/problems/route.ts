@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/app/_utils/db/db";
 import { z } from "zod";
 import { problemSchema } from "@/app/_utils/zod/problemSchemas";
-import { authMiddleware } from "../authMiddleware";
+import { authMiddleware } from "../../_utils/auth/authMiddleware";
 
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);

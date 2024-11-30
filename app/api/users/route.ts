@@ -2,7 +2,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/app/_utils/db/db";
 
-import { authMiddleware } from "../authMiddleware";
+import { authMiddleware } from "../../_utils/auth/authMiddleware";
 
 export async function GET(request: NextRequest) {
   const authResponse = await authMiddleware(request);
