@@ -1,5 +1,5 @@
 import { NextResponse, NextRequest } from "next/server";
-import { verifyJWT } from "../_utils/auth";
+import { verifyJWT } from ".";
 import { JWTPayload } from "jose";
 
 type AuthResponseSuccess = {
