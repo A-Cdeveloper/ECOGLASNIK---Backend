@@ -2,10 +2,15 @@ import nodemailer from "nodemailer";
 import { emailHtml } from ".";
 
 const transporter = nodemailer.createTransport({
-  service: "Gmail", // Replace with your email service
+  host: process.env.SMTP_HOST, // SMTP server host
+  port: Number(process.env.SMTP_PORT), // SMTP port (e.g., 587 for TLS, 465 for SSL)
+  secure: true, // Set to true for SSL (port 465), false for TLS (port 587)
   auth: {
-    user: process.env.EMAIL_USER, // Your email address
-    pass: process.env.EMAIL_PASS, // Your email password or app-specific password
+    user: process.env.EMAIL_USER, // Email address
+    pass: process.env.EMAIL_PASS, // Password or app-specific password
+  },
+  tls: {
+    rejectUnauthorized: false, // Useful for self-signed certificates
   },
 });
 
@@ -13,7 +18,7 @@ export const sendVerificationEmail = async (email: string, token: string) => {
   const verificationUrl = `${process.env.BASE_URL}/login/verify-account?token=${token}`;
 
   await transporter.sendMail({
-    from: '"CleanMe" <cleanme@e-seo.info>',
+    from: '"CleanMe" <admin@cleanme.e-vlasotince.info>',
     to: email,
     subject: "CleanMe - Aktivacija naloga",
     html: emailHtml(
@@ -28,7 +33,7 @@ export const sendPasswordResetEmail = async (email: string, token: string) => {
   const resetUrl = `${process.env.BASE_URL}/login/reset-password?token=${token}`;
 
   await transporter.sendMail({
-    from: '"CleanMe" <cleanme@e-seo.info>',
+    from: '"CleanMe" <admin@cleanme.e-vlasotince.info>',
     to: email,
     subject: "CleanMe - Reset lozinke",
     html: emailHtml(
