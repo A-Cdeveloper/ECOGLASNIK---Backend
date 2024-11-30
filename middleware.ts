@@ -25,7 +25,6 @@ export async function middleware(request: NextRequest) {
   );
   response.headers.set("Access-Control-Allow-Credentials", "true"); // Allow cookies and credentials
 
-  // If it's a preflight request (OPTIONS), just return the CORS headers
   if (request.method === "OPTIONS") {
     console.log("Preflight request detected:", request.url); // Debug log for OPTIONS requests
     return response;
