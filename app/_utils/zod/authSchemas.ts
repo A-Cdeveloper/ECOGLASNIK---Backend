@@ -10,18 +10,21 @@ export const emailSchema = z
     message: "Email nije validan.",
   });
 
-export const phoneSchema = z
-  .string()
-  .refine(
-    (value) =>
-      /^(\+381|0)(6[0-6]|11|2[1-9]|3[0-5]|3[7-9]|4[0-7]|5[0-9]|7[0-9]|8[0-9]|9[0-9])\d{6,7}$/.test(
+export const phoneSchema = z.string().refine(
+  (value) => {
+    if (value !== "" && value !== null && value !== undefined) {
+      return /^(\+381|0)(6[0-6]|11|2[1-9]|3[0-5]|3[7-9]|4[0-7]|5[0-9]|7[0-9]|8[0-9]|9[0-9])\d{6,7}$/.test(
         value
-      ),
-    {
-      message:
-        "Telefon mora da počinje sa 0 ili +381 i mora biti validan telefonski broj.",
+      );
     }
-  );
+    return true;
+  },
+
+  {
+    message:
+      "Telefon mora da počinje sa 0 ili +381 i mora biti validan telefonski broj.",
+  }
+);
 
 // Strict Password Validation for Registration
 export const registerPasswordSchema = z
