@@ -58,8 +58,11 @@ export async function POST(req: Request) {
     );
   } catch (error) {
     if (error instanceof z.ZodError) {
-      return NextResponse.json({ error: error.errors }, { status: 400 });
+      return NextResponse.json(
+        { message: error.errors[0].message },
+        { status: 400 }
+      );
     }
-    return NextResponse.json({ error: error }, { status: 500 });
+    return NextResponse.json({ message: error }, { status: 500 });
   }
 }
