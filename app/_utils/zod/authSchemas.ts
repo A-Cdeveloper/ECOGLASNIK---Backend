@@ -1,7 +1,10 @@
 import { z } from "zod";
 
 // Shared Fields
-export const emailSchema = z.string().email("Email nije validan.");
+export const emailSchema = z
+  .string()
+  .min(1, "Email je obavezan")
+  .email("Email nije validan.");
 
 const phoneSchema = z
   .string()
