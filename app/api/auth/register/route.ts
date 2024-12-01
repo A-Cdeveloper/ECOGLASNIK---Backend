@@ -27,7 +27,7 @@ export async function POST(req: Request) {
 
     if (existingUser) {
       return NextResponse.json(
-        { error: "Korisnik sa ovom email adresom već postoji." },
+        { message: "Korisnik sa ovom email adresom već postoji." },
         { status: 400 }
       );
     }

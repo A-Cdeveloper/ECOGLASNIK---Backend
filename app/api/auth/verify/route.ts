@@ -39,7 +39,7 @@ export async function GET(req: Request) {
     });
 
     return NextResponse.json(
-      { message: "Vaš nalog je uspesno verifikovan." },
+      { message: "Vaš nalog je uspešno verifikovan." },
       { status: 200 }
     );
   } catch (error) {
