@@ -21,7 +21,10 @@ export async function POST(req: Request) {
 
     if (!user) {
       return NextResponse.json(
-        { message: "Korisnik sa ovom email adresom ne postoji." },
+        {
+          message:
+            "Korisnik sa ovom email adresom ne postoji. Pokušajte ponovo.",
+        },
         { status: 404 }
       );
     }
@@ -30,7 +33,7 @@ export async function POST(req: Request) {
     const passwordMatch = await verifyPassword(password, user.passwordHash);
     if (!passwordMatch) {
       return NextResponse.json(
-        { message: "Pogrešna lozinka" },
+        { message: "Pogrešna lozinka. Pokušajte ponovo." },
         { status: 401 }
       );
     }
@@ -69,7 +72,10 @@ export async function POST(req: Request) {
     return response;
   } catch (error) {
     if (error instanceof z.ZodError) {
-      return NextResponse.json({ error: error.errors }, { status: 400 });
+      return NextResponse.json(
+        { message: error.errors[0].message },
+        { status: 400 }
+      );
     }
     return NextResponse.json({ error: error }, { status: 500 });
   }
