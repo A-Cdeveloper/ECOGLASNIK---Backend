@@ -10,21 +10,21 @@ export const emailSchema = z
     message: "Email nije validan.",
   });
 
-export const phoneSchema = z
-  .string()
-  .refine((value) => value.trim() !== "", {
-    message: "Telefon je obavezan",
-  })
-  .refine(
-    (value) =>
-      /^(\+381|0)(6[0-6]|11|2[1-9]|3[0-5]|3[7-9]|4[0-7]|5[0-9]|7[0-9]|8[0-9]|9[0-9])\d{6,7}$/.test(
-        value
-      ),
-    {
-      message:
-        "Telefon mora da počinje sa 0 ili +381 i mora biti validan telefonski broj.",
-    }
-  );
+// export const phoneSchema = z
+//   .string()
+//   .refine((value) => value.trim() !== "", {
+//     message: "Telefon je obavezan",
+//   })
+//   .refine(
+//     (value) =>
+//       /^(\+381|0)(6[0-6]|11|2[1-9]|3[0-5]|3[7-9]|4[0-7]|5[0-9]|7[0-9]|8[0-9]|9[0-9])\d{6,7}$/.test(
+//         value
+//       ),
+//     {
+//       message:
+//         "Telefon mora da počinje sa 0 ili +381 i mora biti validan telefonski broj.",
+//     }
+//   );
 
 // Strict Password Validation for Registration
 export const registerPasswordSchema = z
@@ -61,7 +61,6 @@ export const registerSchema = z.object({
     .string()
     .min(1, "Prezime je obavezno")
     .max(50, "Prezime mora biti kraće od 50 karaktera."),
-  phone: phoneSchema,
   email: emailSchema,
   password: registerPasswordSchema,
 });
