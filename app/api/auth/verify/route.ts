@@ -5,9 +5,9 @@ export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
   const token = searchParams.get("token");
 
-  if (!token) {
+  if (token === "null") {
     return NextResponse.json(
-      { error: "Verifikacioni token nije pronađen." },
+      { message: "Verifikacioni token nije pronađen." },
       { status: 400 }
     );
   }
@@ -24,7 +24,7 @@ export async function GET(req: Request) {
 
     if (!user) {
       return NextResponse.json(
-        { error: "Token ne postoji u bazi podataka ili je neispravan." },
+        { message: "Token ne postoji u bazi podataka ili je neispravan." },
         { status: 400 }
       );
     }
