@@ -50,7 +50,9 @@ export async function POST(req: Request) {
 
     return NextResponse.json(
       {
-        message: `Proverite svoju email adresu ${data.email} za verifikaciju naloga. Molimo proverite i spam folder. Nakon verifikacije, možete se prijaviti.`,
+        message: `Nalog morate aktivirati.
+        Proverite svoju email adresu ${data.email} za verifikaciju naloga.
+        Molimo proverite i spam folder.`,
       },
       { status: 201 }
     );
