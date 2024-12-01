@@ -3,24 +3,50 @@ import { z } from "zod";
 // Shared Fields
 export const emailSchema = z
   .string()
-  .min(1, "Email je obavezan")
-  .email("Email nije validan.");
+  .refine((value) => value.trim() !== "", {
+    message: "Email je obavezan",
+  })
+  .refine((value) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value), {
+    message: "Email nije validan.",
+  });
 
-const phoneSchema = z
+export const phoneSchema = z
   .string()
-  .regex(
-    /^(\+381|0)(6[0-6]|11|2[1-9]|3[0-5]|3[7-9]|4[0-7]|5[0-9]|7[0-9]|8[0-9]|9[0-9])\d{6,7}$/,
-    "Telefon mora da počinje 0 ili +381 i mora biti validan telefonski broj."
+  .refine((value) => value.trim() !== "", {
+    message: "Telefon je obavezan",
+  })
+  .refine(
+    (value) =>
+      /^(\+381|0)(6[0-6]|11|2[1-9]|3[0-5]|3[7-9]|4[0-7]|5[0-9]|7[0-9]|8[0-9]|9[0-9])\d{6,7}$/.test(
+        value
+      ),
+    {
+      message:
+        "Telefon mora da počinje sa 0 ili +381 i mora biti validan telefonski broj.",
+    }
   );
 
 // Strict Password Validation for Registration
-const registerPasswordSchema = z
+export const registerPasswordSchema = z
   .string()
-  .min(8, "Lozinka mora imati najmanje 8 karaktera.")
-  .regex(/[A-Z]/, "Lozinka mora imati najmanje jedno veliko slovo.")
-  .regex(/[0-9]/, "Lozinka mora imati najmanje jedan broj.")
-  .regex(/[@$!%*?&#]/, "Lozinka mora imati najmanje jedan specijalan karakter.")
-  .max(100, "Lozinka mora biti kraća od 100 karaktera.");
+  .refine((value) => value.trim() !== "", {
+    message: "Lozinka je obavezna",
+  })
+  .refine((value) => value.length >= 8, {
+    message: "Lozinka mora imati najmanje 8 karaktera.",
+  })
+  .refine((value) => value.length <= 100, {
+    message: "Lozinka mora biti kraća od 100 karaktera.",
+  })
+  .refine((value) => /[A-Z]/.test(value), {
+    message: "Lozinka mora imati najmanje jedno veliko slovo.",
+  })
+  .refine((value) => /[0-9]/.test(value), {
+    message: "Lozinka mora imati najmanje jedan broj.",
+  })
+  .refine((value) => /[@$!%*?&#]/.test(value), {
+    message: "Lozinka mora imati najmanje jedan specijalan karakter.",
+  });
 
 // Basic Password Validation for Login
 const loginPasswordSchema = z.string().min(1, "Lozinka je obavezna.");
