@@ -7,10 +7,11 @@ import { z } from "zod";
 export async function POST(req: Request) {
   const { searchParams } = new URL(req.url);
   const token = searchParams.get("token");
+  console.log(token);
 
-  if (!token) {
+  if (token === "null" || token === null) {
     return NextResponse.json(
-      { error: "Verifikacioni token nije pronađen." },
+      { message: "Verifikacioni token nije pronađen." },
       { status: 400 }
     );
   }
@@ -24,13 +25,13 @@ export async function POST(req: Request) {
     // // Check if email already exists
     const existingUser = await prisma.user.findUnique({
       where: {
-        verificationToken: token,
+        verificationToken: token!,
       },
     });
 
     if (!existingUser) {
       return NextResponse.json(
-        { error: "Token ne postoji u bazi podataka ili je neispravan." },
+        { message: "Token ne postoji u bazi podataka ili je neispravan." },
         { status: 400 }
       );
     }
@@ -39,7 +40,7 @@ export async function POST(req: Request) {
 
     await prisma.user.update({
       where: {
-        verificationToken: token,
+        verificationToken: token!,
       },
       data: {
         passwordHash,
