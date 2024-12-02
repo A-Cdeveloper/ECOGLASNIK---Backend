@@ -23,7 +23,7 @@ export async function POST(req: Request) {
       return NextResponse.json(
         {
           message:
-            "Korisnik sa ovom email adresom ne postoji. Pokušajte ponovo.",
+            "Korisnik sa ovom email adresom ne postoji ili nije verifikovan.",
         },
         { status: 404 }
       );
