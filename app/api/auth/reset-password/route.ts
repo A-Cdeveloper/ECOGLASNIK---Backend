@@ -1,10 +1,8 @@
-import { NextResponse } from "next/server";
-import { resetPasswordSchema } from "@/app/_utils/zod/authSchemas"; // Import your Zod schema
-import prisma from "@/app/_utils/db/db"; // Adjust path to your Prisma client
-import { randomBytes } from "crypto";
-import { z } from "zod";
 import { hashPassword } from "@/app/_utils/auth";
-import { sendVerificationEmail } from "@/app/_utils/auth/sendEmail";
+import prisma from "@/app/_utils/db/db"; // Adjust path to your Prisma client
+import { resetPasswordSchema } from "@/app/_utils/zod/authSchemas"; // Import your Zod schema
+import { NextResponse } from "next/server";
+import { z } from "zod";
 
 export async function POST(req: Request) {
   const { searchParams } = new URL(req.url);
@@ -16,8 +14,6 @@ export async function POST(req: Request) {
       { status: 400 }
     );
   }
-
-  // return NextResponse.json({ message: "bravo" }, { status: 200 });
 
   try {
     const body = await req.json();
@@ -57,8 +53,11 @@ export async function POST(req: Request) {
     );
   } catch (error) {
     if (error instanceof z.ZodError) {
-      return NextResponse.json({ error: error.errors }, { status: 400 });
+      return NextResponse.json(
+        { message: error.errors[0].message },
+        { status: 400 }
+      );
     }
-    return NextResponse.json({ error: error }, { status: 500 });
+    return NextResponse.json({ message: error }, { status: 500 });
   }
 }
