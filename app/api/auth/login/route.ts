@@ -60,6 +60,7 @@ export async function POST(req: Request) {
         phone: user.phone,
         role: user.role,
       },
+      tokenExpiry: Date.now() + 60 * 60 * 1000,
     });
     response.cookies.set("authToken", token, {
       httpOnly: true,
