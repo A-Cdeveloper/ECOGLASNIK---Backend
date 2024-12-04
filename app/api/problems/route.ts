@@ -19,7 +19,9 @@ export async function GET(request: NextRequest) {
 
   try {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const conditions: any = {};
+    const conditions: any = {
+      NOT: { status: "archive" },
+    };
     if (status) conditions.status = status;
     if (cat_id) conditions.cat_id = +cat_id;
 
