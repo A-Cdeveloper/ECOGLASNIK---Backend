@@ -74,9 +74,8 @@ export async function DELETE(
   const authData = await authResponse.json();
   const authenticatedUserId = +authData.userId;
 
-  const superadmin = await prisma.user.findUnique({
+  const superadmin = await prisma.user.findFirst({
     where: {
-      uid: authenticatedUserId,
       role: "superadmin",
     },
   });
