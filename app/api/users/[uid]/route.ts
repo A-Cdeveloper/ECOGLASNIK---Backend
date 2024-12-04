@@ -85,7 +85,7 @@ export async function DELETE(
 
   if (authenticatedUserId !== +uid && !superadmin) {
     return NextResponse.json(
-      { error: "Samo administratori mogu brisati korisnike." },
+      { error: "Nema dozvolu za brisanje drugih korisnika." },
       { status: 403 }
     );
   }
@@ -103,6 +103,15 @@ export async function DELETE(
   }
 
   try {
+    await prisma.problem.updateMany({
+      where: {
+        uid: +uid,
+      },
+      data: {
+        status: "archive",
+      },
+    });
+
     const deletedUser = await prisma.user.delete({
       where: {
         uid: +uid,
