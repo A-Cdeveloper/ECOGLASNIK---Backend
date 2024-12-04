@@ -127,11 +127,18 @@ export async function DELETE(
   }
 
   try {
+    const superadmin = await prisma.user.findFirst({
+      where: {
+        role: "superadmin",
+      },
+    });
+
     const archiveProblem = await prisma.problem.update({
       where: {
         id: id,
       },
       data: {
+        uid: superadmin?.uid,
         status: "archive",
         updatedAt: new Date(), // Set updatedAt to the current timestamp
       },
