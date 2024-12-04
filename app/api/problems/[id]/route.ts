@@ -127,19 +127,16 @@ export async function DELETE(
   }
 
   try {
-    await prisma.problem.update({
+    const archiveProblem = await prisma.problem.update({
       where: {
         id: id,
       },
       data: {
-        status: "arhivirano",
+        status: "archive",
         updatedAt: new Date(), // Set updatedAt to the current timestamp
       },
     });
-    return NextResponse.json(
-      { error: "Problem je uspešno obrisan" },
-      { status: 200 }
-    );
+    return NextResponse.json(archiveProblem, { status: 200 });
   } catch (error) {
     return NextResponse.json(
       { error: "Greška prilikom brisanja problema" },
