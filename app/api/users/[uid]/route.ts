@@ -108,7 +108,9 @@ export async function DELETE(
         uid: +uid,
       },
       data: {
+        uid: superadmin?.uid,
         status: "archive",
+        updatedAt: new Date(), // Set updatedAt to the current timestamp
       },
     });
 
