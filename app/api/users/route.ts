@@ -13,14 +13,14 @@ export async function GET(request: NextRequest) {
   const authData = await authResponse.json();
   const adminId = +authData.userId;
 
-  const admin = await prisma.user.findUnique({
+  const superadmin = await prisma.user.findUnique({
     where: {
       uid: adminId,
-      role: "admin",
+      role: "superadmin",
     },
   });
 
-  if (!admin) {
+  if (!superadmin) {
     return NextResponse.json(
       { error: "Samo administratori mogu preuzeti korisnike." },
       { status: 403 }

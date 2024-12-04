@@ -13,16 +13,16 @@ export async function GET(request: NextRequest, { params }: { params: any }) {
   const authData = await authResponse.json();
   const authenticatedUserId = +authData.userId;
 
-  const admin = await prisma.user.findUnique({
+  const superadmin = await prisma.user.findUnique({
     where: {
       uid: authenticatedUserId,
-      role: "admin",
+      role: "superadmin",
     },
   });
 
   const { uid } = await params;
 
-  if (authenticatedUserId !== +uid && !admin) {
+  if (authenticatedUserId !== +uid && !superadmin) {
     return NextResponse.json(
       { error: "Samo administratori mogu preuzeti druge korisnike." },
       { status: 403 }
@@ -74,16 +74,16 @@ export async function DELETE(
   const authData = await authResponse.json();
   const authenticatedUserId = +authData.userId;
 
-  const admin = await prisma.user.findUnique({
+  const superadmin = await prisma.user.findUnique({
     where: {
       uid: authenticatedUserId,
-      role: "admin",
+      role: "superadmin",
     },
   });
 
   const { uid } = await params;
 
-  if (authenticatedUserId !== +uid && !admin) {
+  if (authenticatedUserId !== +uid && !superadmin) {
     return NextResponse.json(
       { error: "Samo administratori mogu brisati korisnike." },
       { status: 403 }
