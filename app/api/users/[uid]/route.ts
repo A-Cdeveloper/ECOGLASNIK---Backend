@@ -108,7 +108,22 @@ export async function DELETE(
         uid: +uid,
       },
     });
-    return NextResponse.json(deletedUser, { status: 200 });
+    //return NextResponse.json(deletedUser, { status: 200 });
+
+    const response = NextResponse.json({
+      message: "Nalog je uspešno obrisan.",
+      data: { ...deletedUser, status: 200 },
+    });
+
+    // Clear the `authToken` cookie by setting it with a past expiration date
+    response.cookies.set("authToken", "", {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production" || true,
+      sameSite: "strict",
+      expires: new Date(0), // Set the cookie expiration to the past
+    });
+
+    return response;
   } catch (error) {
     return NextResponse.json(
       { error: "Greška prilikom brisanja korisnika" },

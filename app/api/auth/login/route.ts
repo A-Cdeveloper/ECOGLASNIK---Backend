@@ -49,6 +49,11 @@ export async function POST(req: Request) {
     // Generate JWT token
     const token = await createJWT(user.uid.toString());
 
+    const currentLocalTime = new Date();
+
+    // Expiration: Add 1 hour (3600000 ms)
+    const tokenExpiry = currentLocalTime.getTime() + 2 * 60 * 1000;
+
     // Set token in HTTP-only cookie
     const response = NextResponse.json({
       message: "Uspešna prijava.",
@@ -59,15 +64,17 @@ export async function POST(req: Request) {
         lastname: user.lastname,
         phone: user.phone,
         role: user.role,
+        createdAt: user.createdAt,
+        updatedAt: user.updatedAt,
       },
-      tokenExpiry: Date.now() + 60 * 60 * 1000,
+      tokenExpiry: tokenExpiry,
     });
     response.cookies.set("authToken", token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production" || true, // Use secure cookies in production
       sameSite: "strict",
       path: "/",
-      maxAge: 60 * 60, // 1 hour
+      maxAge: 2 * 60 * 1000, //
     });
 
     return response;
