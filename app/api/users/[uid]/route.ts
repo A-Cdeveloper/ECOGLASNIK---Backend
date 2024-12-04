@@ -81,6 +81,10 @@ export async function DELETE(
     },
   });
 
+  if (!superadmin) {
+    throw new Error("Superadmin nije pronađen.");
+  }
+
   const { uid } = await params;
 
   if (authenticatedUserId !== +uid && !superadmin) {
@@ -108,7 +112,7 @@ export async function DELETE(
         uid: +uid,
       },
       data: {
-        uid: superadmin?.uid,
+        uid: superadmin.uid,
         status: "archive",
         updatedAt: new Date(), // Set updatedAt to the current timestamp
       },
@@ -136,6 +140,7 @@ export async function DELETE(
 
     return response;
   } catch (error) {
+    console.log(error);
     return NextResponse.json(
       { error: "Greška prilikom brisanja korisnika" },
       { status: 500 }
