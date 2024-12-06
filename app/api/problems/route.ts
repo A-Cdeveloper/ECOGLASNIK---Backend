@@ -60,7 +60,7 @@ export async function POST(request: NextRequest) {
 
     if (existingProblem) {
       return NextResponse.json(
-        { error: "Problem već postoji u bazi." },
+        { message: "Problem već postoji u bazi." },
         { status: 500 }
       );
     }
@@ -88,13 +88,15 @@ export async function POST(request: NextRequest) {
     // Respond with the created problem
     return NextResponse.json(newProblem, { status: 201 });
   } catch (error) {
-    // Handle Zod validation errors
     if (error instanceof z.ZodError) {
-      return NextResponse.json({ error: error.errors }, { status: 400 });
+      return NextResponse.json(
+        { message: error.errors[0].message },
+        { status: 400 }
+      );
     }
 
     return NextResponse.json(
-      { error: "Error creating problem" },
+      { message: "Error creating problem" },
       { status: 500 }
     );
   }
