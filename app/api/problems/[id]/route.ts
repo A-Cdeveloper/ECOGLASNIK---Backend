@@ -90,13 +90,15 @@ export async function PUT(request: NextRequest, { params }: { params: any }) {
     // Respond with the updated problem
     return NextResponse.json(updatedProblem, { status: 200 });
   } catch (error) {
-    // Handle Zod validation errors
     if (error instanceof z.ZodError) {
-      return NextResponse.json({ error: error.errors }, { status: 400 });
+      return NextResponse.json(
+        { message: error.errors[0].message },
+        { status: 400 }
+      );
     }
 
     return NextResponse.json(
-      { error: "Greška prilikom azuriranja problema" },
+      { message: "Error creating problem" },
       { status: 500 }
     );
   }
