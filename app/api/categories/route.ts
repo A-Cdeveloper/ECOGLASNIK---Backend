@@ -5,7 +5,7 @@ export async function GET() {
   try {
     const categories = await prisma.problemCategory.findMany({
       orderBy: {
-        cat_name: "asc",
+        cat_id: "asc",
       },
     });
     return NextResponse.json(
