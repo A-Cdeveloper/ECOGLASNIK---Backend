@@ -9,25 +9,39 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
+  console.log(process.env.BASE_URL);
+
+  const BASE_URL = process.env.BASE_URL || "http://localhost:5173";
+
   // Define CORS headers
   const response = NextResponse.next();
   response.headers.set(
     "Access-Control-Allow-Origin",
-    process.env.BASE_URL || "*" // Allow requests from your frontend
+    BASE_URL // Allow requests from your frontend
   );
   response.headers.set(
     "Access-Control-Allow-Methods",
-    "GET, POST, PUT, DELETE"
+    "GET,POST,PUT,DELETE,OPTIONS"
   );
   response.headers.set(
     "Access-Control-Allow-Headers",
-    "Content-Type, Authorization"
+    "Content-Type, Authorization, X-Requested-With"
   );
   response.headers.set("Access-Control-Allow-Credentials", "true"); // Allow cookies and credentials
 
   if (request.method === "OPTIONS") {
-    console.log("Preflight request detected:", request.url); // Debug log for OPTIONS requests
-    return response;
+    console.log("Preflight request detected:", request.url);
+    return new NextResponse(null, {
+      status: 204,
+      headers: {
+        "Access-Control-Allow-Origin": process.env.BASE_URL || "*",
+        "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+        "Access-Control-Allow-Headers":
+          "Content-Type, Authorization, X-Requested-With",
+        "Access-Control-Allow-Credentials": "true",
+        "Access-Control-Max-Age": "86400",
+      },
+    });
   }
 
   // Manually applying Helmet headers
