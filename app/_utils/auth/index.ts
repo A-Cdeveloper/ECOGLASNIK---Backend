@@ -23,7 +23,7 @@ export const verifyJWT = async (token: string) => {
   return await jwtVerify(token, secret);
 };
 
-const logo = `${process.env.BASE_URL}/src/assets/clean-me.fw.png`;
+const logo = `${process.env.BASE_URL}/clean-me.fw.png`;
 
 export const emailHtml = (
   url: string,
