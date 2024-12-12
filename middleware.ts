@@ -11,7 +11,8 @@ export async function middleware(request: NextRequest) {
 
   console.log(process.env.BASE_URL);
 
-  const BASE_URL = process.env.BASE_URL || "http://localhost:5173";
+  const BASE_URL =
+    process.env.BASE_URL || "https://www.cleanme.e-vlasotince.info/";
 
   // Define CORS headers
   const response = NextResponse.next();
