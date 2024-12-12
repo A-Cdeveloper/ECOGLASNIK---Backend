@@ -72,7 +72,7 @@ export async function POST(req: Request) {
     response.cookies.set("authToken", token, {
       httpOnly: true,
       secure: true, // Use secure cookies in production
-      sameSite: "strict",
+      sameSite: "none",
       path: "/",
       maxAge: 24 * 60 * 60, // 1 day
     });
