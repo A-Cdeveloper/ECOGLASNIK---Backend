@@ -8,23 +8,27 @@ export const emailSchema = z
   })
   .refine((value) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value), {
     message: "Email nije validan.",
-  });
+  })
+  .transform((val) => val.trim());
 
-export const phoneSchema = z.string().refine(
-  (value) => {
-    if (value !== "" && value !== null && value !== undefined) {
-      return /^(\+381|0)(6[0-6]|11|2[1-9]|3[0-5]|3[7-9]|4[0-7]|5[0-9]|7[0-9]|8[0-9]|9[0-9])\d{6,7}$/.test(
-        value
-      );
+export const phoneSchema = z
+  .string()
+  .refine(
+    (value) => {
+      if (value !== "" && value !== null && value !== undefined) {
+        return /^(\+381|0)(6[0-6]|11|2[1-9]|3[0-5]|3[7-9]|4[0-7]|5[0-9]|7[0-9]|8[0-9]|9[0-9])\d{6,7}$/.test(
+          value
+        );
+      }
+      return true;
+    },
+
+    {
+      message:
+        "Telefon mora da počinje sa 0 ili +381 i mora biti validan telefonski broj.",
     }
-    return true;
-  },
-
-  {
-    message:
-      "Telefon mora da počinje sa 0 ili +381 i mora biti validan telefonski broj.",
-  }
-);
+  )
+  .transform((val) => val.trim());
 
 // Strict Password Validation for Registration
 export const registerPasswordSchema = z
@@ -46,7 +50,8 @@ export const registerPasswordSchema = z
   })
   .refine((value) => /[@$!%*?&#]/.test(value), {
     message: "Lozinka mora imati najmanje jedan specijalan karakter.",
-  });
+  })
+  .transform((val) => val.trim());
 
 // Basic Password Validation for Login
 const loginPasswordSchema = z.string().min(1, "Lozinka je obavezna.");
@@ -56,11 +61,13 @@ export const registerSchema = z.object({
   firstname: z
     .string()
     .min(1, "Ime je obavezno")
-    .max(50, "Ime mora biti kraće od 50 karaktera."),
+    .max(50, "Ime mora biti kraće od 50 karaktera.")
+    .transform((val) => val.trim()),
   lastname: z
     .string()
     .min(1, "Prezime je obavezno")
-    .max(50, "Prezime mora biti kraće od 50 karaktera."),
+    .max(50, "Prezime mora biti kraće od 50 karaktera.")
+    .transform((val) => val.trim()),
   phone: phoneSchema,
   email: emailSchema,
   password: registerPasswordSchema,
