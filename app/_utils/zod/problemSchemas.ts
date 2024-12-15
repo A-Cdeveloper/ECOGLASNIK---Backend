@@ -11,11 +11,13 @@ const problemBaseSchema = z.object({
   title: z
     .string()
     .min(1, "Naslov problema je obavezan")
-    .max(60, "Naslov mora biti maksimalno 60 karaktera"),
+    .max(60, "Naslov mora biti maksimalno 60 karaktera")
+    .transform((val) => val.trim()),
   description: z
     .string()
     .min(1, "Opis problema je obavezan.")
-    .max(300, "Opis problema mora biti maksimalno 300 karaktera"),
+    .max(300, "Opis problema mora biti maksimalno 300 karaktera")
+    .transform((val) => val.trim()),
   cat_id: z.number().int(),
   image: z.string().min(1, "Fotografija problema je obavezna").optional(),
   pinata_id: z.string().optional(),
