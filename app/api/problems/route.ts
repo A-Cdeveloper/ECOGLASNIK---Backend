@@ -96,7 +96,7 @@ export async function POST(request: NextRequest) {
     }
 
     return NextResponse.json(
-      { message: "Greška prilikom dodavanja problema" },
+      { message: "Greška prilikom dodavanja problema", error: error },
       { status: 500 }
     );
   }
