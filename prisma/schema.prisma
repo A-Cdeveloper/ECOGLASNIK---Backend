@@ -57,9 +57,9 @@ model Settings {
   appName         String
   appArea         String?
   initialZoom     Int
-  defaultPosition String  @db.LongText
-  centerPosition  String  @db.LongText
-  defaultBound    String  @db.LongText
+  defaultPosition Json
+  centerPosition  Json
+  defaultBound    Json
 
   @@map("settings")
 }
