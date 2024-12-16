@@ -56,3 +56,14 @@ model User {
 
   @@map("users")
 }
+
+model Settings {
+  id              Int    @id @default(autoincrement())
+  appName         String
+  initialZoom     Int
+  defaultPosition Json
+  centerPosition  Json
+  defaultBound    Json
+
+  @@map("settings")
+}
