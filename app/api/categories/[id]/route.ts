@@ -26,7 +26,7 @@ export async function GET(request: NextRequest, { params }: { params: any }) {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (error) {
     return NextResponse.json(
-      { error: "Greška prilikom preuzimanja kategorije" },
+      { error: "Greška prilikom preuzimanja kategorije", error2: error },
       { status: 500 }
     );
   }
