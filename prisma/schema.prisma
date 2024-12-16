@@ -8,11 +8,36 @@ datasource db {
 }
 
 model ProblemCategory {
-  cat_id   Int       @id @default(autoincrement())
-  cat_name String
-  problems Problem[]
+  cat_id               Int                    @id @default(autoincrement())
+  cat_name             String
+  problems             Problem[]
+  organisations        Organisation[]         @relation("CategoryOrganisations")
+  CategoryOrganisation CategoryOrganisation[]
 
   @@map("categories")
+}
+
+model Organisation {
+  oid                  Int                    @id @default(autoincrement())
+  organisation_name    String
+  organisation_address String
+  organisation_email   String                 @unique
+  organisation_phone   String
+  categories           ProblemCategory[]      @relation("CategoryOrganisations")
+  CategoryOrganisation CategoryOrganisation[]
+
+  @@map("organisations")
+}
+
+model CategoryOrganisation {
+  cat_id Int
+  oid    Int
+
+  category     ProblemCategory @relation(fields: [cat_id], references: [cat_id], onDelete: Cascade)
+  organisation Organisation    @relation(fields: [oid], references: [oid], onDelete: Cascade)
+
+  @@id([cat_id, oid])
+  @@map("category_organisations")
 }
 
 model Problem {
