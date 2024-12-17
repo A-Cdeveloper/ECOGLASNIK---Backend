@@ -68,7 +68,6 @@ model Settings {
   appArea         String?
   initialZoom     Int
   defaultPosition Json
-  centerPosition  Json
   defaultBound    Json
 
   @@map("settings")
