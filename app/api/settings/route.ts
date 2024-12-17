@@ -12,10 +12,10 @@ export async function GET() {
 
     return NextResponse.json({ data: settings }, { status: 200 });
   } catch (error) {
-    console.log(error);
     return NextResponse.json(
       {
-        error: "Greška prilikom preuzimanja podešavanja.",
+        error: `Izvinjavamo se.
+        Došlo je do greške prilikom pokretanja aplikacije.`,
       },
       { status: 500 }
     );
