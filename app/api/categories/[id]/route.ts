@@ -10,9 +10,9 @@ export async function GET(request: NextRequest, { params }: { params: any }) {
       where: {
         cat_id: +id,
       },
-      // include: {
-      //   organisations: true, // Include the related organisations
-      // },
+      include: {
+        organisations: true, // Correct way to include organisations in an implicit relationship
+      },
     });
 
     if (!category) {

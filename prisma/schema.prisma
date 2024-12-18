@@ -8,19 +8,21 @@ datasource db {
 }
 
 model ProblemCategory {
-  cat_id   Int       @id @default(autoincrement())
-  cat_name String
-  problems Problem[]
+  cat_id        Int            @id @default(autoincrement())
+  cat_name      String
+  problems      Problem[]
+  organisations Organisation[] @relation("CategoryOrganisations")
 
   @@map("categories")
 }
 
 model Organisation {
-  oid                  Int    @id @default(autoincrement())
+  oid                  Int               @id @default(autoincrement())
   organisation_name    String
   organisation_address String
-  organisation_email   String @unique
+  organisation_email   String            @unique
   organisation_phone   String
+  categories           ProblemCategory[] @relation("CategoryOrganisations")
 
   @@map("organisations")
 }
