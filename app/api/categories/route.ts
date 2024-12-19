@@ -7,6 +7,9 @@ export async function GET() {
       orderBy: {
         cat_id: "asc",
       },
+      include: {
+        organisations: true, // Correct way to include organisations in an implicit relationship
+      },
     });
     return NextResponse.json(
       { results: categories.length, data: categories },
