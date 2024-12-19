@@ -79,7 +79,7 @@ export async function PUT(request: NextRequest, { params }: { params: any }) {
       data: {
         title: updatedData.title ?? problem.title,
         description: updatedData.description ?? problem.description,
-        cat_id: updatedData.cat_id ?? problem.cat_id, // Ensure field name matches schema
+        // cat_id: updatedData.cat_id ?? problem.cat_id, // Ensure field name matches schema
         status: updatedData.status ?? problem.status,
         image: updatedData.image ?? problem.image,
         pinata_id: updatedData.pinata_id ?? problem.pinata_id,
@@ -98,7 +98,7 @@ export async function PUT(request: NextRequest, { params }: { params: any }) {
     }
 
     return NextResponse.json(
-      { message: "Error creating problem" },
+      { message: "Greska prilikom azuriranja problema", error: error },
       { status: 500 }
     );
   }
