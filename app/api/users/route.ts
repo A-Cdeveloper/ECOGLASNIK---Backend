@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { NextRequest, NextResponse } from "next/server";
-import prisma from "@/app/_utils/db/db";
 
+import { getAllUsers, getSuperAdmin } from "@/app/_utils/api_utils/users";
 import { authMiddleware } from "../../_utils/auth/authMiddleware";
 
 export async function GET(request: NextRequest) {
@@ -13,23 +13,22 @@ export async function GET(request: NextRequest) {
   const authData = await authResponse.json();
   const adminId = +authData.userId;
 
-  const superadmin = await prisma.user.findUnique({
-    where: {
-      uid: adminId,
-      role: "superadmin",
-    },
-  });
-
-  if (!superadmin) {
-    return NextResponse.json(
-      { error: "Samo administratori mogu preuzeti korisnike." },
-      { status: 403 }
-    );
+  try {
+    const superadmin = await getSuperAdmin(adminId);
+    if (!superadmin) {
+      return NextResponse.json(
+        { error: "Samo administratori mogu preuzeti korisnike." },
+        { status: 403 }
+      );
+    }
+  } catch (error: unknown) {
+    return NextResponse.json({ error: "Greška na serveru" }, { status: 500 });
   }
 
   try {
-    const users = await prisma.user.findMany();
-    const sanitizedUsers = users.map(
+    const users = await getAllUsers();
+
+    const sanitizedUsers = users?.map(
       ({ passwordHash, verificationToken, ...rest }) => rest
     );
 
@@ -45,8 +44,9 @@ export async function GET(request: NextRequest) {
       { status: 200 }
     );
   } catch (error) {
+    const errorMessage = error instanceof Error && error.message;
     return NextResponse.json(
-      { error: "Greška prilikom preuzimanja korisnika" },
+      { error: errorMessage || "Server error" },
       { status: 500 }
     );
   }

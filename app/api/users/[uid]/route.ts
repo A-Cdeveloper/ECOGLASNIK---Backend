@@ -2,6 +2,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/app/_utils/db/db";
 import { authMiddleware } from "../../../_utils/auth/authMiddleware";
+import {
+  deleteUser,
+  getSuperAdmin,
+  getUserById,
+} from "@/app/_utils/api_utils/users";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export async function GET(request: NextRequest, { params }: { params: any }) {
@@ -11,14 +16,10 @@ export async function GET(request: NextRequest, { params }: { params: any }) {
   }
 
   const authData = await authResponse.json();
+  const adminId = +authData.userId;
   const authenticatedUserId = +authData.userId;
 
-  const superadmin = await prisma.user.findUnique({
-    where: {
-      uid: authenticatedUserId,
-      role: "superadmin",
-    },
-  });
+  const superadmin = await getSuperAdmin(adminId);
 
   const { uid } = await params;
 
@@ -30,21 +31,7 @@ export async function GET(request: NextRequest, { params }: { params: any }) {
   }
 
   try {
-    const user = await prisma.user.findUnique({
-      where: {
-        uid: +uid,
-      },
-      select: {
-        uid: true,
-        firstname: true,
-        lastname: true,
-        email: true,
-        phone: true,
-        isVerified: true,
-        createdAt: true,
-        updatedAt: true,
-      },
-    });
+    const user = await getUserById(+uid);
 
     if (!user) {
       return NextResponse.json(
@@ -55,8 +42,9 @@ export async function GET(request: NextRequest, { params }: { params: any }) {
 
     return NextResponse.json(user, { status: 200 });
   } catch (error) {
+    const errorMessage = error instanceof Error && error.message;
     return NextResponse.json(
-      { error: "Greška prilikom preuzimanja korisnika" },
+      { error: errorMessage || "Server error" },
       { status: 500 }
     );
   }
@@ -72,35 +60,25 @@ export async function DELETE(
     return authResponse; // If unauthorized, return the middleware response
   }
   const authData = await authResponse.json();
+  const adminId = +authData.userId;
   const authenticatedUserId = +authData.userId;
 
-  const superadmin = await prisma.user.findFirst({
-    where: {
-      role: "superadmin",
-    },
-  });
-
-  if (!superadmin) {
-    throw new Error("Superadmin nije pronađen.");
-  }
+  const superadmin = await getSuperAdmin(adminId);
 
   const { uid } = await params;
 
   if (authenticatedUserId !== +uid && !superadmin) {
     return NextResponse.json(
-      { error: "Nema dozvolu za brisanje drugih korisnika." },
+      { error: "Nemate dozvolu za brisanje drugih korisnika." },
       { status: 403 }
     );
   }
 
-  const user = await prisma.user.findUnique({
-    where: {
-      uid: +uid,
-    },
-  });
+  const user = await getUserById(+uid);
+
   if (!user) {
     return NextResponse.json(
-      { error: "Korisnik nije pronađen" },
+      { error: "Korisnik nije pronađen." },
       { status: 404 }
     );
   }
@@ -111,18 +89,13 @@ export async function DELETE(
         uid: +uid,
       },
       data: {
-        uid: superadmin.uid,
+        uid: superadmin?.uid,
         status: "archive",
         updatedAt: new Date(), // Set updatedAt to the current timestamp
       },
     });
 
-    const deletedUser = await prisma.user.delete({
-      where: {
-        uid: +uid,
-      },
-    });
-    //return NextResponse.json(deletedUser, { status: 200 });
+    const deletedUser = await deleteUser(+uid);
 
     const response = NextResponse.json({
       message: "Nalog je uspešno obrisan.",
@@ -139,9 +112,9 @@ export async function DELETE(
 
     return response;
   } catch (error) {
-    console.log(error);
+    const errorMessage = error instanceof Error && error.message;
     return NextResponse.json(
-      { error: "Greška prilikom brisanja korisnika" },
+      { error: errorMessage || "Server error" },
       { status: 500 }
     );
   }
