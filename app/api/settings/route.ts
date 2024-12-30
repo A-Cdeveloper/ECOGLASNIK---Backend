@@ -1,22 +1,16 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { NextRequest, NextResponse } from "next/server";
-import prisma from "@/app/_utils/db/db";
+import { getSettings } from "@/app/_utils/api_utils/settings";
+import { NextResponse } from "next/server";
 
 export async function GET() {
   try {
-    const settings = await prisma.settings.findFirst({
-      where: {
-        id: 1,
-      },
-    });
+    const settings = await getSettings();
 
     return NextResponse.json({ data: settings }, { status: 200 });
   } catch (error) {
+    const errorMessage = error instanceof Error && error.message;
     return NextResponse.json(
-      {
-        error: `Izvinjavamo se.
-        Došlo je do greške prilikom pokretanja aplikacije.`,
-      },
+      { error: errorMessage || "Server error" },
       { status: 500 }
     );
   }
