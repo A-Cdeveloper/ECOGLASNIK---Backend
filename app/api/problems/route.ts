@@ -4,6 +4,11 @@ import prisma from "@/app/_utils/db/db";
 import { z } from "zod";
 import { problemSchema } from "@/app/_utils/zod/problemSchemas";
 import { authMiddleware } from "../../_utils/auth/authMiddleware";
+import {
+  addNewProblem,
+  getAllProblems,
+  getProblemById,
+} from "@/app/_utils/api_utils/problems";
 
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
@@ -25,17 +30,15 @@ export async function GET(request: NextRequest) {
     if (status) conditions.status = status;
     if (cat_id) conditions.cat_id = +cat_id;
 
-    const problems = await prisma.problem.findMany({
-      where: conditions,
-      orderBy,
-    });
+    const problems = await getAllProblems(conditions, orderBy);
     return NextResponse.json(
-      { results: problems.length, data: problems },
+      { results: problems?.length, data: problems },
       { status: 200 }
     );
   } catch (error) {
+    const errorMessage = error instanceof Error && error.message;
     return NextResponse.json(
-      { error: "Greška prilikom preuzimanja problema" },
+      { error: errorMessage || "Server error" },
       { status: 500 }
     );
   }
@@ -49,14 +52,10 @@ export async function POST(request: NextRequest) {
   try {
     // Parse and validate the incoming data
     const body = await request.json();
-    const data = problemSchema.parse(body);
+    const reciveData = problemSchema.parse(body);
 
     // Check if problem already exist
-    const existingProblem = await prisma.problem.findUnique({
-      where: {
-        id: data.id,
-      },
-    });
+    const existingProblem = await getProblemById(reciveData.id);
 
     if (existingProblem) {
       return NextResponse.json(
@@ -66,23 +65,21 @@ export async function POST(request: NextRequest) {
     }
 
     // Create a new problem record in the database
-    const newProblem = await prisma.problem.create({
-      data: {
-        id: data.id,
-        title: data.title,
-        description: data.description,
-        position: {
-          lat: parseFloat(data.position.lat),
-          lng: parseFloat(data.position.lng),
-        },
-        createdAt: new Date(), // Set the current date/time
-        updatedAt: null, // Explicitly set to null
-        status: "active",
-        cat_id: data.cat_id, // Match your database column name
-        uid: data.uid, // Match your database column name
-        image: data.image || "",
-        pinata_id: data.id || "",
+    const newProblem = await addNewProblem({
+      id: reciveData.id,
+      title: reciveData.title,
+      description: reciveData.description,
+      position: {
+        lat: parseFloat(reciveData.position.lat),
+        lng: parseFloat(reciveData.position.lng),
       },
+      createdAt: new Date(), // Set the current date/time
+      updatedAt: null, // Explicitly set to null
+      status: "active",
+      cat_id: reciveData.cat_id, // Match your database column name
+      uid: reciveData.uid, // Match your database column name
+      image: reciveData.image || "",
+      pinata_id: reciveData.id || "",
     });
 
     // Respond with the created problem
@@ -95,8 +92,9 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    const errorMessage = error instanceof Error && error.message;
     return NextResponse.json(
-      { message: "Greška prilikom dodavanja problema" },
+      { error: errorMessage || "Server error" },
       { status: 500 }
     );
   }
