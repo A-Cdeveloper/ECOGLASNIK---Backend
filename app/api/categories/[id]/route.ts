@@ -18,9 +18,6 @@ export async function GET(request: NextRequest, { params }: { params: any }) {
     return NextResponse.json(category, { status: 200 });
   } catch (error) {
     const errorMessage = error instanceof Error && error.message;
-    return NextResponse.json(
-      { error: errorMessage || "Server error" },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: errorMessage }, { status: 500 });
   }
 }
