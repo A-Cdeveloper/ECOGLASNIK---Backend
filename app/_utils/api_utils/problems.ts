@@ -15,13 +15,15 @@ export const getAllProblems = async (conditions: any, orderBy: any) => {
   }
 };
 
-export const getProblemById = async (id: string) => {
+export const getProblemById = async (id: string, include?: any) => {
   try {
     const problem = await prisma.problem.findUnique({
       where: {
         id,
       },
+      include,
     });
+
     return problem;
   } catch (error: unknown) {
     if (error instanceof Error) {
@@ -37,9 +39,24 @@ export const addNewProblem = async (data: any) => {
     });
     return newProblem;
   } catch (error: unknown) {
-    console.log(error);
     if (error instanceof Error) {
       throw new Error(`Greška prilikom dodavanja problema`);
+    }
+  }
+};
+
+export const updateProblem = async (id: string, data: any) => {
+  try {
+    const updatedProblem = await prisma.problem.update({
+      where: {
+        id,
+      },
+      data,
+    });
+    return updatedProblem;
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      throw new Error(`Greška prilikom azuriranja problema`);
     }
   }
 };
