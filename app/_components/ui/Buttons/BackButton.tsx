@@ -1,4 +1,4 @@
-const BackButton = ({ to = "/" }: { to?: string | number }) => {
+const BackButton = () => {
   //const navigate = useNavigate();
   return (
     <div className="mb-4 border-b-1 border-secondary-500/30">
