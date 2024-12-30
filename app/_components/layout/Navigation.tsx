@@ -11,7 +11,7 @@ import {
 
 const Navigation = () => {
   return (
-    <nav className="py-3">
+    <nav className="py-7">
       <ul>
         <NavLink href="/" icon={<HiOutlineHome />}>
           Početna

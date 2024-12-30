@@ -15,7 +15,7 @@ const Headline = ({ level = 1, children, className = "" }: HeadlineProps) => {
 
   switch (level) {
     case 1:
-      fontSizeClasses = `text-xl md:text-xl lg:text-2xl `;
+      fontSizeClasses = `text-xl md:text-xl lg:text-xl `;
       break;
 
     case 2:
