@@ -1,24 +1,18 @@
-import prisma from "@/app/_utils/db/db";
+import { getAllCategories } from "@/app/_utils/api_utils/categories";
+
 import { NextResponse } from "next/server";
 
 export async function GET() {
   try {
-    const categories = await prisma.problemCategory.findMany({
-      orderBy: {
-        cat_id: "asc",
-      },
-      include: {
-        organisations: true, // Correct way to include organisations in an implicit relationship
-      },
-    });
+    const categories = await getAllCategories();
     return NextResponse.json(
-      { results: categories.length, data: categories },
+      { results: categories?.length, data: categories },
       { status: 200 }
     );
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (error) {
+    const errorMessage = error instanceof Error && error.message;
     return NextResponse.json(
-      { error: "Greška prilikom preuzimanja kategorija" },
+      { error: errorMessage || "Server error" },
       { status: 500 }
     );
   }

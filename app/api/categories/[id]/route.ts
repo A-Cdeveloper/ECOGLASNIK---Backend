@@ -1,19 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import prisma from "@/app/_utils/db/db";
+import { getCategoryById } from "@/app/_utils/api_utils/categories";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest, { params }: { params: any }) {
   const { id } = await params;
 
   try {
-    const category = await prisma.problemCategory.findUnique({
-      where: {
-        cat_id: +id,
-      },
-      include: {
-        organisations: true, // Correct way to include organisations in an implicit relationship
-      },
-    });
+    const category = await getCategoryById(+id);
 
     if (!category) {
       return NextResponse.json(
@@ -23,10 +16,10 @@ export async function GET(request: NextRequest, { params }: { params: any }) {
     }
 
     return NextResponse.json(category, { status: 200 });
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (error) {
+    const errorMessage = error instanceof Error && error.message;
     return NextResponse.json(
-      { error: "Greška prilikom preuzimanja kategorije", error2: error },
+      { error: errorMessage || "Server error" },
       { status: 500 }
     );
   }
