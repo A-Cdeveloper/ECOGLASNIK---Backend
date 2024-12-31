@@ -51,7 +51,6 @@ export async function PUT(request: NextRequest, { params }: { params: any }) {
   }
   const authData = await authResponse.json();
   const authenticatedUserId = +authData.userId;
-  const superadmin = await getSuperAdmin(authenticatedUserId);
 
   const { id } = await params;
 
@@ -64,6 +63,7 @@ export async function PUT(request: NextRequest, { params }: { params: any }) {
         { status: 404 }
       );
     }
+    const superadmin = await getSuperAdmin(authenticatedUserId);
     if (authenticatedUserId !== +problem.uid && !superadmin) {
       return NextResponse.json(
         { error: "Nemate dozvolu za ažuriranje problema drugih korisnika." },
