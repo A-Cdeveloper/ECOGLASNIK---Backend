@@ -36,10 +36,7 @@ export async function GET(request: NextRequest) {
     );
   } catch (error) {
     const errorMessage = error instanceof Error && error.message;
-    return NextResponse.json(
-      { error: errorMessage || "Server error" },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: errorMessage }, { status: 500 });
   }
 }
 
@@ -52,16 +49,6 @@ export async function POST(request: NextRequest) {
     // Parse and validate the incoming data
     const body = await request.json();
     const reciveData = problemSchema.parse(body);
-
-    // Check if problem already exist
-    const existingProblem = await getProblemById(reciveData.id);
-
-    if (existingProblem) {
-      return NextResponse.json(
-        { message: "Problem već postoji u bazi." },
-        { status: 500 }
-      );
-    }
 
     // Create a new problem record in the database
     const newProblem = await addNewProblem({
@@ -78,7 +65,7 @@ export async function POST(request: NextRequest) {
       cat_id: reciveData.cat_id, // Match your database column name
       uid: reciveData.uid, // Match your database column name
       image: reciveData.image || "",
-      pinata_id: reciveData.id || "",
+      pinata_id: reciveData.pinata_id || "",
     });
 
     // Respond with the created problem
@@ -92,9 +79,7 @@ export async function POST(request: NextRequest) {
     }
 
     const errorMessage = error instanceof Error && error.message;
-    return NextResponse.json(
-      { error: errorMessage || "Server error" },
-      { status: 500 }
-    );
+    console.log(errorMessage);
+    return NextResponse.json({ error: errorMessage }, { status: 500 });
   }
 }

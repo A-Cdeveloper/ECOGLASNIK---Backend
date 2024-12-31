@@ -32,10 +32,10 @@ export const getProblemById = async (id: string, include?: any) => {
   }
 };
 
-export const addNewProblem = async (data: any) => {
+export const addNewProblem = async (recivedData: any) => {
   try {
     const newProblem = await prisma.problem.create({
-      data,
+      data: recivedData,
     });
     return newProblem;
   } catch (error: unknown) {

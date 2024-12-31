@@ -5,6 +5,7 @@ import { z } from "zod";
 import { updateProblemSchema } from "@/app/_utils/zod/problemSchemas";
 import { authMiddleware } from "../../../_utils/auth/authMiddleware";
 import { getProblemById, updateProblem } from "@/app/_utils/api_utils/problems";
+import { getSuperAdmin } from "@/app/_utils/api_utils/users";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export async function GET(request: NextRequest, { params }: { params: any }) {
@@ -38,10 +39,7 @@ export async function GET(request: NextRequest, { params }: { params: any }) {
     return NextResponse.json(problem, { status: 200 });
   } catch (error) {
     const errorMessage = error instanceof Error && error.message;
-    return NextResponse.json(
-      { error: errorMessage || "Greška na serveru" },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: errorMessage }, { status: 500 });
   }
 }
 
@@ -51,8 +49,12 @@ export async function PUT(request: NextRequest, { params }: { params: any }) {
   if (!authResponse.ok) {
     return authResponse; // If unauthorized, return the middleware response
   }
+  const authData = await authResponse.json();
+  const authenticatedUserId = +authData.userId;
+  const superadmin = await getSuperAdmin(authenticatedUserId);
 
   const { id } = await params;
+
   let problem;
   try {
     problem = await getProblemById(id);
@@ -60,6 +62,12 @@ export async function PUT(request: NextRequest, { params }: { params: any }) {
       return NextResponse.json(
         { error: "Problem nije pronađen" },
         { status: 404 }
+      );
+    }
+    if (authenticatedUserId !== +problem.uid && !superadmin) {
+      return NextResponse.json(
+        { error: "Nemate dozvolu za ažuriranje problema drugih korisnika." },
+        { status: 403 }
       );
     }
   } catch (error) {
@@ -92,10 +100,7 @@ export async function PUT(request: NextRequest, { params }: { params: any }) {
     }
 
     const errorMessage = error instanceof Error && error.message;
-    return NextResponse.json(
-      { error: errorMessage || "Greška na serveru" },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: errorMessage }, { status: 500 });
   }
 }
 
@@ -109,6 +114,9 @@ export async function DELETE(
     return authResponse; // If unauthorized, return the middleware response
   }
 
+  const authData = await authResponse.json();
+  const authenticatedUserId = +authData.userId;
+
   const { id } = await params;
 
   try {
@@ -119,16 +127,20 @@ export async function DELETE(
         { status: 404 }
       );
     }
+    const superadmin = await getSuperAdmin(authenticatedUserId);
+
+    if (authenticatedUserId !== +problem.uid && !superadmin) {
+      return NextResponse.json(
+        { error: "Nemate dozvolu za bridanje problema drugih korisnika." },
+        { status: 403 }
+      );
+    }
   } catch (error) {
     return NextResponse.json({ error: "Greška na serveru" }, { status: 500 });
   }
 
   try {
-    const superadmin = await prisma.user.findFirst({
-      where: {
-        role: "superadmin",
-      },
-    });
+    const superadmin = await getSuperAdmin(authenticatedUserId);
 
     const archiveProblem = await updateProblem(id, {
       uid: superadmin?.uid,
@@ -139,9 +151,6 @@ export async function DELETE(
     return NextResponse.json(archiveProblem, { status: 200 });
   } catch (error) {
     const errorMessage = error instanceof Error && error.message;
-    return NextResponse.json(
-      { error: errorMessage || "Greška na serveru" },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: errorMessage }, { status: 500 });
   }
 }
