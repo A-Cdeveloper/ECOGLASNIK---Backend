@@ -19,16 +19,7 @@ export async function GET(request: NextRequest, { params }: { params: any }) {
   const adminId = +authData.userId;
   const authenticatedUserId = +authData.userId;
 
-  const superadmin = await getSuperAdmin(adminId);
-
   const { uid } = await params;
-
-  if (authenticatedUserId !== +uid && !superadmin) {
-    return NextResponse.json(
-      { error: "Samo administratori mogu preuzeti druge korisnike." },
-      { status: 403 }
-    );
-  }
 
   try {
     const user = await getUserById(+uid);
@@ -39,14 +30,17 @@ export async function GET(request: NextRequest, { params }: { params: any }) {
         { status: 404 }
       );
     }
+    const superadmin = await getSuperAdmin(adminId);
+    if (authenticatedUserId !== +uid && !superadmin) {
+      return NextResponse.json(
+        { error: "Samo administratori mogu preuzeti druge korisnike." },
+        { status: 403 }
+      );
+    }
 
     return NextResponse.json(user, { status: 200 });
   } catch (error) {
-    const errorMessage = error instanceof Error && error.message;
-    return NextResponse.json(
-      { error: errorMessage || "Server error" },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "Greška na serveru" }, { status: 500 });
   }
 }
 
@@ -63,33 +57,32 @@ export async function DELETE(
   const adminId = +authData.userId;
   const authenticatedUserId = +authData.userId;
 
-  const superadmin = await getSuperAdmin(adminId);
-
   const { uid } = await params;
 
-  if (authenticatedUserId !== +uid && !superadmin) {
-    return NextResponse.json(
-      { error: "Nemate dozvolu za brisanje drugih korisnika." },
-      { status: 403 }
-    );
-  }
-
-  const user = await getUserById(+uid);
-
-  if (!user) {
-    return NextResponse.json(
-      { error: "Korisnik nije pronađen." },
-      { status: 404 }
-    );
-  }
-
   try {
+    const user = await getUserById(+uid);
+
+    if (!user) {
+      return NextResponse.json(
+        { error: "Korisnik nije pronađen." },
+        { status: 404 }
+      );
+    }
+    const superadmin = await getSuperAdmin(adminId);
+
+    if (authenticatedUserId !== +uid && !superadmin) {
+      return NextResponse.json(
+        { error: "Nemate dozvolu za brisanje drugih korisnika." },
+        { status: 403 }
+      );
+    }
+
     await prisma.problem.updateMany({
       where: {
         uid: +uid,
       },
       data: {
-        uid: superadmin?.uid,
+        uid: 1,
         status: "archive",
         updatedAt: new Date(), // Set updatedAt to the current timestamp
       },
@@ -113,9 +106,6 @@ export async function DELETE(
     return response;
   } catch (error) {
     const errorMessage = error instanceof Error && error.message;
-    return NextResponse.json(
-      { error: errorMessage || "Server error" },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: errorMessage }, { status: 500 });
   }
 }
