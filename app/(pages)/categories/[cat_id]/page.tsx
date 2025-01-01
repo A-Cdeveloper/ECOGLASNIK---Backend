@@ -4,8 +4,12 @@ import Headline from "@/app/_components/ui/Headline";
 import { getCategoryById } from "@/app/_utils/api_utils/categories";
 import React from "react";
 
-const CategoryPage = async ({ params }: { params: { cat_id: string } }) => {
-  const { cat_id } = params;
+const CategoryPage = async ({
+  params,
+}: {
+  params: Promise<{ cat_id: string }>;
+}) => {
+  const { cat_id } = await params;
   const category = await getCategoryById(+cat_id);
 
   return (
