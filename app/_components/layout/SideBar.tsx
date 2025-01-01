@@ -20,7 +20,7 @@ const SideBar = ({ children }: { children: React.ReactNode }) => {
       )}
     >
       <IconButton
-        className="cursor-pointer block lg:hidden w-full ps-3 py-2 text-winter-100/80 absolute"
+        className="cursor-pointer block xl:hidden w-full ps-3 py-2 text-winter-100/80 absolute"
         icon={
           isSidebarOpen ? <HiChevronDoubleRight /> : <HiChevronDoubleLeft />
         }
