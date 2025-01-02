@@ -31,7 +31,7 @@ const SortFilter = ({ options, defaultSort }: SortFilterProps) => {
   };
 
   return (
-    <div className="border-b border-secondary-500/20 w-full 2xl:w-3/4 py-2 mt-2 flex justify-end">
+    <div className=" border-secondary-500/20 w-full 2xl:w-3/4 py-2 mt-2 flex justify-end">
       <Select
         options={options}
         handleChange={handleSortChange}

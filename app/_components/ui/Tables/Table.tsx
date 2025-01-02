@@ -14,7 +14,7 @@ type TableProps<T> = {
 
 const Table = <T,>({ data, columns, rowKey }: TableProps<T>) => {
   return (
-    <table className="table-auto border-collapse w-full 2xl:w-3/4 text-left mt-3">
+    <table className="table-auto border-collapse w-full 2xl:w-3/4 text-left mt-3 text-[13px]">
       <thead className="hidden md:table-header-group">
         <tr className="border-b border-secondary-500/20 uppercase text-[14px]">
           {columns.map((col, index) => (
@@ -38,7 +38,7 @@ const Table = <T,>({ data, columns, rowKey }: TableProps<T>) => {
             {columns.map((col, colIndex) => (
               <td
                 key={colIndex}
-                className={`px-2 lg:px-4 py-1 lg:py-2 block md:table-cell ${
+                className={`px-2 lg:px-4 py-1 lg:py-[8px] block md:table-cell ${
                   col.className || ""
                 }`}
               >

@@ -24,7 +24,7 @@ const Select = ({
       name="select"
       id="select"
       className={clsx(
-        "block w-full md:w-auto text-winter-100/70 px-2 py-[6px] bg-transparent border border-secondary-500/30",
+        "block w-full md:w-auto text-winter-100/70 px-2 py-[6px] bg-transparent border border-secondary-500/30 text-[13px]",
         className
       )}
       onChange={handleChange}
