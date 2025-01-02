@@ -2,6 +2,7 @@ import Link from "next/link";
 import Operations from "./Operations";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
+
 export const columns = [
   {
     header: "ID",
@@ -31,6 +32,6 @@ export const columns = [
   },
   {
     header: "",
-    accessor: Operations,
+    accessor: (row: any) => <Operations row={row} />,
   },
 ];
