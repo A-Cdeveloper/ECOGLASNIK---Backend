@@ -13,10 +13,10 @@ import { cloneCategoryByIdAction, deleteCategoryByIdAction } from "../_actions";
 const Operations = (row: any) => {
   return (
     <div className="flex justify-end items-center gap-x-1 text-[20px] text-winter-100/70">
-      <Link href={`/categories/${row.cat_id}`}>
+      <Link href={`/categories/${row.row.cat_id}`}>
         <HiOutlineEye />
       </Link>
-      <Link href={`/categories/${row.cat_id}/edit`}>
+      <Link href={`/categories/${row.row.cat_id}/edit`}>
         <HiOutlinePencil />{" "}
       </Link>
       <IconButton
