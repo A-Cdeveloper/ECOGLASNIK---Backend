@@ -1,12 +1,7 @@
 "use client";
 // import IconButton from "@/app/_components/ui/Buttons/IconButton";
 import Link from "next/link";
-import {
-  HiOutlineDocumentDuplicate,
-  HiOutlineEye,
-  HiOutlinePencil,
-  HiOutlineTrash,
-} from "react-icons/hi2";
+import { HiOutlineEye, HiOutlinePencil } from "react-icons/hi2";
 // import { cloneCategoryByIdAction, deleteCategoryByIdAction } from "../_actions";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
