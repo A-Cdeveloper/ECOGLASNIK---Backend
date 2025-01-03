@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import prisma from "../db/db";
 
 export const getAllCategories = async (sortBy: string = "cat_id-asc") => {
