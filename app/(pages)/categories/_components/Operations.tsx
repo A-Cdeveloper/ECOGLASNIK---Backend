@@ -12,7 +12,7 @@ import { cloneCategoryByIdAction, deleteCategoryByIdAction } from "../_actions";
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const Operations = (row: any) => {
   return (
-    <div className="flex justify-end items-center gap-x-1 text-[20px] text-winter-100/70">
+    <div className="flex justify-end items-center space-x-[8px] text-[18px] text-winter-100/70">
       <Link href={`/categories/${row.row.cat_id}`}>
         <HiOutlineEye />
       </Link>
@@ -24,14 +24,12 @@ const Operations = (row: any) => {
           await cloneCategoryByIdAction(row.row.cat_id);
         }}
         icon={<HiOutlineDocumentDuplicate />}
-        className="text-winter-100/70 px-1"
       />
       <IconButton
         onClick={async () => {
           await deleteCategoryByIdAction(row.row.cat_id);
         }}
         icon={<HiOutlineTrash />}
-        className="text-winter-100/70 px-1"
       />
     </div>
   );

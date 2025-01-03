@@ -16,7 +16,7 @@ const Table = <T,>({ data, columns, rowKey }: TableProps<T>) => {
   return (
     <table className="table-auto border-collapse w-full 2xl:w-3/4 text-left mt-3 text-[13px]">
       <thead className="hidden md:table-header-group">
-        <tr className="border-b border-secondary-500/20 uppercase text-[14px]">
+        <tr className="border-b border-t border-secondary-500/20 uppercase text-[14px]">
           {columns.map((col, index) => (
             <th
               key={index}

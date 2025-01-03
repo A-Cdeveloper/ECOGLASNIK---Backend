@@ -18,9 +18,9 @@ const IconButton = ({
       type={type}
       onClick={onClick}
       onMouseOver={onMouseOver}
-      className={className}
+      className={`p-0 ${className}`}
     >
-      <span className="text-[20px]">{icon}</span>
+      <span className="text-[18px]">{icon}</span>
     </button>
   );
 };

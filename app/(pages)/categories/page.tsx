@@ -3,8 +3,7 @@ import Loader from "@/app/_components/ui/Loader";
 import { Suspense } from "react";
 import Headline from "../../_components/ui/Headline";
 import AllCategories from "./_components/AllCategories";
-import SortFilter from "@/app/_components/ui/Filters/SortFilter";
-import { sortOptions } from "./_components/SortOptions";
+import HeadCategories from "./_components/HeadCategories";
 
 const CategoriesPage = async ({
   searchParams,
@@ -17,7 +16,7 @@ const CategoriesPage = async ({
     <>
       <Headline level={1}>Kategorije problema</Headline>
       <Suspense fallback={<Loader />}>
-        <SortFilter options={sortOptions} defaultSort="cat_id-asc" />
+        <HeadCategories />
         <AllCategories sortBy={sortBy} />
       </Suspense>
     </>

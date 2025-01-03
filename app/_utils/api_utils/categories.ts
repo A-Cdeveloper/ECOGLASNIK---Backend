@@ -83,3 +83,17 @@ export const getCategoryById = async (id: number) => {
     }
   }
 };
+
+export const addNewCategory = async (recivedData: any) => {
+  console.log(recivedData);
+  // try {
+  //   const newCategory = await prisma.problemCategory.create({
+  //     data: recivedData,
+  //   });
+  //   return newCategory;
+  // } catch (error: unknown) {
+  //   if (error instanceof Error) {
+  //     throw new Error(`Greška prilikom dodavanja kategorije`);
+  //   }
+  // }
+};
