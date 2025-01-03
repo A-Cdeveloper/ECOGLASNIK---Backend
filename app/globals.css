@@ -6,13 +6,14 @@ body {
   @apply h-screen text-sm bg-primary-900/90 text-winter-100/80;
 }
 
-button {
-  @apply text-white px-2 py-1 rounded-md font-bold uppercase tracking-[.05rem] text-[13px];
+button,
+.button {
+  @apply text-winter-100/80 px-2 py-1 font-semibold uppercase tracking-[.05rem] text-[13px];
   &.primary {
     @apply bg-primary-500 hover:bg-primary-900;
   }
   &.secondary {
-    @apply bg-secondary-500 hover:bg-secondary-900;
+    @apply bg-secondary-900 hover:text-winter-100;
   }
   &.success {
     @apply bg-green-900 hover:bg-green-900;
