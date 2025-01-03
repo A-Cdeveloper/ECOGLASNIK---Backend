@@ -48,21 +48,22 @@ export const deleteCategoryByIdAction = async (id: number) => {
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const addNewCategoryAction = async (formData: FormData) => {
-  const newCat = {
-    cat_id: 999,
-    cat_name: formData.get("cat_name"),
-    // Sluzbe: formData.getAll("organisations"),
-  };
+  console.log(formData);
+  // const newCat = {
+  //   cat_id: 999,
+  //   cat_name: formData.get("cat_name"),
+  //   // Sluzbe: formData.getAll("organisations"),
+  // };
 
-  try {
-    const newCategory = await prisma.problemCategory.create({
-      data: newCat,
-    });
-    revalidatePath("/categories");
-    return newCategory;
-  } catch (error: unknown) {
-    if (error instanceof Error) {
-      throw new Error(`Greška prilikom dodavanja kategorije`);
-    }
-  }
+  // try {
+  //   const newCategory = await prisma.problemCategory.create({
+  //     data: newCat,
+  //   });
+  //   revalidatePath("/categories");
+  //   return newCategory;
+  // } catch (error: unknown) {
+  //   if (error instanceof Error) {
+  //     throw new Error(`Greška prilikom dodavanja kategorije`);
+  //   }
+  // }
 };
