@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 type CheckBoxType = {
   id: number;
@@ -7,13 +7,24 @@ type CheckBoxType = {
 };
 
 const Checkbox = ({ id, label, name }: CheckBoxType) => {
+  const [isChecked, setIsChecked] = useState(false);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setIsChecked(e.target.checked);
+  };
+
   return (
     <label key={id} className="grid grid-cols-[20px,1fr] gap-2">
       <input
         type="checkbox"
-        value={id} // The value submitted when checked
+        value={id}
         name={name}
-        className="w-[20px] h-[20px] bg-rose-500 border-0"
+        className={`appearance-none cursor-pointer w-[20px] h-[20px] bg-transparent border-1 border-secondary-500/30 ${
+          isChecked ? "bg-secondary-100/70" : ""
+        }`}
+        checked={isChecked}
+        onChange={handleChange}
+        aria-checked
       />
       <span>{label}</span>
     </label>

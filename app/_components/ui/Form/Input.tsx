@@ -1,4 +1,6 @@
+"use client";
 import clsx from "clsx";
+import { useState } from "react";
 
 type InputType = {
   type?: string;
@@ -21,14 +23,17 @@ const Input = ({
   className,
   ...rest
 }: InputType) => {
+  const [inputData, setInputData] = useState(defaultValue);
+
   return (
     <input
       type={type}
       placeholder={placeholder}
       name={name}
       value={value}
-      defaultValue={defaultValue}
+      defaultValue={inputData}
       required={required}
+      onChange={(e) => setInputData(e.target.value)}
       className={clsx(
         `px-2 py-1 w-full bg-transparent border border-secondary-500/30 focus:outline-none focus:border-secondary-500 placeholder:text-winter-100/30 ${className}`
       )}

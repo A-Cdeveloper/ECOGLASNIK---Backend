@@ -2,7 +2,10 @@
 
 import { getCategoryById } from "@/app/_utils/api_utils/categories";
 import prisma from "@/app/_utils/db/db";
+import { CategoryFormSchema } from "@/app/_utils/zod/categorySchemas";
+
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 
 export const cloneCategoryByIdAction = async (id: number) => {
   try {
@@ -33,11 +36,25 @@ export const cloneCategoryByIdAction = async (id: number) => {
 
 export const deleteCategoryByIdAction = async (id: number) => {
   try {
+    // Disconnect organisations first
+    await prisma.problemCategory.update({
+      where: {
+        cat_id: id,
+      },
+      data: {
+        organisations: {
+          set: [], // Unlink all associated organisations
+        },
+      },
+    });
+
+    // Delete the category
     await prisma.problemCategory.delete({
       where: {
         cat_id: id,
       },
     });
+
     revalidatePath("/categories");
   } catch (error: unknown) {
     if (error instanceof Error) {
@@ -46,24 +63,38 @@ export const deleteCategoryByIdAction = async (id: number) => {
   }
 };
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const addNewCategoryAction = async (formData: FormData) => {
-  console.log(formData);
-  // const newCat = {
-  //   cat_id: 999,
-  //   cat_name: formData.get("cat_name"),
-  //   // Sluzbe: formData.getAll("organisations"),
-  // };
+//const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
-  // try {
-  //   const newCategory = await prisma.problemCategory.create({
-  //     data: newCat,
-  //   });
-  //   revalidatePath("/categories");
-  //   return newCategory;
-  // } catch (error: unknown) {
-  //   if (error instanceof Error) {
-  //     throw new Error(`Greška prilikom dodavanja kategorije`);
-  //   }
-  // }
+export const addNewCategoryAction = async (
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  prevFormData: any,
+  formData: FormData
+) => {
+  // await wait(15000);
+
+  const data = {
+    cat_name: formData.get("cat_name"),
+    organisations: formData.getAll("organisations").map((id) => Number(id)), // Convert to numbers
+  };
+
+  const validation = CategoryFormSchema.safeParse(data);
+  if (!validation.success) {
+    const errors = validation.error.issues.map(
+      (issue: { message: string }) => issue.message
+    );
+
+    return errors as string[];
+  }
+
+  await prisma.problemCategory.create({
+    data: {
+      cat_name: data.cat_name as string,
+      organisations: {
+        connect: data.organisations.map((id) => ({ oid: id })),
+      },
+    },
+  });
+
+  revalidatePath("/categories");
+  redirect("/categories");
 };

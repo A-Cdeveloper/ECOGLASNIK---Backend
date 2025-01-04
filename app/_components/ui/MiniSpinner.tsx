@@ -12,7 +12,7 @@ const MiniSpinner = () => {
         cy="12"
         r="10"
         stroke="currentColor"
-        strokeWidth="4"
+        strokeWidth="2"
       ></circle>
       <path
         className="opacity-75"
