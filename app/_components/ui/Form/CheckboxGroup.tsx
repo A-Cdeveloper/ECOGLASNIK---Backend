@@ -18,11 +18,18 @@ const CheckboxGroup = ({
   organisations,
   name,
   className,
+  defaultSelected,
 }: CheckboxGroupProps) => {
   return (
     <div className={className}>
       {organisations.map((org) => (
-        <Checkbox key={org.id} id={org.id} label={org.label} name={name} />
+        <Checkbox
+          key={org.id}
+          id={org.id}
+          label={org.label}
+          name={name}
+          checked={defaultSelected?.includes(org.id) || false}
+        />
       ))}
     </div>
   );

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use server";
 
 import { getCategoryById } from "@/app/_utils/api_utils/categories";
@@ -66,7 +67,6 @@ export const deleteCategoryByIdAction = async (id: number) => {
 //const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 export const addNewCategoryAction = async (
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   prevFormData: any,
   formData: FormData
 ) => {
@@ -91,6 +91,41 @@ export const addNewCategoryAction = async (
       cat_name: data.cat_name as string,
       organisations: {
         connect: data.organisations.map((id) => ({ oid: id })),
+      },
+    },
+  });
+
+  revalidatePath("/categories");
+  redirect("/categories");
+};
+
+export const updateCategoryAction = async (
+  prevFormData: any,
+  formData: FormData
+) => {
+  const updateData = {
+    cat_name: formData.get("cat_name"),
+    organisations: formData.getAll("organisations").map((id) => Number(id)), // Convert to numbers
+  };
+
+  const cat_id = formData.get("cat_id") as string;
+
+  const validation = CategoryFormSchema.safeParse(updateData);
+  if (!validation.success) {
+    const errors = validation.error.issues.map(
+      (issue: { message: string }) => issue.message
+    );
+    return errors as string[];
+  }
+
+  await prisma.problemCategory.update({
+    where: {
+      cat_id: +cat_id,
+    },
+    data: {
+      cat_name: updateData.cat_name as string,
+      organisations: {
+        set: updateData.organisations.map((id) => ({ oid: id })),
       },
     },
   });
