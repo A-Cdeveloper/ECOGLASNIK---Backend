@@ -15,13 +15,13 @@ const Checkbox = ({ id, label, name, checked }: CheckBoxType) => {
   };
 
   return (
-    <label key={id} className="grid grid-cols-[20px,1fr] gap-2">
+    <label key={id} className="grid grid-cols-[20px,1fr] space-x-2 my-2">
       <input
         type="checkbox"
         value={id}
         name={name}
         className={`appearance-none cursor-pointer w-[20px] h-[20px] bg-transparent border-1 border-secondary-500/30 ${
-          isChecked ? "bg-secondary-500/70" : ""
+          isChecked ? "bg-secondary-500/80" : "bg-transparent"
         }`}
         checked={isChecked}
         onChange={handleChange}

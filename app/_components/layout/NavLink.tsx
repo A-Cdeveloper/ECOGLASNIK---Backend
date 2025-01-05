@@ -19,7 +19,8 @@ const NavLink = ({
     "text-winter-100/50 hover:text-winter-100 hover:bg-primary-100 transition-colors duration-300";
   const activeClassName = "bg-primary-100 text-winter-100 groupactive";
 
-  const isActive = pathname === href;
+  const isActive = href === "/" ? pathname === href : pathname.startsWith(href);
+
   return (
     <li className="group">
       <Link

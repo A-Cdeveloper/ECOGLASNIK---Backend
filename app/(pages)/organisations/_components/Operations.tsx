@@ -1,8 +1,9 @@
 "use client";
-// import IconButton from "@/app/_components/ui/Buttons/IconButton";
+import IconButton from "@/app/_components/ui/Buttons/IconButton";
+
 import Link from "next/link";
-import { HiOutlineEye, HiOutlinePencil } from "react-icons/hi2";
-// import { cloneCategoryByIdAction, deleteCategoryByIdAction } from "../_actions";
+import { HiOutlineEye, HiOutlinePencil, HiOutlineTrash } from "react-icons/hi2";
+import { deleteOrganisationByIdAction } from "../_actions";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const Operations = (row: any) => {
@@ -14,18 +15,13 @@ const Operations = (row: any) => {
       <Link href={`/organisations/${row.row.oid}/edit`}>
         <HiOutlinePencil />{" "}
       </Link>
-      {/* <IconButton
-        onClick={async () => {
-          await cloneCategoryByIdAction(row.row.cat_id);
-        }}
-        icon={<HiOutlineDocumentDuplicate />}
-      />
+
       <IconButton
         onClick={async () => {
-          await deleteCategoryByIdAction(row.row.cat_id);
+          await deleteOrganisationByIdAction(row.row.oid);
         }}
         icon={<HiOutlineTrash />}
-      /> */}
+      />
     </div>
   );
 };

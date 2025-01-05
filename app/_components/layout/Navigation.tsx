@@ -23,7 +23,7 @@ const Navigation = () => {
           Problemi
         </NavLink>
         <NavLink href="/organisations" icon={<HiOutlineWrenchScrewdriver />}>
-          Organizacije
+          Službe
         </NavLink>
         <NavLink href="/users" icon={<HiOutlineUsers />}>
           Korisnici

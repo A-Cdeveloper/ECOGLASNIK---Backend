@@ -15,3 +15,9 @@ export type ProblemCategoriesType = Prisma.ProblemCategoryGetPayload<{
     };
   };
 }>;
+
+export type OrganisationType = Prisma.OrganisationGetPayload<{
+  include: {
+    categories: true;
+  };
+}>;

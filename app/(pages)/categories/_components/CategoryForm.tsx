@@ -35,14 +35,19 @@ const CategoryForm = ({
         defaultValue={category?.cat_name}
       />
       {isOrganisationExist ? (
-        <CheckboxGroup
-          organisations={organisationsSelection}
-          name="organisations"
-          className="py-4 space-y-3"
-          defaultSelected={
-            category?.organisations.map((org) => org.oid) as number[]
-          }
-        />
+        <div className="py-4">
+          <p className="text-winter-100/50 text-[13px]">
+            Izaberite nadležnu službu/e:
+          </p>
+          <CheckboxGroup
+            organisations={organisationsSelection}
+            name="organisations"
+            className="space-y-3 py-2"
+            defaultSelected={
+              category?.organisations.map((org) => org.oid) as number[]
+            }
+          />
+        </div>
       ) : (
         <div>
           <p>Nema nijedne nadležne službe.</p>
