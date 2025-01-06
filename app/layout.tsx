@@ -26,9 +26,7 @@ export default function RootLayout({
       <body>
         <Header />
         <div className="flex h-screen pt-[65px] overflow-hidden">
-          <SideBar>
-            <Navigation />
-          </SideBar>
+          <SideBar>{/* <Navigation /> */}</SideBar>
           <main className="h-full overflow-auto px-8 py-6 flex-1 ms-[50px] xl:ms-[270px]">
             {children}
           </main>

@@ -22,8 +22,6 @@ export const updateSettingsAction = async (
     updateData.boundWidth
   );
 
-  console.log(defaultBound);
-
   const validation = appSettingsSchema.safeParse(updateData);
   if (!validation.success) {
     const errors = validation.error.issues.map(
