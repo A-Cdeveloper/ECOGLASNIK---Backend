@@ -1,4 +1,4 @@
-import { Prisma } from "@prisma/client";
+import { Prisma, Settings } from "@prisma/client";
 
 export type ProblemCategoriesType = Prisma.ProblemCategoryGetPayload<{
   include: {
@@ -21,3 +21,5 @@ export type OrganisationType = Prisma.OrganisationGetPayload<{
     categories: true;
   };
 }>;
+
+export type SettingsWithoutId = Omit<Settings, "id">;

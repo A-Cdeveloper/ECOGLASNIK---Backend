@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 // Shared position schema
-const positionSchema = z.object({
+export const positionSchema = z.object({
   lat: z.string().min(1, "Latitude is required"),
   lng: z.string().min(1, "Longitude is required"),
 });
