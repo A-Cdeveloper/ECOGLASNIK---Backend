@@ -31,7 +31,10 @@ const OrganisationForm = ({
   const isCategoriesExist = categoriesSelection.length > 0;
 
   return (
-    <form action={formAction} className="mt-4 w-1/3 space-y-2">
+    <form
+      action={formAction}
+      className="mt-4 w-full md:w-2/3 2xl:w-1/3 space-y-2"
+    >
       {organisation && (
         <input type="hidden" name="oid" value={organisation.oid} />
       )}
@@ -68,7 +71,7 @@ const OrganisationForm = ({
           <CheckboxGroup
             organisations={categoriesSelection}
             name="categories"
-            className="pt-4 grid grid-cols-2 grid-rows-2"
+            className="pt-4 grid grid-cols-1 lg:grid-cols-2 grid-rows-2"
             defaultSelected={
               organisation?.categories.map((cat) => cat.cat_id) || []
             }

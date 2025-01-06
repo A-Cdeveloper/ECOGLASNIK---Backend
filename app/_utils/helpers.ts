@@ -36,15 +36,24 @@ export const generateBounds = (
   };
 };
 
-// // Example usage
-// const defaultPosition: DefaultPosition = {
-//   lat: 42.961498,
-//   lng: 22.124319,
-// };
+export const calculateDistanceFromBounds = (
+  position: { lat: number; lng: number },
+  bounds: {
+    northEast: { lat: number; lng: number };
+    southWest: { lat: number; lng: number };
+  }
+): number => {
+  const degreeToKm = 111;
 
-// const distanceKm = 10; // 10 km distance for the bounding box
+  const latDifference = bounds.northEast.lat - position.lat;
+  const lngDifference = bounds.northEast.lng - position.lng;
 
-// // Generate the bounding box
-// const defaultBound: DefaultBound = generateBounds(defaultPosition, distanceKm);
+  const latDistanceKm = Math.abs(latDifference * degreeToKm);
 
-// console.log(defaultBound);
+  const averageLat = (bounds.northEast.lat + bounds.southWest.lat) / 2;
+  const lngDistanceKm = Math.abs(
+    lngDifference * degreeToKm * Math.cos((averageLat * Math.PI) / 180)
+  );
+
+  return Math.round(Math.max(latDistanceKm, lngDistanceKm));
+};

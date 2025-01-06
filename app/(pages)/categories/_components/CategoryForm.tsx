@@ -24,7 +24,10 @@ const CategoryForm = ({
   const isOrganisationExist = organisationsSelection.length > 0;
 
   return (
-    <form action={formAction} className="mt-4 w-1/3 space-y-2">
+    <form
+      action={formAction}
+      className="mt-4 w-full md:w-1/2 2xl:w-1/3 space-y-2"
+    >
       {category && (
         <input type="hidden" name="cat_id" value={category.cat_id} />
       )}

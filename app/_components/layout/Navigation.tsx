@@ -2,6 +2,7 @@ import NavLink from "./NavLink";
 
 import {
   HiOutlineBellAlert,
+  HiOutlineCog6Tooth,
   HiOutlineHome,
   HiOutlineSquare3Stack3D,
   HiOutlineUsers,
@@ -28,9 +29,9 @@ const Navigation = () => {
           Korisnici
         </NavLink>
 
-        {/* <NavLink href="/settings" icon={<HiOutlineCog6Tooth />}>
+        <NavLink href="/settings" icon={<HiOutlineCog6Tooth />}>
           Podešavanja
-        </NavLink> */}
+        </NavLink>
       </ul>
     </nav>
   );

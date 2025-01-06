@@ -6,6 +6,8 @@ import { updateSettingsAction } from "../_actions";
 import ErrorsForm from "../../categories/_components/ErrorsForm";
 import { SettingsWithoutId } from "@/app/_utils/db/prismaTypes";
 import Map from "./Map";
+import InputRange from "@/app/_components/ui/Form/InputRange";
+import { calculateDistanceFromBounds } from "@/app/_utils/helpers";
 
 const SettingsForm = ({ settings }: { settings: SettingsWithoutId }) => {
   const [errors, formAction] = useActionState(updateSettingsAction, []);
@@ -15,40 +17,45 @@ const SettingsForm = ({ settings }: { settings: SettingsWithoutId }) => {
   );
 
   return (
-    <form action={formAction} className="mt-4 w-1/2 space-y-4">
-      <div className="grid grid-cols-2 gap-y-3 items-center">
+    <form
+      action={formAction}
+      className="mt-4 w-full lg:w-2/3 xl:w-2/3 2xl:w-1/2 space-y-2"
+    >
+      <div className="block lg:grid lg:grid-cols-[1fr_1fr] gap-y-3 items-center">
         <label htmlFor="appArea">Naziv aplikacije</label>
         <Input
           type="text"
           defaultValue={settings?.appName}
           readOnly
-          className="bg-secondary-100/40 cursor-not-allowed border-transparent focus:border-transparent"
+          className="bg-secondary-100/50 cursor-not-allowed border-transparent focus:border-transparent my-2 lg:my-0"
         />
 
-        <label htmlFor="appArea">Područje</label>
+        <label htmlFor="appArea">Naziv oblasti</label>
         <Input
           type="text"
           name="appArea"
           placeholder="Područje"
           defaultValue={settings?.appArea as string}
           aria-label="Područje"
+          className="my-2 lg:my-0"
         />
 
-        <label htmlFor="appArea">Inicijalni zoom</label>
-        <Input
-          type="number"
+        <label htmlFor="initialZoom">Inicijalni zoom</label>
+        <InputRange
+          initialValue={settings?.initialZoom}
           name="initialZoom"
-          placeholder="Inicijalni zoom"
-          defaultValue={settings?.initialZoom.toString()}
           min={10}
+          max={20}
+          className="my-2 lg:my-0 accent-warrning-500 h-2"
         />
 
-        <div className="col-span-2">
+        <div className="col-span-2 my-2">
           <input
             type="hidden"
             name="defaultPosition"
             value={JSON.stringify(defaultPosition)}
           />
+          <label htmlFor="appArea">Klikni na mapu za odabir područja:</label>
           <Map
             defaultPosition={defaultPosition as { lat: number; lng: number }}
             initialZoom={settings?.initialZoom as number}
@@ -57,7 +64,20 @@ const SettingsForm = ({ settings }: { settings: SettingsWithoutId }) => {
         </div>
 
         <label htmlFor="appArea">Širina područja(km)</label>
-        <Input type="number" name="boundWidth" defaultValue="10" min={10} />
+
+        <InputRange
+          initialValue={calculateDistanceFromBounds(
+            settings?.defaultPosition as { lat: number; lng: number },
+            settings?.defaultBound as {
+              northEast: { lat: number; lng: number };
+              southWest: { lat: number; lng: number };
+            }
+          )}
+          name="boundWidth"
+          className="my-2 lg:my-0 accent-warrning-500 h-2"
+          min={10}
+          max={50}
+        />
       </div>
 
       {errors && errors.length > 0 && <ErrorsForm errors={errors} />}

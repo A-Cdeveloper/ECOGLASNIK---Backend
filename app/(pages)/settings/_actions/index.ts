@@ -5,7 +5,6 @@ import prisma from "@/app/_utils/db/db";
 import { generateBounds } from "@/app/_utils/helpers";
 import { appSettingsSchema } from "@/app/_utils/zod/settingsSchemas";
 import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
 
 export const updateSettingsAction = async (
   prevFormData: any,
@@ -22,6 +21,8 @@ export const updateSettingsAction = async (
     updateData.defaultPosition,
     updateData.boundWidth
   );
+
+  console.log(defaultBound);
 
   const validation = appSettingsSchema.safeParse(updateData);
   if (!validation.success) {
@@ -44,5 +45,4 @@ export const updateSettingsAction = async (
   });
 
   revalidatePath("/settings");
-  redirect("/");
 };
