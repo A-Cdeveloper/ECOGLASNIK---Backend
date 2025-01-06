@@ -7,7 +7,10 @@ import ErrorsForm from "../../categories/_components/ErrorsForm";
 import { SettingsWithoutId } from "@/app/_utils/db/prismaTypes";
 import Map from "./Map";
 import InputRange from "@/app/_components/ui/Form/InputRange";
-import { calculateDistanceFromBounds } from "@/app/_utils/helpers";
+import {
+  calculateDistanceFromBounds,
+  convertLatLngToString,
+} from "@/app/_utils/helpers";
 
 const SettingsForm = ({ settings }: { settings: SettingsWithoutId }) => {
   const [errors, formAction] = useActionState(updateSettingsAction, []);
@@ -61,6 +64,11 @@ const SettingsForm = ({ settings }: { settings: SettingsWithoutId }) => {
             initialZoom={settings?.initialZoom as number}
             setDefaultPosition={setDefaultPosition}
           />
+          <p>
+            {convertLatLngToString(
+              defaultPosition as { lat: number; lng: number }
+            )}
+          </p>
         </div>
 
         <label htmlFor="appArea">Širina područja(km)</label>

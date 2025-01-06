@@ -57,3 +57,10 @@ export const calculateDistanceFromBounds = (
 
   return Math.round(Math.max(latDistanceKm, lngDistanceKm));
 };
+
+export const convertLatLngToString = (position: {
+  lat: number;
+  lng: number;
+}): string => {
+  return `Latitude: ${position.lat},\n Longitude: ${position.lng}`;
+};
