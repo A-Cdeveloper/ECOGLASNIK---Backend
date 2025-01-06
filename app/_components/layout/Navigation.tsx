@@ -2,7 +2,6 @@ import NavLink from "./NavLink";
 
 import {
   HiOutlineBellAlert,
-  HiOutlineCog6Tooth,
   HiOutlineHome,
   HiOutlineSquare3Stack3D,
   HiOutlineUsers,
