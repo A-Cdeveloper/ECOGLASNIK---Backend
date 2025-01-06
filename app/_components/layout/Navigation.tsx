@@ -29,9 +29,9 @@ const Navigation = () => {
           Korisnici
         </NavLink>
 
-        <NavLink href="/settings" icon={<HiOutlineCog6Tooth />}>
+        {/* <NavLink href="/settings" icon={<HiOutlineCog6Tooth />}>
           Podešavanja
-        </NavLink>
+        </NavLink> */}
       </ul>
     </nav>
   );
