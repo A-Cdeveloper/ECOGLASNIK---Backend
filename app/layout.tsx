@@ -2,7 +2,7 @@ import { Noto_Sans } from "next/font/google";
 import "./globals.css";
 import SideBar from "./_components/layout/SideBar";
 import Header from "./_components/layout/Header";
-import Navigation from "./_components/layout/Navigation";
+// import Navigation from "./_components/layout/Navigation";
 // import Navigation from "./_components/layout/Navigation";
 
 const notosans = Noto_Sans({
