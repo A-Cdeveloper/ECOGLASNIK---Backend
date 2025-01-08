@@ -8,7 +8,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "verify-files": "ts-node scripts/verify-files.ts"
+    "prepush": "npm run lint"
   },
   "dependencies": {
     "@prisma/client": "^5.22.0",
@@ -37,6 +37,7 @@
     "@types/react-dom": "^18",
     "eslint": "^8",
     "eslint-config-next": "15.0.3",
+    "husky": "^9.1.7",
     "postcss": "^8",
     "prisma": "^5.22.0",
     "react-icons": "^5.4.0",
