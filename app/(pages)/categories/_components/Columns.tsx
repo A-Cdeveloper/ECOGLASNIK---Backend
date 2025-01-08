@@ -26,7 +26,7 @@ export const columns = [
       )),
   },
   {
-    header: "Problemi",
+    header: "Prijave",
     accessor: (row: any) => row.problems.length,
     className: "text-start md:text-center",
   },

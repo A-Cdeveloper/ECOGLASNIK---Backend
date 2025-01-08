@@ -3,7 +3,7 @@ import { SubmitButton } from "@/app/_components/ui/Buttons/SubmitButton";
 import Input from "@/app/_components/ui/Form/Input";
 import { useActionState, useState } from "react";
 import { updateSettingsAction } from "../_actions";
-import ErrorsForm from "../../categories/_components/ErrorsForm";
+import ErrorsForm from "../../../_components/ui/Form/ErrorsForm";
 import { SettingsWithoutId } from "@/app/_utils/db/prismaTypes";
 import Map from "./Map";
 import InputRange from "@/app/_components/ui/Form/InputRange";

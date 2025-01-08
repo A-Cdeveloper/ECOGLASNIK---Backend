@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import React, { useState } from "react";
+import React from "react";
 
 type Option = {
   value: string;
@@ -8,25 +8,27 @@ type Option = {
 
 type SelectProps = {
   options: Option[];
+  handleChange: (event: React.ChangeEvent<HTMLSelectElement>) => void;
   defaultValue: string;
   className?: string;
-  name: string;
 };
 
-const Select = ({ options, defaultValue, className, name }: SelectProps) => {
-  const [selected, setSelected] = useState(defaultValue);
-  const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelected(e.target.value);
-  };
+const SelectFilter = ({
+  options,
+  handleChange,
+  defaultValue,
+  className,
+}: SelectProps) => {
   return (
     <select
-      name={name}
+      name="select"
+      id="select"
       className={clsx(
-        "block w-full md:w-auto text-winter-100/70 px-2 py-[6px] bg-transparent border border-secondary-500/30 text-[14px]",
+        "block w-full md:w-auto text-winter-100/70 px-2 py-[6px] bg-transparent border border-secondary-500/30 text-[13px]",
         className
       )}
       onChange={handleChange}
-      defaultValue={selected}
+      defaultValue={defaultValue}
     >
       {options.map((option) => (
         <option
@@ -41,4 +43,4 @@ const Select = ({ options, defaultValue, className, name }: SelectProps) => {
   );
 };
 
-export default Select;
+export default SelectFilter;

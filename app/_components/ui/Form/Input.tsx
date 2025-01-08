@@ -35,7 +35,8 @@ const Input = ({
       required={required}
       onChange={(e) => setInputData(e.target.value)}
       className={clsx(
-        `px-2 py-1 w-full bg-transparent border border-secondary-500/30 focus:outline-none focus:border-secondary-500 placeholder:text-winter-100/30 ${className}`
+        `px-2 py-1 w-full bg-transparent border border-secondary-500/30 focus:outline-none focus:border-secondary-500 placeholder:text-winter-100/30
+        ${className || ""}`
       )}
       {...rest}
     />

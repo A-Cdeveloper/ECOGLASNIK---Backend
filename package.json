@@ -7,12 +7,14 @@
     "postinstall": "prisma generate && prisma db push --accept-data-loss",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "verify-files": "ts-node scripts/verify-files.ts"
   },
   "dependencies": {
     "@prisma/client": "^5.22.0",
     "bcrypt": "^5.1.1",
     "clsx": "^2.1.1",
+    "date-fns": "^4.1.0",
     "dotenv": "^16.4.7",
     "helmet": "^8.0.0",
     "jose": "^5.9.6",
@@ -39,6 +41,7 @@
     "prisma": "^5.22.0",
     "react-icons": "^5.4.0",
     "tailwindcss": "^3.4.1",
-    "typescript": "^5"
+    "ts-node": "^10.9.2",
+    "typescript": "^5.7.2"
   }
 }

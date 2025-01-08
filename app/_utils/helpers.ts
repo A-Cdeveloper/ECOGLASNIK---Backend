@@ -1,3 +1,5 @@
+import { format } from "date-fns";
+
 export const getDisplayName = (name: string) => {
   if (!name) return "";
   return name
@@ -6,7 +8,6 @@ export const getDisplayName = (name: string) => {
     .join("");
 };
 
-// Function to generate bounds based on a central position and distance (in km)
 export const generateBounds = (
   position: { lat: number; lng: number },
   distanceKm: number
@@ -63,4 +64,24 @@ export const convertLatLngToString = (position: {
   lng: number;
 }): string => {
   return `Latitude: ${position.lat},\n Longitude: ${position.lng}`;
+};
+
+export const formatDate = (dateString: string) => {
+  return format(new Date(dateString), "dd.MM.yyyy");
+};
+
+export const sortByPropertyLength = <T>(
+  array: T[],
+  property: keyof T,
+  order: "asc" | "desc" = "asc"
+): T[] => {
+  return [...array].sort((a, b) => {
+    const countA = Array.isArray(a[property])
+      ? (a[property] as unknown[]).length
+      : 0;
+    const countB = Array.isArray(b[property])
+      ? (b[property] as unknown[]).length
+      : 0;
+    return order === "asc" ? countA - countB : countB - countA;
+  });
 };

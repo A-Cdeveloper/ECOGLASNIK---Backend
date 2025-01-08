@@ -1,12 +1,12 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import Loader from "@/app/_components/ui/Loader";
+import PageTopbar from "@/app/_components/ui/PageTopbar";
+import { getAllCategories } from "@/app/_utils/api_utils/categories";
+import { ProblemCategoriesType } from "@/app/_utils/db/prismaTypes";
+import Link from "next/link";
 import { Suspense } from "react";
 import Headline from "../../_components/ui/Headline";
 import AllCategories from "./_components/AllCategories";
-import HeadCategories from "./_components/HeadCategories";
-import { ProblemCategoriesType } from "@/app/_utils/db/prismaTypes";
-import { getAllCategories } from "@/app/_utils/api_utils/categories";
-import Link from "next/link";
+import { sortOptions } from "./_components/SortOptions";
 
 const CategoriesPage = async ({
   searchParams,
@@ -32,7 +32,13 @@ const CategoriesPage = async ({
   if (categories.length !== 0) {
     content = (
       <Suspense fallback={<Loader />}>
-        <HeadCategories />
+        <PageTopbar
+          sortOptions={sortOptions}
+          linkToNew="/categories/new"
+          defaultSort="cat_id-asc"
+        >
+          Nova kategorija
+        </PageTopbar>
         <AllCategories categories={categories} />
       </Suspense>
     );

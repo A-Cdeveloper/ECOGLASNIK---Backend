@@ -1,8 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import prisma from "../db/db";
+import { sortByPropertyLength } from "../helpers";
 
 export const getAllCategories = async (sortBy: string = "cat_id-asc") => {
-  const [field, order] = sortBy.split("-");
+  const [field, order] = sortBy.split("-") as [string, "asc" | "desc"];
 
   // Ensure valid sorting inputs
   const validFields = ["cat_id", "cat_name", "problems_count"]; // Add more valid fields as needed
@@ -23,18 +24,15 @@ export const getAllCategories = async (sortBy: string = "cat_id-asc") => {
               organisation_name: true,
             },
           },
-          problems: true,
+          problems: {
+            select: {
+              title: true,
+            },
+          },
         },
       });
 
-      // Manually sort by the count of problems
-      categories.sort((a, b) => {
-        const countA = a.problems.length;
-        const countB = b.problems.length;
-        return order === "asc" ? countA - countB : countB - countA;
-      });
-
-      return categories;
+      return sortByPropertyLength(categories, "problems", order);
     } else {
       // Sort by regular fields (e.g., cat_name)
       const categories = await prisma.problemCategory.findMany({
@@ -59,6 +57,7 @@ export const getAllCategories = async (sortBy: string = "cat_id-asc") => {
       return categories;
     }
   } catch (error: unknown) {
+    console.log(error);
     if (error instanceof Error) {
       throw new Error(`Greška prilikom preuzimanja kategorija.`);
     }

@@ -1,4 +1,4 @@
-import { Prisma, Settings } from "@prisma/client";
+import { Prisma, Settings, User } from "@prisma/client";
 
 export type ProblemCategoriesType = Prisma.ProblemCategoryGetPayload<{
   include: {
@@ -23,3 +23,8 @@ export type OrganisationType = Prisma.OrganisationGetPayload<{
 }>;
 
 export type SettingsWithoutId = Omit<Settings, "id">;
+
+export type UserRestrictedType = Omit<
+  User,
+  "passwordHash" | "verificationToken"
+>;

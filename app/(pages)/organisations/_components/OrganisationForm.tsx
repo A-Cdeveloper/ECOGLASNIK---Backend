@@ -12,7 +12,7 @@ import {
   addNewOrganisationAction,
   updateOrganisationAction,
 } from "../_actions";
-import ErrorsForm from "../../categories/_components/ErrorsForm";
+import ErrorsForm from "../../../_components/ui/Form/ErrorsForm";
 
 const OrganisationForm = ({
   categoriesSelection = [],
@@ -90,7 +90,9 @@ const OrganisationForm = ({
       )}
 
       {errors.length > 0 && <ErrorsForm errors={errors} />}
-      {isCategoriesExist && <SubmitButton>Dodaj</SubmitButton>}
+      {isCategoriesExist && (
+        <SubmitButton>{organisation ? "Izmeni" : "Dodaj"}</SubmitButton>
+      )}
     </form>
   );
 };

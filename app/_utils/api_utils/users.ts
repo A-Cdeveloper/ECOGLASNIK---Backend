@@ -1,4 +1,5 @@
 import prisma from "../db/db";
+import { sortByPropertyLength } from "../helpers";
 
 export const getSuperAdmin = async (adminId: number) => {
   try {
@@ -16,14 +17,57 @@ export const getSuperAdmin = async (adminId: number) => {
   }
 };
 
-export const getAllUsers = async () => {
-  try {
-    const users = await prisma.user.findMany();
+export const getAllUsers = async (sortBy: string = "uid-asc") => {
+  const [field, order] = sortBy.split("-") as [string, "asc" | "desc"];
 
-    return users;
+  // Ensure valid sorting inputs
+  const validFields = [
+    "uid",
+    "firstname",
+    "role",
+    "isVerified",
+    "problems_count",
+  ]; // Add more valid fields as needed
+  const validOrder = ["asc", "desc"];
+
+  if (!validFields.includes(field) || !validOrder.includes(order)) {
+    throw new Error("Invalid sorting parameters.");
+  }
+
+  try {
+    if (field === "problems_count") {
+      // Sort by the number of problems
+      const users = await prisma.user.findMany({
+        include: {
+          problems: {
+            select: {
+              title: true,
+            },
+          },
+        },
+      });
+
+      return sortByPropertyLength(users, "problems", order);
+    } else {
+      // Sort by regular fields (e.g., cat_name)
+      const users = await prisma.user.findMany({
+        orderBy: {
+          [field]: order, // Dynamically set sorting field and order
+        },
+        include: {
+          problems: {
+            select: {
+              title: true,
+            },
+          },
+        },
+      });
+
+      return users;
+    }
   } catch (error: unknown) {
     if (error instanceof Error) {
-      throw new Error();
+      throw new Error(`Greška prilikom preuzimanja korisnika.`);
     }
   }
 };
@@ -40,6 +84,7 @@ export const getUserById = async (id: number) => {
         lastname: true,
         email: true,
         phone: true,
+        role: true,
         isVerified: true,
         createdAt: true,
         updatedAt: true,
@@ -47,6 +92,7 @@ export const getUserById = async (id: number) => {
     });
     return user;
   } catch (error: unknown) {
+    console.log(error);
     if (error instanceof Error) {
       throw new Error(`Greška prilikom preuzimanja korisnika`);
     }

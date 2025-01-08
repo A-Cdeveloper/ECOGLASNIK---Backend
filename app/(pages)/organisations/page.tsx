@@ -1,11 +1,13 @@
 import Loader from "@/app/_components/ui/Loader";
-import Headline from "../../_components/ui/Headline";
-import AllOrganisations from "./_components/AllOrganisations";
-import HeadOrganisaitons from "./_components/HeadOrganisaitons";
-import { Suspense } from "react";
+import PageTopbar from "@/app/_components/ui/PageTopbar";
 import { getAllOrganisations } from "@/app/_utils/api_utils/organisations";
 import { Organisation } from "@prisma/client";
 import Link from "next/link";
+import { Suspense } from "react";
+import Headline from "../../_components/ui/Headline";
+import AllOrganisations from "./_components/AllOrganisations";
+
+import { sortOptions } from "./_components/SortOptions";
 
 const OrganisationsPage = async ({
   searchParams,
@@ -33,7 +35,13 @@ const OrganisationsPage = async ({
     <>
       <Headline level={1}>Nadležne službe</Headline>
       <Suspense fallback={<Loader />}>
-        <HeadOrganisaitons />
+        <PageTopbar
+          sortOptions={sortOptions}
+          linkToNew="/organisations/new"
+          defaultSort="oid-asc"
+        >
+          Nova služba
+        </PageTopbar>
         <AllOrganisations organisations={organisations} />
       </Suspense>
     </>

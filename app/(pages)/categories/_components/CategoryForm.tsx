@@ -4,7 +4,7 @@ import Input from "@/app/_components/ui/Form/Input";
 import CheckboxGroup from "@/app/_components/ui/Form/CheckboxGroup";
 import { SubmitButton } from "@/app/_components/ui/Buttons/SubmitButton";
 import { useActionState } from "react";
-import ErrorsForm from "./ErrorsForm";
+import ErrorsForm from "../../../_components/ui/Form/ErrorsForm";
 import Link from "next/link";
 
 import { ProblemCategoriesType } from "@/app/_utils/db/prismaTypes";
@@ -64,7 +64,9 @@ const CategoryForm = ({
       )}
 
       {errors.length > 0 && <ErrorsForm errors={errors} />}
-      {isOrganisationExist && <SubmitButton>Dodaj</SubmitButton>}
+      {isOrganisationExist && (
+        <SubmitButton>{category ? "Izmeni" : "Dodaj"}</SubmitButton>
+      )}
     </form>
   );
 };
