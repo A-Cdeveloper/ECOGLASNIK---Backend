@@ -16,7 +16,7 @@ const getAllFiles = (dir: string): string[] => {
 };
 
 // Root directory to verify
-const rootDir = path.resolve("app"); // Change to the folder you want to check
+const rootDir = path.resolve("app/(pages)"); // Change to the folder you want to check
 
 // Allowed file extensions
 const allowedExtensions = [".ts", ".tsx", ".js", ".jsx"];
