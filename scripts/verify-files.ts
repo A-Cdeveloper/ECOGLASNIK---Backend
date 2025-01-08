@@ -41,7 +41,7 @@ getAllFiles(rootDir).forEach((file) => {
 });
 
 if (!isValid) {
-  console.error("Verification failed! Fix the errors above.");
+  console.error("Verification failed. Fix the errors above.");
   process.exit(1);
 } else {
   console.log("All files passed verification!");
