@@ -3,7 +3,7 @@ name: Verify Files on Push
 on:
   push:
     branches:
-      - main # Specify the branch(es) where the workflow will run
+      - master # Specify the branch(es) where the workflow will run
 
 jobs:
   verify:
