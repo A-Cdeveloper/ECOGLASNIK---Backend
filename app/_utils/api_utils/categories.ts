@@ -57,7 +57,6 @@ export const getAllCategories = async (sortBy: string = "cat_id-asc") => {
       return categories;
     }
   } catch (error: unknown) {
-    console.log(error);
     if (error instanceof Error) {
       throw new Error(`Greška prilikom preuzimanja kategorija.`);
     }

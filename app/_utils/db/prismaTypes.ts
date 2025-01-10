@@ -28,3 +28,19 @@ export type UserRestrictedType = Omit<
   User,
   "passwordHash" | "verificationToken"
 >;
+
+export type ProblemCustumType = Prisma.ProblemGetPayload<{
+  select: {
+    id: true;
+    title: true;
+    createdAt: true;
+    updatedAt: true;
+    status: true;
+    category: {
+      select: {
+        cat_id: true;
+        cat_name: true;
+      };
+    };
+  };
+}>;

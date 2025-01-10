@@ -1,11 +1,61 @@
-import React from "react";
+import Loader from "@/app/_components/ui/Loader";
+
+import { Suspense } from "react";
 import Headline from "../../_components/ui/Headline";
 
-const ProblemsPage = () => {
+import FilterButtons from "@/app/_components/ui/Filters/FilterButtons";
+import FilterSelector from "@/app/_components/ui/Filters/FilterSelector";
+import SortSelector from "@/app/_components/ui/Sorting/SortSelector";
+import TopBar from "@/app/_components/ui/TopBar";
+import { getAllProblems } from "@/app/_utils/api_utils/problems";
+import { ProblemCustumType } from "@/app/_utils/db/prismaTypes";
+import AllProblems from "./_components/AllProblems";
+import {
+  categoriesSelection,
+  problemStatusOptions,
+} from "./_components/FilterOptions";
+import { sortOptions } from "./_components/SortOptions";
+import NoResurcesFound from "@/app/_components/ui/NoResurcesFound";
+
+const ProblemsPage = async ({
+  searchParams,
+}: {
+  searchParams: Promise<{ [key: string]: string | undefined }>;
+}) => {
+  const { sortBy, status, category } = await searchParams;
+  const problems = (await getAllProblems(
+    sortBy,
+    status,
+    category
+  )) as ProblemCustumType[];
+  //test const problems = [] as ProblemCustumType[];
+
+  let content = (
+    <NoResurcesFound className="h-1/2 2xl:w-3/4">
+      <Headline level={3}>Nema registrovanih prijava.</Headline>
+    </NoResurcesFound>
+  );
+
+  if (problems.length !== 0) {
+    content = (
+      <Suspense fallback={<Loader />}>
+        <AllProblems problems={problems} />
+      </Suspense>
+    );
+  }
+
   return (
     <>
-      <Headline level={1}>Prijavljeni Problemi</Headline>
-      <div>ProblemsPage</div>
+      <Headline level={1}>Lista problema</Headline>
+      <TopBar count={problems.length}>
+        <FilterButtons filterList={problemStatusOptions} queryKey="status" />
+        <FilterSelector
+          filterList={categoriesSelection || []}
+          queryKey="category"
+        />
+        <SortSelector options={sortOptions} defaultSort="id-asc" />
+      </TopBar>
+      {content}
     </>
   );
 };

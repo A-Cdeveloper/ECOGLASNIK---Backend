@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter, useSearchParams } from "next/navigation";
-import SelectFilter from "./SelectFIlter";
+import SelectSort from "./SelectSort";
 
 interface SortOption {
   value: string;
@@ -13,7 +13,7 @@ interface SortFilterProps {
   defaultSort: string;
 }
 
-const SortFilter = ({ options, defaultSort }: SortFilterProps) => {
+const SortSelector = ({ options, defaultSort }: SortFilterProps) => {
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -32,7 +32,7 @@ const SortFilter = ({ options, defaultSort }: SortFilterProps) => {
 
   return (
     <div className=" border-secondary-500/20 mb-2 sm:mb-0">
-      <SelectFilter
+      <SelectSort
         options={options}
         handleChange={handleSortChange}
         defaultValue={defaultSort}
@@ -41,4 +41,4 @@ const SortFilter = ({ options, defaultSort }: SortFilterProps) => {
   );
 };
 
-export default SortFilter;
+export default SortSelector;

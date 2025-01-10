@@ -1,6 +1,7 @@
 import { formatDate } from "@/app/_utils/helpers";
 import Operations from "./Operations";
 import { HiMiniCheckCircle, HiMiniMinusCircle } from "react-icons/hi2";
+import DynamicIcon from "@/app/_components/ui/DynamicIcon";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
@@ -36,11 +37,11 @@ export const columns = [
     header: "Verifikacija",
     accessor: (row: any) => {
       return (
-        <div className="ms-8">
+        <div className="ms-0 md:ms-8">
           {row.isVerified ? (
-            <HiMiniCheckCircle className="text-green-500 text-[20px]" />
+            <DynamicIcon Icon={HiMiniCheckCircle} className="text-green-500" />
           ) : (
-            <HiMiniMinusCircle className="text-red-500 text-[20px]" />
+            <DynamicIcon Icon={HiMiniMinusCircle} className="text-red-500" />
           )}
         </div>
       );
@@ -63,7 +64,7 @@ export const columns = [
     accessor: (row: any) => {
       return (
         <>
-          <p className="ms-4">{row.problems?.length}</p>
+          <p className="ms-0 md:ms-4">{row.problems?.length}</p>
         </>
       );
     },

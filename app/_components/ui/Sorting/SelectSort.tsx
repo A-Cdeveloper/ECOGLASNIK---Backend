@@ -13,7 +13,7 @@ type SelectProps = {
   className?: string;
 };
 
-const SelectFilter = ({
+const SelectSort = ({
   options,
   handleChange,
   defaultValue,
@@ -24,7 +24,7 @@ const SelectFilter = ({
       name="select"
       id="select"
       className={clsx(
-        "block w-full md:w-auto text-winter-100/70 px-2 py-[6px] bg-transparent border border-secondary-500/30 text-[13px]",
+        "block w-full md:w-auto text-winter-100/70 my-2 lg:my-0  px-2 py-[8px] bg-transparent border border-secondary-500/30 text-[13px]",
         className
       )}
       onChange={handleChange}
@@ -43,4 +43,4 @@ const SelectFilter = ({
   );
 };
 
-export default SelectFilter;
+export default SelectSort;

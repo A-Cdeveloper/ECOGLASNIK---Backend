@@ -67,7 +67,7 @@ export const convertLatLngToString = (position: {
 };
 
 export const formatDate = (dateString: string) => {
-  return format(new Date(dateString), "dd.MM.yyyy");
+  return dateString ? format(new Date(dateString), "dd.MM.yyyy") : "-";
 };
 
 export const sortByPropertyLength = <T>(

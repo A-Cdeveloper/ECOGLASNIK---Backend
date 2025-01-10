@@ -1,5 +1,4 @@
 import Loader from "@/app/_components/ui/Loader";
-import PageTopbar from "@/app/_components/ui/PageTopbar";
 import { getAllOrganisations } from "@/app/_utils/api_utils/organisations";
 import { Organisation } from "@prisma/client";
 import Link from "next/link";
@@ -7,7 +6,10 @@ import { Suspense } from "react";
 import Headline from "../../_components/ui/Headline";
 import AllOrganisations from "./_components/AllOrganisations";
 
+import SortSelector from "@/app/_components/ui/Sorting/SortSelector";
+import TopBar, { AddNew } from "@/app/_components/ui/TopBar";
 import { sortOptions } from "./_components/SortOptions";
+import NoResurcesFound from "@/app/_components/ui/NoResurcesFound";
 
 const OrganisationsPage = async ({
   searchParams,
@@ -20,13 +22,17 @@ const OrganisationsPage = async ({
   if (organisations.length === 0) {
     return (
       <>
-        <Headline level={1}>Nadležne službe</Headline>
-        <Link
-          href="/organisations/new"
-          className="button info small mt-5 inline-block"
-        >
-          Dodaj novu službu
-        </Link>
+        <NoResurcesFound>
+          <>
+            <Headline level={3}> Nema registrovanih službi.</Headline>
+            <Link
+              href="/organisations/new"
+              className="button info small mt-5 inline-block"
+            >
+              Dodaj novu službu
+            </Link>
+          </>
+        </NoResurcesFound>
       </>
     );
   }
@@ -35,13 +41,11 @@ const OrganisationsPage = async ({
     <>
       <Headline level={1}>Nadležne službe</Headline>
       <Suspense fallback={<Loader />}>
-        <PageTopbar
-          sortOptions={sortOptions}
-          linkToNew="/organisations/new"
-          defaultSort="oid-asc"
-        >
-          Nova služba
-        </PageTopbar>
+        <TopBar count={organisations.length}>
+          <SortSelector options={sortOptions} defaultSort="oid-asc" />
+          <AddNew linkToNew="/organisations/new">Nova služba</AddNew>
+        </TopBar>
+
         <AllOrganisations organisations={organisations} />
       </Suspense>
     </>

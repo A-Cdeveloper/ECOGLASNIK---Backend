@@ -72,9 +72,7 @@ const OrganisationForm = ({
             organisations={categoriesSelection}
             name="categories"
             className="pt-4 grid grid-cols-1 lg:grid-cols-2 grid-rows-2"
-            defaultSelected={
-              organisation?.categories.map((cat) => cat.cat_id) || []
-            }
+            defaultSelected={organisation?.categories.map((cat) => cat.cat_id)}
           />
         </div>
       ) : (

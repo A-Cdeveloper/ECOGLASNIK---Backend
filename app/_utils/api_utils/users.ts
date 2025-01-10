@@ -17,27 +17,31 @@ export const getSuperAdmin = async (adminId: number) => {
   }
 };
 
-export const getAllUsers = async (sortBy: string = "uid-asc") => {
+export const getAllUsers = async (
+  sortBy: string = "uid-asc",
+  role: string = ""
+) => {
   const [field, order] = sortBy.split("-") as [string, "asc" | "desc"];
 
   // Ensure valid sorting inputs
-  const validFields = [
-    "uid",
-    "firstname",
-    "role",
-    "isVerified",
-    "problems_count",
-  ]; // Add more valid fields as needed
+  const validFields = ["uid", "firstname", "isVerified", "problems_count"]; // Add more valid fields as needed
   const validOrder = ["asc", "desc"];
 
   if (!validFields.includes(field) || !validOrder.includes(order)) {
     throw new Error("Invalid sorting parameters.");
   }
 
+  const whereClause = role
+    ? {
+        role: role.toLowerCase(), // Assuming status values are stored in lowercase
+      }
+    : undefined;
+
   try {
     if (field === "problems_count") {
       // Sort by the number of problems
       const users = await prisma.user.findMany({
+        where: whereClause,
         include: {
           problems: {
             select: {
@@ -51,6 +55,7 @@ export const getAllUsers = async (sortBy: string = "uid-asc") => {
     } else {
       // Sort by regular fields (e.g., cat_name)
       const users = await prisma.user.findMany({
+        where: whereClause,
         orderBy: {
           [field]: order, // Dynamically set sorting field and order
         },

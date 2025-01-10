@@ -33,7 +33,7 @@ const Table = <T,>({ data, columns, rowKey }: TableProps<T>) => {
             key={rowKey(row)}
             className={`${
               rowIndex % 2 === 0 ? "" : "bg-secondary-100/10"
-            } md:table-row block border-b border-secondary-500/20`}
+            } md:table-row block border-b border-secondary-500/20 text-winter-100/60`}
           >
             {columns.map((col, colIndex) => (
               <td
@@ -41,7 +41,12 @@ const Table = <T,>({ data, columns, rowKey }: TableProps<T>) => {
                 className={`px-2 lg:px-4 py-1 lg:py-[8px] block md:table-cell ${
                   col.className || ""
                 }`}
+                data-header={col.header} // Data attribute for accessibility
               >
+                {/* Show the header caption only on small screens */}
+                <span className="md:hidden font-semibold block uppercase">
+                  {col.header}
+                </span>
                 {col.accessor(row)}
               </td>
             ))}

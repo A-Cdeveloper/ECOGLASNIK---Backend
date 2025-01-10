@@ -1,13 +1,13 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import {
-  addNewProblem,
-  getAllProblems,
-  getProblemById,
-} from "@/app/_utils/api_utils/problems";
+
 import { problemSchema } from "@/app/_utils/zod/problemSchemas";
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { authMiddleware } from "../../_utils/auth/authMiddleware";
+import {
+  addNewProblem,
+  getAllProblems,
+} from "@/app/_utils/api_utils/problems-api";
 
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);

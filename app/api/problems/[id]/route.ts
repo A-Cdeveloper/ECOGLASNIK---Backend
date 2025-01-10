@@ -4,8 +4,12 @@ import prisma from "@/app/_utils/db/db";
 import { z } from "zod";
 import { updateProblemSchema } from "@/app/_utils/zod/problemSchemas";
 import { authMiddleware } from "../../../_utils/auth/authMiddleware";
-import { getProblemById, updateProblem } from "@/app/_utils/api_utils/problems";
+
 import { getSuperAdmin } from "@/app/_utils/api_utils/users";
+import {
+  getProblemById,
+  updateProblem,
+} from "@/app/_utils/api_utils/problems-api";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export async function GET(request: NextRequest, { params }: { params: any }) {

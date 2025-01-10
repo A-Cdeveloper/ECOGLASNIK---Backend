@@ -1,3 +1,4 @@
+import Link from "next/link";
 import Operations from "./Operations";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -26,7 +27,13 @@ export const columns = [
   {
     header: "Kategorije problema",
     accessor: (row: any) =>
-      row.categories.map((cat: any) => <p key={cat.cat_id}>{cat.cat_name}</p>),
+      row.categories.map((cat: any) => {
+        return (
+          <p key={cat.cat_id}>
+            <Link href={`/categories/${cat.cat_id}`}>{cat.cat_name}</Link>
+          </p>
+        );
+      }),
   },
   {
     header: "",
