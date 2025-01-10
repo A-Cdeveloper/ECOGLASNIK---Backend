@@ -1,31 +1,30 @@
 "use client";
-import { addNewCategoryAction, updateCategoryAction } from "../_actions";
+// import { addNewCategoryAction, updateCategoryAction } from "../_actions";
 import Input from "@/app/_components/ui/Form/Input";
-import CheckboxGroup from "@/app/_components/ui/Form/CheckboxGroup";
-import { SubmitButton } from "@/app/_components/ui/Buttons/SubmitButton";
-import { useActionState } from "react";
-import ErrorsForm from "../../../_components/ui/Form/ErrorsForm";
-import Link from "next/link";
+// import CheckboxGroup from "@/app/_components/ui/Form/CheckboxGroup";
+// import { SubmitButton } from "@/app/_components/ui/Buttons/SubmitButton";
+// import { useActionState } from "react";
+// import ErrorsForm from "../../../_components/ui/Form/ErrorsForm";
+// import Link from "next/link";
 
 import { ProblemCategoriesType } from "@/app/_utils/db/prismaTypes";
 
 const CategoryForm = ({
-  organisationsSelection,
   category,
 }: {
   organisationsSelection: { id: number; label: string }[];
   category?: ProblemCategoriesType;
 }) => {
   ////////////
-  const action = category ? updateCategoryAction : addNewCategoryAction;
+  // const action = category ? updateCategoryAction : addNewCategoryAction;
 
-  const [errors, formAction] = useActionState(action, []);
+  // const [errors, formAction] = useActionState(action, []);
 
-  const isOrganisationExist = organisationsSelection.length > 0;
+  // const isOrganisationExist = organisationsSelection.length > 0;
 
   return (
     <form
-      action={formAction}
+      action={() => {}}
       className="mt-4 w-full md:w-1/2 2xl:w-1/3 space-y-2"
     >
       {category && (
@@ -37,7 +36,7 @@ const CategoryForm = ({
         placeholder="Naziv Kategorije problema"
         defaultValue={category?.cat_name}
       />
-      {isOrganisationExist ? (
+      {/* {isOrganisationExist ? (
         <div className="py-4">
           <p className="text-winter-100/50 text-[13px]">
             Izaberite nadležnu službu/e:
@@ -61,12 +60,12 @@ const CategoryForm = ({
             Dodaj novu službu
           </Link>
         </div>
-      )}
+      )} */}
 
-      {errors.length > 0 && <ErrorsForm errors={errors} />}
+      {/* {errors.length > 0 && <ErrorsForm errors={errors} />}
       {isOrganisationExist && (
         <SubmitButton>{category ? "Izmeni" : "Dodaj"}</SubmitButton>
-      )}
+      )} */}
     </form>
   );
 };
