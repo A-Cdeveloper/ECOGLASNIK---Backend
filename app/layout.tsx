@@ -12,9 +12,9 @@ const notosans = Noto_Sans({
 });
 
 export const metadata = {
-  title: "Clean me - Admin panel",
+  title: "ECOGLASNIK - Admin panel",
   description: "",
-  favicon: "/clean-me.fw.png",
+  favicon: "/ecoglasnik.png",
 };
 
 export default function RootLayout({

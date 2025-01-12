@@ -18,9 +18,9 @@ export const sendVerificationEmail = async (email: string, token: string) => {
   const verificationUrl = `${process.env.BASE_URL}/login/verify-account?token=${token}`;
 
   await transporter.sendMail({
-    from: '"CleanMe" <admin@cleanme.e-vlasotince.info>',
+    from: '"ECOGLASNIK" <admin@cleanme.e-vlasotince.info>',
     to: email,
-    subject: "CleanMe - Aktivacija naloga",
+    subject: "ECOGLASNIK - Aktivacija naloga",
     html: emailHtml(
       verificationUrl,
       "Potvrdite svoju adresu e-pošte klikom na dugme ispod:",
@@ -33,9 +33,9 @@ export const sendPasswordResetEmail = async (email: string, token: string) => {
   const resetUrl = `${process.env.BASE_URL}/login/reset-password?token=${token}`;
 
   await transporter.sendMail({
-    from: '"CleanMe" <admin@cleanme.e-vlasotince.info>',
+    from: '"ECOGLASNIK" <admin@cleanme.e-vlasotince.info>',
     to: email,
-    subject: "CleanMe - Reset lozinke",
+    subject: "ECOGLASNIK - Reset lozinke",
     html: emailHtml(
       resetUrl,
       "Klinikite na dugme ispod da biste resetovali svoju lozinku:",

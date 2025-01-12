@@ -1,13 +1,13 @@
-# CleanMe Backend API
+# ECOGLASNIK Backend API
 
 ## Overview
 
-This project is a backend REST API built using Next.js 15, designed to support the **CleanMe** frontend application. The backend provides essential endpoints and services required for CleanMe’s functionality, enabling efficient communication between the client and server to facilitate the reporting and management of communal problems.
+This project is a backend REST API built using Next.js 15, designed to support the **ECOGLASNIK** frontend application. The backend provides essential endpoints and services required for ECOGLASNIK’s functionality, enabling efficient communication between the client and server to facilitate the reporting and management of communal problems.
 
 ## Features
 
 - RESTful API structure for reliable data interactions.
-- Seamless integration with the CleanMe frontend application.
+- Seamless integration with the ECOGLASNIK frontend application.
 - Endpoints for creating, updating, and retrieving reports of issues.
 - Support for user authentication and authorization.
 - Integration with a database for persistent data storage.

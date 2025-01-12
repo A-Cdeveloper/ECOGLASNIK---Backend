@@ -23,7 +23,7 @@ export const verifyJWT = async (token: string) => {
   return await jwtVerify(token, secret);
 };
 
-const logo = `${process.env.BASE_URL}/clean-me.fw.png`;
+const logo = `${process.env.BASE_URL}/ecoglasnik.png`;
 
 export const emailHtml = (
   url: string,
@@ -83,7 +83,7 @@ export const emailHtml = (
       <body>
         <div class="email-container">
           <div class="header">
-            <a href="${process.env.BASE_URL}"><img src="${logo}" alt="CleanMe" /></a>
+            <a href="${process.env.BASE_URL}"><img src="${logo}" alt="ECOGLASNIK" /></a>
           </div>
           <div class="content">
             <p>${emailText}</p>
