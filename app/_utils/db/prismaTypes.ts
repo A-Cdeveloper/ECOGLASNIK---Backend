@@ -36,10 +36,38 @@ export type ProblemCustumType = Prisma.ProblemGetPayload<{
     createdAt: true;
     updatedAt: true;
     status: true;
+    image: true;
     category: {
       select: {
         cat_id: true;
         cat_name: true;
+      };
+    };
+  };
+}>;
+
+export type ProblemCustumTypeWithUser = Prisma.ProblemGetPayload<{
+  select: {
+    id: true;
+    title: true;
+    description: true;
+    createdAt: true;
+    updatedAt: true;
+    status: true;
+    image: true;
+    position: true;
+    category: {
+      select: {
+        cat_id: true;
+        cat_name: true;
+      };
+    };
+    user: {
+      select: {
+        uid: true;
+        firstname: true;
+        lastname: true;
+        email: true;
       };
     };
   };

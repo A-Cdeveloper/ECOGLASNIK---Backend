@@ -63,7 +63,7 @@ const Map = ({
     <>
       {MapContainer && TileLayer ? (
         <MapContainer
-          style={{ height: "300px", width: "100%", marginBlock: "1rem" }}
+          style={{ height: "50vh", width: "100%", marginBlock: "1rem" }}
           zoom={initialZoom}
           center={[defaultPosition.lat, defaultPosition.lng]}
         >

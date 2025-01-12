@@ -20,7 +20,7 @@ const UsersPage = async ({
   const users = (await getAllUsers(sortBy, role)) as UserRestrictedType[];
 
   let content = (
-    <NoResurcesFound className="h-1/2 2xl:w-3/4">
+    <NoResurcesFound className="h-1/3 2xl:w-3/4">
       <Headline level={3}>Nema registrovanih korisnika.</Headline>
     </NoResurcesFound>
   );

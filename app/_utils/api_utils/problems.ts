@@ -37,6 +37,7 @@ export const getAllProblems = async (
         createdAt: true,
         updatedAt: true,
         status: true,
+        image: true,
         category: {
           select: {
             cat_id: true,
@@ -55,21 +56,41 @@ export const getAllProblems = async (
 };
 
 /////////////////////////
-// export const getCategoryById = async (id: number) => {
-//   try {
-//     const category = await prisma.problemCategory.findUnique({
-//       where: {
-//         cat_id: id,
-//       },
-//       include: {
-//         organisations: true,
-//         problems: true,
-//       },
-//     });
-//     return category;
-//   } catch (error: unknown) {
-//     if (error instanceof Error) {
-//       throw new Error(`Greška prilikom preuzimanja kategorije`);
-//     }
-//   }
-// };
+export const getProblemById = async (id: string) => {
+  try {
+    const problem = await prisma.problem.findUnique({
+      where: {
+        id: id,
+      },
+      select: {
+        id: true,
+        title: true,
+        description: true,
+        createdAt: true,
+        updatedAt: true,
+        status: true,
+        image: true,
+        position: true,
+        category: {
+          select: {
+            cat_id: true,
+            cat_name: true,
+          },
+        },
+        user: {
+          select: {
+            uid: true,
+            firstname: true,
+            lastname: true,
+            email: true,
+          },
+        },
+      },
+    });
+    return problem;
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      throw new Error(`Greška prilikom preuzimanja kategorije`);
+    }
+  }
+};

@@ -33,7 +33,7 @@ const FilterSelector = ({
     <>
       <select
         className={clsx(
-          "block w-full md:w-auto text-winter-100/70 my-2 lg:my-0  px-2 py-[8px] bg-transparent border border-secondary-500/30 text-[13px]",
+          "block  text-winter-100/70 my-2 lg:my-0  px-2 py-[8px] bg-transparent border border-secondary-500/30 text-[13px]",
           className
         )}
         onChange={handleChange}

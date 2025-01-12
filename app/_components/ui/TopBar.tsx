@@ -10,10 +10,14 @@ const TopBar = ({
 }) => {
   return (
     <div className="flex flex-wrap justify-start sm:justify-between items-center mt-6 w-full 2xl:w-3/4">
-      <div className="bg-secondary-500 inline-block px-2 py-[4px] text-primary-900 text-[13px]">
-        Ukupno: {count}
+      <div className="w-auto">
+        <span className="bg-secondary-500 inline-block px-2 py-[4px] text-primary-900 text-[13px]">
+          Ukupno: {count}
+        </span>
       </div>
-      <div className="flex gap-x-2 items-center">{children}</div>
+      <div className="flex flex-wrap justify-start 4xl:justify-end items-center gap-x-3 w-full 3xl:w-auto">
+        {children}
+      </div>
     </div>
   );
 };

@@ -5,7 +5,7 @@ import { useActionState, useState } from "react";
 import { updateSettingsAction } from "../_actions";
 import ErrorsForm from "../../../_components/ui/Form/ErrorsForm";
 import { SettingsWithoutId } from "@/app/_utils/db/prismaTypes";
-import Map from "./Map";
+import Map from "../../../_components/ui/Map";
 import InputRange from "@/app/_components/ui/Form/InputRange";
 import {
   calculateDistanceFromBounds,
@@ -30,7 +30,7 @@ const SettingsForm = ({ settings }: { settings: SettingsWithoutId }) => {
           type="text"
           defaultValue={settings?.appName}
           readOnly
-          className="bg-secondary-100/50 cursor-not-allowed border-transparent focus:border-transparent my-2 lg:my-0"
+          className="disabled"
         />
 
         <label htmlFor="appArea">Naziv oblasti</label>

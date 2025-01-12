@@ -44,11 +44,7 @@ const UserForm = ({ user }: { user?: UserRestrictedType }) => {
         placeholder="E-mail adresa"
         defaultValue={user?.email}
         readOnly={!!user?.email}
-        className={`${
-          !!user?.email
-            ? "bg-secondary-100/40 cursor-not-allowed border-transparent focus:border-transparent my-2 lg:my-0"
-            : ""
-        } col-span-2`}
+        className={`${!!user?.email && "disabled"} col-span-2 `}
       />
 
       <Input

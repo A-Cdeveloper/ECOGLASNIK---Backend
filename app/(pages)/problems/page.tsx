@@ -10,12 +10,10 @@ import TopBar from "@/app/_components/ui/TopBar";
 import { getAllProblems } from "@/app/_utils/api_utils/problems";
 import { ProblemCustumType } from "@/app/_utils/db/prismaTypes";
 import AllProblems from "./_components/AllProblems";
-import {
-  categoriesSelection,
-  problemStatusOptions,
-} from "./_components/FilterOptions";
+import { problemStatusOptions } from "./_components/FilterOptions";
 import { sortOptions } from "./_components/SortOptions";
 import NoResurcesFound from "@/app/_components/ui/NoResurcesFound";
+import { getAllCategories } from "@/app/_utils/api_utils/categories";
 
 const ProblemsPage = async ({
   searchParams,
@@ -28,10 +26,20 @@ const ProblemsPage = async ({
     status,
     category
   )) as ProblemCustumType[];
+
+  const categoriesApi = await getAllCategories();
+
+  const categoriesSelection = categoriesApi?.map((cat) => {
+    return {
+      id: cat.cat_id.toString(),
+      label: cat.cat_name,
+    };
+  });
+
   //test const problems = [] as ProblemCustumType[];
 
   let content = (
-    <NoResurcesFound className="h-1/2 2xl:w-3/4">
+    <NoResurcesFound className="h-1/3 2xl:w-3/4">
       <Headline level={3}>Nema registrovanih prijava.</Headline>
     </NoResurcesFound>
   );

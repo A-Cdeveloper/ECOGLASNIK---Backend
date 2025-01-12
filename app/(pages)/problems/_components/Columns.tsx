@@ -1,3 +1,5 @@
+import DynamicIcon from "@/app/_components/ui/DynamicIcon";
+import Picture from "@/app/_components/ui/Picture";
 import { formatDate } from "@/app/_utils/helpers";
 import Link from "next/link";
 import {
@@ -6,11 +8,15 @@ import {
   HiPauseCircle,
 } from "react-icons/hi2";
 import Operations from "./Operations";
-import DynamicIcon from "@/app/_components/ui/DynamicIcon";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 export const columns = [
+  {
+    header: "",
+    accessor: (row: any) => <Picture src={row.image} alt={row.title} />,
+    className: "max-w-full lg:max-w-[120px]",
+  },
   {
     header: "Problem",
     accessor: (row: any) => {

@@ -16,7 +16,7 @@ const FilterButtons = <T extends FilterOption>({
   queryKey,
 }: FilterButtonsProps<T>) => {
   return (
-    <div className="me-0 md:me-auto ms-0 lg:ms-8 flex gap-x-0 my-3">
+    <div className="flex gap-x-0 my-3 w-full lg:w-auto">
       {filterList.map((option) => {
         return (
           <FilterButton
