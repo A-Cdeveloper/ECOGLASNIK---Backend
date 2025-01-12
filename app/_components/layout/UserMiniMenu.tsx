@@ -4,14 +4,23 @@ import {
   HiOutlineUser,
 } from "react-icons/hi2";
 
-const UserMiniMenu = ({ miniMenuOpen }: { miniMenuOpen: boolean }) => {
+const UserMiniMenu = ({
+  miniMenuOpen,
+  refEl,
+}: {
+  miniMenuOpen: boolean;
+  refEl: React.RefObject<HTMLDivElement>;
+}) => {
   const router = useRouter();
 
   return (
     <div
       className={`absolute w-[150px] bg-primary-900/90 top-[100%] end-0 flex flex-col justify-center opacity-0 translate-y-0 transition-all duration-300  rounded-b-sm border border-secondary-500/20 border-t-0 ${
-        miniMenuOpen ? "opacity-100 translate-y-0" : "-translate-y-4"
+        miniMenuOpen
+          ? "opacity-100 translate-y-0 block"
+          : "-translate-y-4 hidden"
       }`}
+      ref={refEl}
     >
       <div
         onClick={() => router.push("/profile")}

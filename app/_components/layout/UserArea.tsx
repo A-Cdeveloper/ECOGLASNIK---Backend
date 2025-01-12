@@ -4,10 +4,13 @@ import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import UserMiniMenu from "./UserMiniMenu";
 import { getDisplayName } from "../../_utils/helpers";
+import useOutsideClick from "@/app/hooks/useOutsideClick";
 
 const UserArea = () => {
   const [miniMenuOpen, setMiniMenuOpen] = useState(false);
   const [displayName, setDisplayName] = useState("Aleksandar Cvetković");
+
+  const { refEl } = useOutsideClick(() => setMiniMenuOpen(false));
 
   useEffect(() => {
     const handleResize = () =>
@@ -35,7 +38,7 @@ const UserArea = () => {
       />
       <span className="text-[14px]">{displayName}</span>
 
-      <UserMiniMenu miniMenuOpen={miniMenuOpen} />
+      <UserMiniMenu miniMenuOpen={miniMenuOpen} refEl={refEl} />
     </div>
   );
 };
