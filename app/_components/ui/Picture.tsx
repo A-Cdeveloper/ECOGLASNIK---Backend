@@ -28,7 +28,7 @@ const Picture = ({
 
   return (
     <div
-      className={clsx(`w-full md:w-[100px] h-[200px] md:h-[70px]`, className)}
+      className={clsx(`w-full h-[200px] md:w-[90px]  md:h-[60px]`, className)}
     >
       <Image
         src={src}
