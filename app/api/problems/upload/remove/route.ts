@@ -2,7 +2,7 @@ import { pinata } from "@/app/_utils/pinata/config";
 import { NextRequest, NextResponse } from "next/server";
 
 // Helper function to delete a file from Pinata
-export const deleteFileFromPinata = async (pinata_id: string) => {
+const deleteFileFromPinata = async (pinata_id: string) => {
   try {
     // Use Pinata SDK to delete the file by its UUID
     const response = await pinata.files.delete([pinata_id]);
