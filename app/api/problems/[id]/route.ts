@@ -21,13 +21,6 @@ export async function GET(request: NextRequest, { params }: { params: any }) {
         cat_name: true,
       },
     },
-    user: {
-      select: {
-        firstname: true,
-        lastname: true,
-        email: true,
-      },
-    },
   };
 
   try {
