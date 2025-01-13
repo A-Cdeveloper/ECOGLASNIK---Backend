@@ -2,6 +2,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
 import { getAllUsers, getSuperAdmin } from "@/app/_utils/api_utils/users";
+import { User } from "@prisma/client";
 import { authMiddleware } from "../../_utils/auth/authMiddleware";
 
 export async function GET(request: NextRequest) {
@@ -26,7 +27,10 @@ export async function GET(request: NextRequest) {
   }
 
   try {
-    const users = await getAllUsers();
+    const { users, totalUsers } = (await getAllUsers()) as {
+      users: User[];
+      totalUsers: number;
+    };
 
     const sanitizedUsers = users?.map(
       ({ passwordHash, verificationToken, ...rest }) => rest
@@ -40,7 +44,7 @@ export async function GET(request: NextRequest) {
     }
 
     return NextResponse.json(
-      { results: sanitizedUsers.length, data: sanitizedUsers },
+      { results: totalUsers, data: sanitizedUsers },
       { status: 200 }
     );
   } catch (error) {
