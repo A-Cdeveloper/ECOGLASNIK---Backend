@@ -6,7 +6,9 @@ import { ProblemCustumTypeWithUser } from "@/app/_utils/db/prismaTypes";
 import ProblemForm from "../../_components/ProblemForm";
 
 const EditProblem = async ({ params }: { params: Promise<{ id: string }> }) => {
-  const categoriesApi = await getAllCategories();
+  const { categories: categoriesApi } = (await getAllCategories()) as {
+    categories: { cat_id: number; cat_name: string }[];
+  };
 
   const problem = await getProblemById((await params).id);
 

@@ -1,8 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { MAX_PAGE_SIZE } from "../contants";
 import prisma from "../db/db";
 import { sortByPropertyLength } from "../helpers";
 
-export const getAllCategories = async (sortBy: string = "cat_id-asc") => {
+export const getAllCategories = async (
+  sortBy: string = "cat_id-asc",
+  startIndex?: number,
+  pageSize: number = 1000
+) => {
   const [field, order] = sortBy.split("-") as [string, "asc" | "desc"];
 
   // Ensure valid sorting inputs
@@ -15,46 +20,60 @@ export const getAllCategories = async (sortBy: string = "cat_id-asc") => {
 
   try {
     if (field === "problems_count") {
-      // Sort by the number of problems
-      const categories = await prisma.problemCategory.findMany({
-        include: {
-          organisations: {
-            select: {
-              oid: true,
-              organisation_name: true,
+      const [categories, totalCategories] = await Promise.all([
+        prisma.problemCategory.findMany({
+          skip: startIndex || 0,
+          take: pageSize || MAX_PAGE_SIZE,
+          include: {
+            organisations: {
+              select: {
+                oid: true,
+                organisation_name: true,
+              },
+            },
+            problems: {
+              select: {
+                title: true,
+              },
             },
           },
-          problems: {
-            select: {
-              title: true,
-            },
-          },
-        },
-      });
+        }),
+        prisma.problemCategory.count(),
+      ]);
 
-      return sortByPropertyLength(categories, "problems", order);
+      const categoriesFiltered = sortByPropertyLength(
+        categories,
+        "problems",
+        order
+      );
+
+      return { categories: categoriesFiltered, totalCategories };
     } else {
-      // Sort by regular fields (e.g., cat_name)
-      const categories = await prisma.problemCategory.findMany({
-        orderBy: {
-          [field]: order, // Dynamically set sorting field and order
-        },
-        include: {
-          organisations: {
-            select: {
-              oid: true,
-              organisation_name: true,
+      const [categories, totalCategories] = await Promise.all([
+        prisma.problemCategory.findMany({
+          orderBy: {
+            [field]: order, // Dynamically set sorting field and order
+          },
+          skip: startIndex || 0,
+          take: pageSize || MAX_PAGE_SIZE,
+          include: {
+            organisations: {
+              select: {
+                oid: true,
+                organisation_name: true,
+              },
+            },
+            problems: {
+              select: {
+                title: true,
+              },
             },
           },
-          problems: {
-            select: {
-              title: true,
-            },
-          },
-        },
-      });
+        }),
+        prisma.problemCategory.count(),
+      ]);
 
-      return categories;
+      return { categories, totalCategories };
     }
   } catch (error: unknown) {
     if (error instanceof Error) {

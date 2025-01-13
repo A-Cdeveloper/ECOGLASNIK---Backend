@@ -2,9 +2,12 @@ import BackButton from "@/app/_components/ui/Buttons/BackButton";
 import Headline from "@/app/_components/ui/Headline";
 import { getAllOrganisations } from "@/app/_utils/api_utils/organisations";
 import CategoryForm from "../_components/CategoryForm";
+import { Organisation } from "@prisma/client";
 
 const AddCategory = async () => {
-  const organisationsApi = await getAllOrganisations();
+  const { organisations: organisationsApi } = (await getAllOrganisations()) as {
+    organisations: Organisation[];
+  };
 
   const organisationsSelection = organisationsApi?.map((org) => {
     return {

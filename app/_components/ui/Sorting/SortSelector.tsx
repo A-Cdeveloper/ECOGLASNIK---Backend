@@ -23,6 +23,7 @@ const SortSelector = ({ options, defaultSort }: SortFilterProps) => {
 
     if (selectedSort) {
       currentParams.set("sortBy", selectedSort);
+      currentParams.delete("page");
     } else {
       currentParams.delete("sortBy");
     }

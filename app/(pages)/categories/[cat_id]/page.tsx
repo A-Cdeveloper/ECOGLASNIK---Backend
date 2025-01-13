@@ -3,6 +3,7 @@ import BackButton from "@/app/_components/ui/Buttons/BackButton";
 import Headline from "@/app/_components/ui/Headline";
 import { getCategoryById } from "@/app/_utils/api_utils/categories";
 import React from "react";
+// import AllProblems from "../../problems/_components/AllProblems";
 
 const CategoryPage = async ({
   params,
@@ -11,6 +12,8 @@ const CategoryPage = async ({
 }) => {
   const { cat_id } = await params;
   const category = await getCategoryById(+cat_id);
+
+  // console.log(category?.problems);
 
   return (
     <>
@@ -40,6 +43,7 @@ const CategoryPage = async ({
               {problem.title} - {problem.status}
             </div>
           ))}
+          {/* <AllProblems problems={category?.problems} /> */}
         </div>
       </div>
     </>

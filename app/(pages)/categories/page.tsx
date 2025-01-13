@@ -10,17 +10,28 @@ import Headline from "../../_components/ui/Headline";
 import AllCategories from "./_components/AllCategories";
 import { sortOptions } from "./_components/SortOptions";
 import NoResurcesFound from "@/app/_components/ui/NoResurcesFound";
+import { MAX_PAGE_SIZE } from "@/app/_utils/contants";
+import Pagination from "@/app/_components/ui/Pagination/Pagination";
 
 const CategoriesPage = async ({
   searchParams,
 }: {
   searchParams: Promise<{ [key: string]: string | undefined }>;
 }) => {
-  const { sortBy } = await searchParams;
-  const categories = (await getAllCategories(
-    sortBy
-  )) as ProblemCategoriesType[];
+  const { sortBy, page = "1" } = await searchParams;
+  const currentPage = parseInt(page, 10) || 1;
+  const { categories, totalCategories } = (await getAllCategories(
+    sortBy,
+    (currentPage - 1) * MAX_PAGE_SIZE,
+    MAX_PAGE_SIZE
+  )) as {
+    categories: ProblemCategoriesType[];
+    totalCategories: number;
+  };
 
+  console.log(categories);
+
+  const totalPages = Math.ceil(totalCategories / MAX_PAGE_SIZE);
   //const categories = [] as ProblemCategoriesType[];
 
   let content = (
@@ -39,16 +50,19 @@ const CategoriesPage = async ({
     </>
   );
 
-  if (categories.length !== 0) {
+  if (totalPages !== 0) {
     content = (
       <>
         <Headline level={1}>Kategorije problema</Headline>
         <Suspense fallback={<Loader />}>
-          <TopBar count={categories.length}>
+          <TopBar count={totalCategories}>
             <SortSelector options={sortOptions} defaultSort="cat_id-asc" />
 
             <AddNew linkToNew="/categories/new">Nova kategorija</AddNew>
           </TopBar>
+          {totalPages > 1 && (
+            <Pagination totalPages={totalPages} currentPage={currentPage} />
+          )}
           <AllCategories categories={categories} />
         </Suspense>
       </>

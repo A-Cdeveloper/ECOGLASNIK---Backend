@@ -1,3 +1,4 @@
+import { MAX_PAGE_SIZE } from "../contants";
 import prisma from "../db/db";
 import { sortByPropertyLength } from "../helpers";
 
@@ -19,7 +20,9 @@ export const getSuperAdmin = async (adminId: number) => {
 
 export const getAllUsers = async (
   sortBy: string = "uid-asc",
-  role: string = ""
+  role: string = "",
+  startIndex?: number,
+  pageSize?: number
 ) => {
   const [field, order] = sortBy.split("-") as [string, "asc" | "desc"];
 
@@ -39,36 +42,46 @@ export const getAllUsers = async (
 
   try {
     if (field === "problems_count") {
-      // Sort by the number of problems
-      const users = await prisma.user.findMany({
-        where: whereClause,
-        include: {
-          problems: {
-            select: {
-              title: true,
+      const [users, totalUsers] = await Promise.all([
+        prisma.user.findMany({
+          where: whereClause,
+          skip: startIndex || 0,
+          take: pageSize || MAX_PAGE_SIZE,
+          include: {
+            problems: {
+              select: {
+                title: true,
+              },
             },
           },
-        },
-      });
+        }),
+        prisma.user.count({ where: whereClause }),
+      ]);
 
-      return sortByPropertyLength(users, "problems", order);
+      const usersFiltered = sortByPropertyLength(users, "problems", order);
+
+      return { users: usersFiltered, totalUsers };
     } else {
-      // Sort by regular fields (e.g., cat_name)
-      const users = await prisma.user.findMany({
-        where: whereClause,
-        orderBy: {
-          [field]: order, // Dynamically set sorting field and order
-        },
-        include: {
-          problems: {
-            select: {
-              title: true,
+      const [users, totalUsers] = await Promise.all([
+        prisma.user.findMany({
+          where: whereClause,
+          skip: startIndex || 0,
+          take: pageSize || MAX_PAGE_SIZE,
+          orderBy: {
+            [field]: order, // Dynamically set sorting field and order
+          },
+          include: {
+            problems: {
+              select: {
+                title: true,
+              },
             },
           },
-        },
-      });
+        }),
+        prisma.user.count({ where: whereClause }),
+      ]);
 
-      return users;
+      return { users, totalUsers };
     }
   } catch (error: unknown) {
     if (error instanceof Error) {

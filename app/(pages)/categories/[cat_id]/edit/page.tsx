@@ -4,13 +4,16 @@ import { getCategoryById } from "@/app/_utils/api_utils/categories";
 import { getAllOrganisations } from "@/app/_utils/api_utils/organisations";
 import CategoryForm from "../../_components/CategoryForm";
 import { ProblemCategoriesType } from "@/app/_utils/db/prismaTypes";
+import { Organisation } from "@prisma/client";
 
 const EditCategory = async ({
   params,
 }: {
   params: Promise<{ cat_id: string }>;
 }) => {
-  const organisationsApi = await getAllOrganisations();
+  const { organisations: organisationsApi } = (await getAllOrganisations()) as {
+    organisations: Organisation[];
+  };
 
   const category = await getCategoryById(+(await params).cat_id);
 

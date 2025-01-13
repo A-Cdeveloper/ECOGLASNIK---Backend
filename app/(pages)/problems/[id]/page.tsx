@@ -1,24 +1,19 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import BackButton from "@/app/_components/ui/Buttons/BackButton";
 import Headline from "@/app/_components/ui/Headline";
-import { getCategoryById } from "@/app/_utils/api_utils/categories";
-import React from "react";
+import { getProblemById } from "@/app/_utils/api_utils/problems-api";
 
-const CategoryPage = async ({
-  params,
-}: {
-  params: Promise<{ cat_id: string }>;
-}) => {
-  const { cat_id } = await params;
-  const category = await getCategoryById(+cat_id);
+const ProblemPage = async ({ params }: { params: Promise<{ id: string }> }) => {
+  const { id } = await params;
+  const problem = await getProblemById(id);
 
   return (
     <>
       <BackButton />
 
-      <Headline level={1}>{category?.cat_name}</Headline>
+      <Headline level={1}>{problem?.title}</Headline>
 
-      <div className="grid grid-cols-[250px,1fr] mt-4 gap-y-3">
+      {/* <div className="grid grid-cols-[250px,1fr] mt-4 gap-y-3">
         <div>Nadlezne sluzbe</div>
         <div>
           {category?.organisations?.map((org) => {
@@ -41,9 +36,9 @@ const CategoryPage = async ({
             </div>
           ))}
         </div>
-      </div>
+      </div> */}
     </>
   );
 };
 
-export default CategoryPage;
+export default ProblemPage;

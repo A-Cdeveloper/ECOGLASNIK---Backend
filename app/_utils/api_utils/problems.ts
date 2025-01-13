@@ -1,56 +1,58 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { MAX_PAGE_SIZE } from "../contants";
 import prisma from "../db/db";
 //import { sortByPropertyLength } from "../helpers";
 
 export const getAllProblems = async (
   sortBy: string = "createdAt-desc",
   status?: string,
-  category?: string
+  category?: string,
+  startIndex?: number,
+  pageSize?: number
 ) => {
   const [field, order] = sortBy.split("-") as [string, "asc" | "desc"];
 
-  // Ensure valid sorting inputs
-  const validFields = ["title", "createdAt"]; // Add more valid fields as needed
-  const validOrder = ["asc", "desc"];
-
-  if (!validFields.includes(field) || !validOrder.includes(order)) {
-    throw new Error("Invalid sorting parameters.");
-  }
+  const whereClause =
+    status || category
+      ? {
+          ...(status && { status: status.toLowerCase() }),
+          ...(category && { category: { cat_id: +category } }),
+        }
+      : undefined;
 
   try {
-    const whereClause =
-      status || category
-        ? {
-            ...(status && { status: status.toLowerCase() }),
-            ...(category && { category: { cat_id: +category } }),
-          }
-        : undefined;
-
-    const problems = await prisma.problem.findMany({
-      where: whereClause,
-      orderBy: {
-        [field]: order, // Dynamically set sorting field and order
-      },
-      select: {
-        id: true,
-        title: true,
-        createdAt: true,
-        updatedAt: true,
-        status: true,
-        image: true,
-        category: {
-          select: {
-            cat_id: true,
-            cat_name: true,
+    const [problems, totalProblems] = await Promise.all([
+      prisma.problem.findMany({
+        where: whereClause,
+        orderBy: {
+          [field]: order,
+        },
+        skip: startIndex || 0,
+        take: pageSize || MAX_PAGE_SIZE,
+        select: {
+          id: true,
+          title: true,
+          createdAt: true,
+          updatedAt: true,
+          status: true,
+          image: true,
+          category: {
+            select: {
+              cat_id: true,
+              cat_name: true,
+            },
           },
         },
-      },
-    });
+      }),
+      prisma.problem.count({
+        where: whereClause,
+      }),
+    ]);
 
-    return problems;
+    return { problems, totalProblems };
   } catch (error: unknown) {
     if (error instanceof Error) {
-      throw new Error(`Greška prilikom preuzimanja problema.`);
+      throw new Error(`Greška prilikom preuzimanja problema`);
     }
   }
 };
@@ -90,7 +92,7 @@ export const getProblemById = async (id: string) => {
     return problem;
   } catch (error: unknown) {
     if (error instanceof Error) {
-      throw new Error(`Greška prilikom preuzimanja kategorije`);
+      throw new Error(`Greška prilikom preuzimanja problema`);
     }
   }
 };

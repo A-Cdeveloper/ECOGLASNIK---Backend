@@ -23,6 +23,7 @@ const FilterSelector = ({
     const params = new URLSearchParams(searchParams?.toString());
     if (selectedCategory) {
       params.set(queryKey, selectedCategory);
+      params.delete("page");
     } else {
       params.delete(queryKey);
     }

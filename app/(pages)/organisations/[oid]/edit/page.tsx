@@ -11,7 +11,9 @@ const EditOrganisation = async ({
 }: {
   params: Promise<{ oid: string }>;
 }) => {
-  const categoriesApi = await getAllCategories();
+  const { categories: categoriesApi } = (await getAllCategories()) as {
+    categories: { cat_id: number; cat_name: string }[];
+  };
   const organisation = await getOrganisation((await params).oid);
 
   const categoriesSelection = categoriesApi?.map((cat) => {

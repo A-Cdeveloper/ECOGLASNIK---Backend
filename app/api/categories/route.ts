@@ -1,12 +1,16 @@
 import { getAllCategories } from "@/app/_utils/api_utils/categories";
+import { ProblemCategoriesType } from "@/app/_utils/db/prismaTypes";
 
 import { NextResponse } from "next/server";
 
 export async function GET() {
   try {
-    const categories = await getAllCategories();
+    const { categories, totalCategories } = (await getAllCategories()) as {
+      categories: ProblemCategoriesType[];
+      totalCategories: number;
+    };
     return NextResponse.json(
-      { results: categories?.length, data: categories },
+      { results: totalCategories, data: categories },
       { status: 200 }
     );
   } catch (error) {

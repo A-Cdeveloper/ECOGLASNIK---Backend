@@ -6,7 +6,9 @@ import OrganisationForm from "../_components/OrganisationForm";
 //import CategoryForm from "../_components/CategoryForm";
 
 const AddOrganisation = async () => {
-  const categoriesApi = await getAllCategories();
+  const { categories: categoriesApi } = (await getAllCategories()) as {
+    categories: { cat_id: number; cat_name: string }[];
+  };
 
   const categoriesSelection = categoriesApi?.map((cat) => {
     return {

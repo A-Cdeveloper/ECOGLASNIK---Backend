@@ -26,6 +26,7 @@ const FilterButton = ({
 
     if (queryValue) {
       currentParams.set(queryKey, queryValue); // Set the query parameter
+      currentParams.delete("page");
     } else {
       currentParams.delete(queryKey); // Remove the query parameter if empty
     }

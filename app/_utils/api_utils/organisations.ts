@@ -1,6 +1,11 @@
+import { MAX_PAGE_SIZE } from "../contants";
 import prisma from "../db/db";
 
-export const getAllOrganisations = async (sortBy: string = "oid-asc") => {
+export const getAllOrganisations = async (
+  sortBy: string = "oid-asc",
+  startIndex?: number,
+  pageSize: number = 1000
+) => {
   const [field, order] = sortBy.split("-");
 
   // Ensure valid sorting inputs
@@ -12,16 +17,21 @@ export const getAllOrganisations = async (sortBy: string = "oid-asc") => {
   }
 
   try {
-    const organisations = await prisma.organisation.findMany({
-      orderBy: {
-        [field]: order, // Dynamically set sorting field and order
-      },
-      include: {
-        categories: true,
-      },
-    });
+    const [organisations, totalOrganisations] = await Promise.all([
+      prisma.organisation.findMany({
+        orderBy: {
+          [field]: order, // Dynamically set sorting field and order
+        },
+        skip: startIndex || 0,
+        take: pageSize || MAX_PAGE_SIZE,
+        include: {
+          categories: true,
+        },
+      }),
+      prisma.organisation.count(),
+    ]);
 
-    return organisations;
+    return { organisations, totalOrganisations };
   } catch (error: unknown) {
     if (error instanceof Error) {
       throw new Error(`Greška prilikom preuzimanja nadležnih organizacija.`);

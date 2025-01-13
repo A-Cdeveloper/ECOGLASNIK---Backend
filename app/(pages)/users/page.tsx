@@ -10,14 +10,28 @@ import AllUsers from "./_components/AllUsers";
 import { userStatusOptions } from "./_components/FilterOptions";
 import { sortOptions } from "./_components/SortOptions";
 import NoResurcesFound from "@/app/_components/ui/NoResurcesFound";
+import { MAX_PAGE_SIZE } from "@/app/_utils/contants";
+import Pagination from "@/app/_components/ui/Pagination/Pagination";
 
 const UsersPage = async ({
   searchParams,
 }: {
   searchParams: Promise<{ [key: string]: string | undefined }>;
 }) => {
-  const { sortBy, role } = await searchParams;
-  const users = (await getAllUsers(sortBy, role)) as UserRestrictedType[];
+  const { sortBy, role, page = "1" } = await searchParams;
+  const currentPage = parseInt(page, 10) || 1;
+
+  const { users, totalUsers } = (await getAllUsers(
+    sortBy,
+    role,
+    (currentPage - 1) * MAX_PAGE_SIZE,
+    MAX_PAGE_SIZE
+  )) as {
+    users: UserRestrictedType[];
+    totalUsers: number;
+  };
+
+  const totalPages = Math.ceil(totalUsers / MAX_PAGE_SIZE);
 
   let content = (
     <NoResurcesFound className="h-1/3 2xl:w-3/4">
@@ -25,10 +39,13 @@ const UsersPage = async ({
     </NoResurcesFound>
   );
 
-  if (users.length !== 0) {
+  if (totalUsers !== 0) {
     content = (
       <>
         <Suspense fallback={<Loader />}>
+          {totalPages > 1 && (
+            <Pagination totalPages={totalPages} currentPage={currentPage} />
+          )}
           <AllUsers users={users} />
         </Suspense>
       </>
@@ -39,7 +56,7 @@ const UsersPage = async ({
     <>
       <Headline level={1}>Korisnici</Headline>
       <Suspense fallback={<Loader />}>
-        <TopBar count={users.length}>
+        <TopBar count={totalUsers}>
           <FilterButtons filterList={userStatusOptions} queryKey="role" />
           <SortSelector options={sortOptions} defaultSort="uid-asc" />
           <AddNew linkToNew="users/new">Novi superadmin</AddNew>
