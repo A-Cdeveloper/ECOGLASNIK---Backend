@@ -2,47 +2,46 @@ import clsx from "clsx";
 import React from "react";
 
 const PaginationButton = ({
-  type,
+  nonumber,
   currentPage,
-  page,
+  children,
   handlePageChange,
-  totalPages,
+  goto,
+  disabled,
 }: {
   key?: number;
-  type?: "prev" | "next";
+  nonumber?: boolean;
+  children: React.ReactNode;
   currentPage: number;
-  page: number;
+  goto: number;
   handlePageChange: (page: number) => void;
-  totalPages: number;
+  disabled?: boolean;
 }) => {
   const pageButtonClass =
-    "text-winter-100/70 border border-secondary-500/30 font-normal px-[8px] py-[3px] scale-100 hover:border-secondary-500/80 hover:bg-secondary-500/90 hover:text-primary-900";
-  const activePageButtonClass = clsx(
-    pageButtonClass,
-    "border-secondary-500/80 font-semibold bg-secondary-500/90 text-primary-900"
-  );
+    "text-winter-100/70 border border-secondary-500/30 font-normal px-[8px] py-[1px] scale-100 hover:border-secondary-500/80 hover:bg-secondary-500/90 hover:text-primary-900";
+  const activePageButtonClass =
+    "border-secondary-500/80  bg-secondary-500/90 !text-primary-900";
 
-  if (type !== "prev" && type !== "next")
+  if (nonumber)
     return (
       <button
-        className={clsx(
-          currentPage === page ? activePageButtonClass : pageButtonClass
-        )}
-        onClick={() => handlePageChange(page)}
+        className={pageButtonClass}
+        onClick={() => handlePageChange(goto)}
+        disabled={disabled}
       >
-        {page}
+        {children}
       </button>
     );
 
   return (
     <button
-      className={pageButtonClass}
-      disabled={type === "prev" ? currentPage <= 1 : currentPage >= totalPages}
-      onClick={() =>
-        handlePageChange(type === "prev" ? currentPage - 1 : currentPage + 1)
-      }
+      className={clsx(
+        pageButtonClass, // Ensure base styles and hover are always included
+        currentPage === goto && activePageButtonClass // Add active styles conditionally
+      )}
+      onClick={() => handlePageChange(goto)}
     >
-      {type === "prev" ? "Predhodna" : "Sledeća"}
+      {children}
     </button>
   );
 };

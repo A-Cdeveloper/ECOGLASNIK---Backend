@@ -30,35 +30,71 @@ const Pagination = ({
   };
 
   return (
-    <div className="flex gap-x-2 items-center  mt-4 w-full lg:w-3/4 self-center">
-      {/* Previous Button */}
+    <div className="flex gap-x-2 justify-end items-center mt-4 w-full 2xl:w-3/4 self-center">
+      {/* First Page Button */}
       <PaginationButton
-        type="prev"
-        page={currentPage - 1}
+        nonumber={true}
         currentPage={currentPage}
+        goto={1}
         handlePageChange={handlePageChange}
-        totalPages={totalPages}
-      />
+        disabled={currentPage - 1 <= 0}
+      >
+        «
+      </PaginationButton>
+
+      {/* Previous Page Button */}
+      <PaginationButton
+        nonumber={true}
+        currentPage={currentPage}
+        goto={currentPage - 1}
+        disabled={currentPage - 1 <= 0}
+        handlePageChange={handlePageChange}
+      >
+        ‹
+      </PaginationButton>
 
       {/* Page Numbers */}
-      {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-        <PaginationButton
-          key={page}
-          handlePageChange={handlePageChange}
-          currentPage={currentPage}
-          totalPages={totalPages}
-          page={page}
-        />
-      ))}
+      <div className="md:flex hidden">
+        {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+          <PaginationButton
+            key={page}
+            handlePageChange={handlePageChange}
+            currentPage={currentPage}
+            goto={page}
+          >
+            {page}
+          </PaginationButton>
+        ))}
+      </div>
 
-      {/* Next Button */}
+      {/* Compact Current Page Display for Smaller Screens */}
+      <div className="flex md:hidden items-center">
+        <span>{currentPage}</span>
+        <span className="px-[4px] text-gray-500">/</span>
+        <span>{totalPages}</span>
+      </div>
+
+      {/* Next Page Button */}
       <PaginationButton
-        type="next"
-        page={currentPage + 1}
+        nonumber={true}
         currentPage={currentPage}
+        goto={currentPage + 1}
         handlePageChange={handlePageChange}
-        totalPages={totalPages}
-      />
+        disabled={currentPage + 1 > totalPages}
+      >
+        ›
+      </PaginationButton>
+
+      {/* Last Page Button */}
+      <PaginationButton
+        nonumber={true}
+        currentPage={currentPage}
+        goto={totalPages}
+        handlePageChange={handlePageChange}
+        disabled={currentPage + 1 > totalPages}
+      >
+        »
+      </PaginationButton>
     </div>
   );
 };

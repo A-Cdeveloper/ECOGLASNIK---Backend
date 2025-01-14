@@ -85,3 +85,6 @@ export const sortByPropertyLength = <T>(
     return order === "asc" ? countA - countB : countB - countA;
   });
 };
+
+export const wait = (ms: number) =>
+  new Promise((resolve) => setTimeout(resolve, ms));
