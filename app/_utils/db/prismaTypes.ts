@@ -11,6 +11,7 @@ export type ProblemCategoriesType = Prisma.ProblemCategoryGetPayload<{
     problems: {
       select: {
         title: true;
+        status: true;
       };
     };
   };

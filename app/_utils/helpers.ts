@@ -86,5 +86,10 @@ export const sortByPropertyLength = <T>(
   });
 };
 
+export const calculatePercentage = (part: number, whole: number): number => {
+  if (whole === 0) return 0;
+  return parseFloat(((part / whole) * 100).toFixed(2));
+};
+
 export const wait = (ms: number) =>
   new Promise((resolve) => setTimeout(resolve, ms));

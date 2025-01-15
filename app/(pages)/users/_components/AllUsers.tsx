@@ -6,7 +6,7 @@ import Pagination from "@/app/_components/ui/Pagination/Pagination";
 import SortSelector from "@/app/_components/ui/Sorting/SortSelector";
 import TopBar from "@/app/_components/ui/TopBar";
 import { MAX_PAGE_SIZE } from "@/app/_utils/contants";
-import { columns } from "./Columns";
+import { getColumnsUsers } from "./ColumnsUsers";
 import { sortOptions } from "./SortOptions";
 
 import FilterButtons from "@/app/_components/ui/Filters/FilterButtons";
@@ -46,7 +46,7 @@ const AllUsers = async ({
         <NoResurcesFound className="h-1/3 2xl:w-3/4">
           <Headline level={3}>Nema registrovanih korisnika.</Headline>
           <Link href="/users" className="button info small mt-5 inline-block">
-            Učitaj ponovo.
+            Resetuj filtre
           </Link>
         </NoResurcesFound>
       </>
@@ -60,7 +60,11 @@ const AllUsers = async ({
         <SortSelector options={sortOptions} defaultSort="uid-asc" />
       </TopBar>
       <div className="overflow-x-auto">
-        <Table data={users} columns={columns} rowKey={(row) => row.uid} />
+        <Table
+          data={users}
+          columns={getColumnsUsers({})}
+          rowKey={(row) => row.uid}
+        />
       </div>
       {totalPages > 1 && (
         <Pagination totalPages={totalPages} currentPage={currentPage} />

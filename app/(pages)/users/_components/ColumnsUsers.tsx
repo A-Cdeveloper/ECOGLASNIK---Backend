@@ -5,7 +5,11 @@ import DynamicIcon from "@/app/_components/ui/DynamicIcon";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-export const columns = [
+export const getColumnsUsers = ({
+  operations = true,
+}: {
+  operations?: boolean;
+}) => [
   {
     header: "ID",
     accessor: (row: any) => row.uid,
@@ -69,10 +73,12 @@ export const columns = [
       );
     },
   },
-  {
-    header: "",
-    accessor: (row: any) => {
-      return <Operations row={row} />;
-    },
-  },
+  ...(operations
+    ? [
+        {
+          header: "",
+          accessor: (row: any) => <Operations row={row} />,
+        },
+      ]
+    : []),
 ];

@@ -34,6 +34,7 @@ export const getAllCategories = async (
             problems: {
               select: {
                 title: true,
+                status: true,
               },
             },
           },
@@ -66,6 +67,7 @@ export const getAllCategories = async (
             problems: {
               select: {
                 title: true,
+                status: true,
               },
             },
           },

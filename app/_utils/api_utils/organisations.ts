@@ -46,7 +46,11 @@ export const getOrganisation = async (oid: string) => {
         oid: +oid,
       },
       include: {
-        categories: true,
+        categories: {
+          include: {
+            problems: true, // Fetch problems from each category
+          },
+        },
       },
     });
     return organisation;

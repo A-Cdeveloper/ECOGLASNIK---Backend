@@ -6,21 +6,21 @@ import Pagination from "@/app/_components/ui/Pagination/Pagination";
 import SortSelector from "@/app/_components/ui/Sorting/SortSelector";
 import TopBar from "@/app/_components/ui/TopBar";
 import { MAX_PAGE_SIZE } from "@/app/_utils/contants";
-import { columns } from "./Columns";
+import { getColumnsProblems } from "./ColumnsProblems";
 import { sortOptions } from "./SortOptions";
 
 import FilterButtons from "@/app/_components/ui/Filters/FilterButtons";
 import FilterSelector from "@/app/_components/ui/Filters/FilterSelector";
-import { getAllCategories } from "@/app/_utils/api_utils/categories";
-import { getAllProblems } from "@/app/_utils/api_utils/problems";
-import { ProblemCustumType } from "@/app/_utils/db/prismaTypes";
-import { problemStatusOptions } from "./FilterOptions";
 import {
   SkeletonPagination,
   SkeletonTable,
   SkeletonTopBar,
 } from "@/app/_components/ui/Skeletons";
+import { getAllCategories } from "@/app/_utils/api_utils/categories";
+import { getAllProblems } from "@/app/_utils/api_utils/problems";
+import { ProblemCustumType } from "@/app/_utils/db/prismaTypes";
 import Link from "next/link";
+import { problemStatusOptions } from "./FilterOptions";
 
 const AllProblems = async ({
   searchParams,
@@ -65,12 +65,14 @@ const AllProblems = async ({
     return (
       <>
         <NoResurcesFound className="h-1/3 2xl:w-3/4">
-          <Headline level={3}>Nema registrovanih prijava.</Headline>
+          <Headline level={3}>
+            Nema registrovanih prijava po ovom kriterijum.
+          </Headline>
           <Link
             href="/problems"
             className="button info small mt-5 inline-block"
           >
-            Učitaj ponovo.
+            Resetuj filtere
           </Link>
         </NoResurcesFound>
       </>
@@ -88,7 +90,11 @@ const AllProblems = async ({
         <SortSelector options={sortOptions} defaultSort="id-asc" />
       </TopBar>
       <div className="overflow-x-auto">
-        <Table data={problems} columns={columns} rowKey={(row) => row.id} />
+        <Table
+          data={problems}
+          columns={getColumnsProblems({})}
+          rowKey={(row) => row.id}
+        />
       </div>
       {totalPages > 1 && (
         <Pagination totalPages={totalPages} currentPage={currentPage} />

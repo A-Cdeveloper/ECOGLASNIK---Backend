@@ -7,7 +7,7 @@ import SortSelector from "@/app/_components/ui/Sorting/SortSelector";
 import TopBar, { AddNew } from "@/app/_components/ui/TopBar";
 import { MAX_PAGE_SIZE } from "@/app/_utils/contants";
 import Link from "next/link";
-import { columns } from "./Columns";
+import { getColumnsCategories } from "./ColumnsCategories";
 import { sortOptions } from "./SortOptions";
 
 import { getAllCategories } from "@/app/_utils/api_utils/categories";
@@ -64,7 +64,7 @@ const AllCategories = async ({
       <div className="overflow-x-auto">
         <Table
           data={categories}
-          columns={columns}
+          columns={getColumnsCategories({})}
           rowKey={(row) => row.cat_id}
         />
       </div>

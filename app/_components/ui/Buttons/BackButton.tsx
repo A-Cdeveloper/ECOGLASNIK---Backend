@@ -2,13 +2,15 @@
 
 import { useRouter } from "next/navigation";
 
-const BackButton = () => {
+const BackButton = ({ to }: { to?: string }) => {
   const router = useRouter();
 
   return (
     <div className="mb-4">
       <button
-        onClick={() => router.back()}
+        onClick={() => {
+          return to ? router.replace(to) : router.back();
+        }}
         className="border-transparent text-secondary-900 hover:text-secondary-500 -ms-2"
       >
         &laquo; Nazad

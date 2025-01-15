@@ -9,7 +9,7 @@ import { getAllOrganisations } from "@/app/_utils/api_utils/organisations";
 import { MAX_PAGE_SIZE } from "@/app/_utils/contants";
 import { Organisation } from "@prisma/client";
 import Link from "next/link";
-import { columns } from "./Columns";
+import { getColumnsOrganisations } from "./ColumnsOrganisations";
 import { sortOptions } from "./SortOptions";
 
 import {
@@ -63,7 +63,7 @@ const AllOrganisations = async ({
       <div className="overflow-x-auto">
         <Table
           data={organisations}
-          columns={columns}
+          columns={getColumnsOrganisations({})}
           rowKey={(row) => row.oid}
         />
       </div>
