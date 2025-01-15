@@ -14,13 +14,13 @@ const Picture = ({
 }) => {
   if (!src) {
     return (
-      <div className="w-[100px] h-[70px]">
+      <div>
         <Image
           src={noImage}
-          width={50}
-          height={50}
+          width={450}
+          height={300}
           alt={alt}
-          className="mx-auto"
+          className=" border border-secondary-500/20 p-1"
         />
       </div>
     );
@@ -28,7 +28,7 @@ const Picture = ({
 
   return (
     <div
-      className={clsx(`w-full h-[200px] md:w-[90px]  md:h-[60px]`, className)}
+      className={clsx(`w-full h-[100px] md:w-[90px]  md:h-[70px]`, className)}
     >
       <Image
         src={src}

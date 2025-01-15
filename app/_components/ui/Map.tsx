@@ -51,7 +51,7 @@ const Map = ({
 }: {
   defaultPosition: { lat: number; lng: number };
   initialZoom: number;
-  setDefaultPosition: (position: { lat: number; lng: number }) => void;
+  setDefaultPosition?: (position: { lat: number; lng: number }) => void;
 }) => {
   const L = useLeaflet(); // Use custom hook to load Leaflet
 
@@ -63,7 +63,7 @@ const Map = ({
     <>
       {MapContainer && TileLayer ? (
         <MapContainer
-          style={{ height: "50vh", width: "100%", marginBlock: "1rem" }}
+          style={{ height: "40vh", width: "100%", marginBlock: "1rem" }}
           zoom={initialZoom}
           center={[defaultPosition.lat, defaultPosition.lng]}
         >
@@ -88,10 +88,13 @@ const Map = ({
 const MapClickHandler = ({
   setDefaultPosition,
 }: {
-  setDefaultPosition: (position: { lat: number; lng: number }) => void;
+  setDefaultPosition?: (position: { lat: number; lng: number }) => void;
 }) => {
   useMapEvents({
     click(e) {
+      if (!setDefaultPosition) {
+        return null;
+      }
       setDefaultPosition({
         lat: e.latlng.lat,
         lng: e.latlng.lng,

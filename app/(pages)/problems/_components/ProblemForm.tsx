@@ -30,7 +30,7 @@ const ProblemForm = ({
 
   return (
     <>
-      <form action={formAction} className="mt-4 w-full 2xl:w-2/3 ">
+      <form action={formAction} className="mt-4 w-full 2xl:w-2/3">
         {problem && <input type="hidden" name="id" value={problem?.id} />}
 
         <div className="grid grid-col-1 lg:grid-cols-2 gap-6 items-start mb-4">
@@ -47,7 +47,23 @@ const ProblemForm = ({
               placeholder="Opis Problema"
               defaultValue={problem?.description}
             />
-            <div className="grid grid-cols-1 lg:grid-cols-[1fr_250px] items-center gap-2">
+
+            <ProblemImageArea
+              imageSrc={problem?.image || ""}
+              id={problem?.id || ""}
+              loadingImageUpload={loadingImageUpload}
+              setLoadingImageUpload={setLoadingImageUpload}
+            />
+          </div>
+
+          {/* right part */}
+          <div className="-mt-4 space-y-4">
+            <input
+              type="hidden"
+              name="position"
+              value={defaultPosition ? JSON.stringify(defaultPosition) : ""}
+            />
+            <div className="grid grid-cols-1 lg:grid-cols-[1fr_250px] items-center gap-2 mb-4">
               Kategorija:
               <Select
                 name="cat_id"
@@ -63,39 +79,25 @@ const ProblemForm = ({
                 defaultValue={problem?.status || ""}
               />
             </div>
-
-            <ProblemImageArea
-              imageSrc={problem?.image || ""}
-              id={problem?.id || ""}
-              loadingImageUpload={loadingImageUpload}
-              setLoadingImageUpload={setLoadingImageUpload}
-            />
-          </div>
-
-          {/* right part */}
-          <div className="-m-3 px-2">
-            <input
-              type="hidden"
-              name="position"
-              value={defaultPosition ? JSON.stringify(defaultPosition) : ""}
-            />
-            <Map
-              defaultPosition={defaultPosition as { lat: number; lng: number }}
-              setDefaultPosition={setDefaultPosition}
-              initialZoom={13}
-            />
             <p>
               {convertLatLngToString(
                 defaultPosition as { lat: number; lng: number }
               )}
             </p>
+            <Map
+              defaultPosition={defaultPosition as { lat: number; lng: number }}
+              setDefaultPosition={setDefaultPosition}
+              initialZoom={13}
+            />
           </div>
         </div>
 
-        <SubmitButton loadingImageUpload={loadingImageUpload}>
-          Izmeni
-        </SubmitButton>
-        {errors.length > 0 && <ErrorsForm errors={errors} />}
+        <div className="text-end">
+          {errors.length > 0 && <ErrorsForm errors={errors} />}
+          <SubmitButton loadingImageUpload={loadingImageUpload}>
+            Izmeni
+          </SubmitButton>
+        </div>
       </form>
     </>
   );

@@ -1,4 +1,5 @@
 import DynamicIcon from "@/app/_components/ui/DynamicIcon";
+import Operations from "@/app/_components/ui/Elements/OperationsIconButtons";
 import Picture from "@/app/_components/ui/Picture";
 import { formatDate } from "@/app/_utils/helpers";
 import Link from "next/link";
@@ -7,7 +8,7 @@ import {
   HiMiniExclamationCircle,
   HiPauseCircle,
 } from "react-icons/hi2";
-import Operations from "./Operations";
+import { cloneProblemByIdAction, deleteProblemByIdAction } from "../_actions";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
@@ -96,11 +97,19 @@ export const getColumnsProblems = ({
         },
       ]
     : []),
+
   ...(operations
     ? [
         {
           header: "",
-          accessor: (row: any) => <Operations row={row} />,
+          accessor: (row: any) => (
+            <Operations
+              id={row.id as string}
+              basePath="problems"
+              cloneAction={cloneProblemByIdAction}
+              deleteAction={deleteProblemByIdAction}
+            />
+          ),
         },
       ]
     : []),

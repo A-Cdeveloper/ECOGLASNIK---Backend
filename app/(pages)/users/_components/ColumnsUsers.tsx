@@ -1,7 +1,8 @@
 import { formatDate } from "@/app/_utils/helpers";
-import Operations from "./Operations";
+
 import { HiMiniCheckCircle, HiMiniMinusCircle } from "react-icons/hi2";
 import DynamicIcon from "@/app/_components/ui/DynamicIcon";
+import Operations from "@/app/_components/ui/Elements/OperationsIconButtons";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
@@ -73,11 +74,14 @@ export const getColumnsUsers = ({
       );
     },
   },
+
   ...(operations
     ? [
         {
           header: "",
-          accessor: (row: any) => <Operations row={row} />,
+          accessor: (row: any) => (
+            <Operations id={row.uid as number} basePath="users" />
+          ),
         },
       ]
     : []),

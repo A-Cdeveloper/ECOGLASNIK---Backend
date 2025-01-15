@@ -6,6 +6,8 @@ import { getCategoryById } from "@/app/_utils/api_utils/categories";
 import { getColumnsOrganisations } from "../../organisations/_components/ColumnsOrganisations";
 import { getColumnsProblems } from "../../problems/_components/ColumnsProblems";
 import { calculatePercentage } from "@/app/_utils/helpers";
+import ItemOperationsButtons from "@/app/_components/ui/Elements/ItemOperationsButtons";
+import { cloneCategoryByIdAction, deleteCategoryByIdAction } from "../_actions";
 
 const CategoryPage = async ({
   params,
@@ -67,10 +69,7 @@ const CategoryPage = async ({
         </div>
       </div>
 
-      <div className="my-8 w-full 2xl:w-3/4">
-        {/* <Suspense fallback={<CategoryProblemsSkeleton />}>
-          <CategoryProblems problems={category?.problems || []} />
-        </Suspense> */}
+      <div className="my-8">
         <Table
           data={category?.problems || []}
           columns={getColumnsProblems({
@@ -82,7 +81,7 @@ const CategoryPage = async ({
         />
       </div>
 
-      <div className="my-8 w-full 2xl:w-3/4">
+      <div className="my-8">
         <Table
           data={category?.organisations || []}
           columns={getColumnsOrganisations({
@@ -93,6 +92,14 @@ const CategoryPage = async ({
           })}
           rowKey={(row) => row.oid}
         />
+      </div>
+      <div className="my-8 w-full 2xl:w-3/4">
+        <ItemOperationsButtons
+          id={category?.cat_id as number}
+          basePath="categories"
+          cloneAction={cloneCategoryByIdAction}
+          deleteAction={deleteCategoryByIdAction}
+        />{" "}
       </div>
     </>
   );

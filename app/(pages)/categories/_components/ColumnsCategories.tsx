@@ -1,5 +1,6 @@
+import Operations from "@/app/_components/ui/Elements/OperationsIconButtons";
 import Link from "next/link";
-import Operations from "./Operations";
+import { cloneCategoryByIdAction, deleteCategoryByIdAction } from "../_actions";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
@@ -74,7 +75,14 @@ export const getColumnsCategories = ({
     ? [
         {
           header: "",
-          accessor: (row: any) => <Operations row={row} />,
+          accessor: (row: any) => (
+            <Operations
+              id={row.cat_id as number}
+              basePath="categories"
+              cloneAction={cloneCategoryByIdAction}
+              deleteAction={deleteCategoryByIdAction}
+            />
+          ),
         },
       ]
     : []),

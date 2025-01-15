@@ -7,6 +7,8 @@ import { getOrganisation } from "@/app/_utils/api_utils/organisations";
 import React from "react";
 import { getColumnsCategories } from "../../categories/_components/ColumnsCategories";
 import { calculatePercentage } from "@/app/_utils/helpers";
+import ItemOperationsButtons from "@/app/_components/ui/Elements/ItemOperationsButtons";
+import { deleteOrganisationByIdAction } from "../_actions";
 
 const OrganisationPage = async ({
   params,
@@ -87,10 +89,7 @@ const OrganisationPage = async ({
         </div>
       </div>
 
-      <div className="my-4 w-full 2xl:w-3/4">
-        {/* <Suspense fallback={<CategoryProblemsSkeleton />}>
-          <CategoryProblems problems={category?.problems || []} />
-        </Suspense> */}
+      <div className="my-4">
         <Table
           data={organisation?.categories || []}
           columns={getColumnsCategories({
@@ -99,6 +98,13 @@ const OrganisationPage = async ({
             organisations: false,
           })}
           rowKey={(row) => row.cat_id}
+        />
+      </div>
+      <div className="my-8 w-full 2xl:w-3/4">
+        <ItemOperationsButtons
+          id={organisation?.oid as number}
+          basePath="organisations"
+          deleteAction={deleteOrganisationByIdAction}
         />
       </div>
     </>

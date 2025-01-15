@@ -1,5 +1,7 @@
 import Link from "next/link";
-import Operations from "./Operations";
+
+import { deleteOrganisationByIdAction } from "../_actions";
+import Operations from "@/app/_components/ui/Elements/OperationsIconButtons";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
@@ -68,7 +70,13 @@ export const getColumnsOrganisations = ({
     ? [
         {
           header: "",
-          accessor: (row: any) => <Operations row={row} />,
+          accessor: (row: any) => (
+            <Operations
+              id={row.oid as number}
+              basePath="organisations"
+              deleteAction={deleteOrganisationByIdAction}
+            />
+          ),
         },
       ]
     : []),
