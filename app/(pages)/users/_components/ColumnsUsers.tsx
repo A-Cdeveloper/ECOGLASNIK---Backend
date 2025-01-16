@@ -2,7 +2,8 @@ import { formatDate } from "@/app/_utils/helpers";
 
 import { HiMiniCheckCircle, HiMiniMinusCircle } from "react-icons/hi2";
 import DynamicIcon from "@/app/_components/ui/DynamicIcon";
-import Operations from "@/app/_components/ui/Elements/OperationsIconButtons";
+import Operations from "@/app/_components/dataOperations/IconOperationsButtons";
+import { deleteUserAction } from "../_actions";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
@@ -80,7 +81,11 @@ export const getColumnsUsers = ({
         {
           header: "",
           accessor: (row: any) => (
-            <Operations id={row.uid as number} basePath="users" />
+            <Operations
+              id={row.uid as number}
+              basePath="users"
+              deleteAction={deleteUserAction}
+            />
           ),
         },
       ]

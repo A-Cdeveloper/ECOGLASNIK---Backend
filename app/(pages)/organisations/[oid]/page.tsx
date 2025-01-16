@@ -3,11 +3,11 @@ import BackButton from "@/app/_components/ui/Buttons/BackButton";
 import Headline from "@/app/_components/ui/Headline";
 import Table from "@/app/_components/ui/Tables/Table";
 
+import ItemOperationsButtons from "@/app/_components/dataOperations/ItemOperationsButtons";
+import Stats from "@/app/_components/dataOperations/stats/Stats";
 import { getOrganisation } from "@/app/_utils/api_utils/organisations";
-import React from "react";
+import { Problem } from "@prisma/client";
 import { getColumnsCategories } from "../../categories/_components/ColumnsCategories";
-import { calculatePercentage } from "@/app/_utils/helpers";
-import ItemOperationsButtons from "@/app/_components/ui/Elements/ItemOperationsButtons";
 import { deleteOrganisationByIdAction } from "../_actions";
 
 const OrganisationPage = async ({
@@ -18,34 +18,8 @@ const OrganisationPage = async ({
   const { oid } = await params;
   const organisation = await getOrganisation(oid);
 
-  const totalProblems = organisation?.categories?.reduce(
-    (total, category) =>
-      total +
-      category.problems.filter((problem) => problem.status !== "archive")
-        .length,
-    0
-  );
-
-  const totalActiveProblems = organisation?.categories?.reduce(
-    (total, category) =>
-      total +
-      category.problems.filter((problem) => problem.status === "active").length,
-    0
-  );
-
-  const totalDoneProblems = organisation?.categories?.reduce(
-    (total, category) =>
-      total +
-      category.problems.filter((problem) => problem.status === "done").length,
-    0
-  );
-
-  const totalArchiveProblems = organisation?.categories?.reduce(
-    (total, category) =>
-      total +
-      category.problems.filter((problem) => problem.status === "archive")
-        .length,
-    0
+  const allProblems = organisation?.categories.flatMap(
+    (category) => category.problems
   );
 
   return (
@@ -62,32 +36,7 @@ const OrganisationPage = async ({
         <p>{organisation?.organisation_email}</p>
       </div>
 
-      <div className="grid grid-cols-[1fr_1fr_1fr_1fr] mt-6 gap-y-3 w-full 2xl:w-[50%] gap-x-4 items-center uppercase ">
-        <div className="border-b-2 border-skyblue-100 text-center flex items-end  gap-x-2 text-skyblue-100 font-semibold ">
-          <span className="block text-3xl">{totalProblems}</span>
-          <p className="text-[17px] mb-[6px]">Prijava</p>
-        </div>
-        <div className="border-b-2 border-danger-100 text-center flex items-end  gap-x-2 text-danger-100 font-semibold ">
-          <span className="block text-3xl">{totalActiveProblems}</span>
-          <p className="text-[17px] mb-[6px]">Aktivno</p>
-        </div>
-        <div className="border-b-2 border-turquoise-100 text-center flex items-end  gap-x-2 text-turquoise-100 font-semibold ">
-          <span className="block text-3xl text-turquoise-100">
-            {totalDoneProblems}
-          </span>
-          <p className="text-[17px] mb-[6px]">
-            Rešeno (
-            {totalDoneProblems &&
-              totalProblems &&
-              calculatePercentage(totalDoneProblems, totalProblems)}
-            %)
-          </p>
-        </div>
-        <div className="border-b-2 border-secondary-100/50 text-center flex items-end  gap-x-2 text-secondary-100/50 font-semibold ">
-          <span className="block text-3xl">{totalArchiveProblems}</span>
-          <p className="text-[17px] mb-[6px]">Arhiva</p>
-        </div>
-      </div>
+      <Stats items={allProblems as Problem[]} />
 
       <div className="my-4">
         <Table

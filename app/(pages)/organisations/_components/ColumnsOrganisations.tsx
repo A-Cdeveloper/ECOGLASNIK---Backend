@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 import { deleteOrganisationByIdAction } from "../_actions";
-import Operations from "@/app/_components/ui/Elements/OperationsIconButtons";
+import Operations from "@/app/_components/dataOperations/IconOperationsButtons";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 

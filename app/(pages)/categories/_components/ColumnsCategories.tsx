@@ -1,4 +1,4 @@
-import Operations from "@/app/_components/ui/Elements/OperationsIconButtons";
+import Operations from "@/app/_components/dataOperations/IconOperationsButtons";
 import Link from "next/link";
 import { cloneCategoryByIdAction, deleteCategoryByIdAction } from "../_actions";
 

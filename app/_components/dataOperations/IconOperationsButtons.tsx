@@ -24,9 +24,11 @@ const Operations = <T extends string | number>({
 }: OperationsProps<T>) => {
   return (
     <div className="flex justify-end items-center space-x-[8px] text-[18px] text-winter-100/70">
-      <Link href={`/${basePath}/${id}`}>
-        <HiOutlineEye />
-      </Link>
+      {basePath !== "users" && (
+        <Link href={`/${basePath}/${id}`}>
+          <HiOutlineEye />
+        </Link>
+      )}
       <Link href={`/${basePath}/${id}/edit`}>
         <HiOutlinePencil />
       </Link>

@@ -4,7 +4,7 @@ import Headline from "@/app/_components/ui/Headline";
 import NoResurcesFound from "@/app/_components/ui/NoResurcesFound";
 import Pagination from "@/app/_components/ui/Pagination/Pagination";
 import SortSelector from "@/app/_components/ui/Sorting/SortSelector";
-import TopBar from "@/app/_components/ui/TopBar";
+import TopBar, { AddNew } from "@/app/_components/ui/TopBar";
 import { MAX_PAGE_SIZE } from "@/app/_utils/contants";
 import { getColumnsUsers } from "./ColumnsUsers";
 import { sortOptions } from "./SortOptions";
@@ -58,6 +58,7 @@ const AllUsers = async ({
       <TopBar count={totalUsers}>
         <FilterButtons filterList={userStatusOptions} queryKey="role" />
         <SortSelector options={sortOptions} defaultSort="uid-asc" />
+        <AddNew linkToNew="/users/new">Dodaj superadmina</AddNew>
       </TopBar>
       <div className="overflow-x-auto">
         <Table

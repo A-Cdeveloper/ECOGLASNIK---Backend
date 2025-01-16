@@ -54,14 +54,16 @@ const UserForm = ({ user }: { user?: UserRestrictedType }) => {
         defaultValue={user?.phone}
         className="col-span-2"
       />
-      <Select
-        name="role"
-        options={[
-          { value: "user", label: "user" },
-          { value: "superadmin", label: "superadmin" },
-        ]}
-        defaultValue={user?.role || "user"}
-      />
+      {user && (
+        <Select
+          name="role"
+          options={[
+            { value: "user", label: "user" },
+            { value: "superadmin", label: "superadmin" },
+          ]}
+          defaultValue={user?.role || "user"}
+        />
+      )}
 
       <ToggleSwitch
         name="isVerified"
