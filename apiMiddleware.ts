@@ -5,7 +5,7 @@ export async function apiMiddleware(request: NextRequest) {
   const url = request.nextUrl.clone();
   const pathname = url.pathname;
 
-  console.log("Incoming request URL (API Middleware):", pathname);
+  //console.log("Incoming request URL (API Middleware):", pathname);
 
   const BASE_URL =
     process.env.BASE_URL || "https://www.cleanme.e-vlasotince.info/";
