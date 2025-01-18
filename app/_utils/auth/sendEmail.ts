@@ -3,8 +3,8 @@ import { emailHtml } from ".";
 
 const transporter = nodemailer.createTransport({
   host: process.env.SMTP_HOST, // SMTP server host
-  port: Number(process.env.SMTP_PORT), // SMTP port (e.g., 587 for TLS, 465 for SSL)
-  secure: false, // Set to true for SSL (port 465), false for TLS (port 587)
+  port: 465, // SMTP port (e.g., 587 for TLS, 465 for SSL)
+  secure: true, // Set to true for SSL (port 465), false for TLS (port 587)
   auth: {
     user: process.env.EMAIL_USER, // Email address
     pass: process.env.EMAIL_PASS, // Password or app-specific password
