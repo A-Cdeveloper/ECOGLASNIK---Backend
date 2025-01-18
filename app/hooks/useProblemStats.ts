@@ -1,11 +1,8 @@
 import { useMemo } from "react";
 import { statuses } from "../(pages)/problems/_components/FilterOptions";
+import { Problem } from "@prisma/client";
 
-type Problem = {
-  status: string;
-};
-
-const useProblemStats = <T extends Problem>(problems?: T[]) => {
+const useProblemStats = (problems?: Problem[]) => {
   const totals = useMemo(() => {
     return problems?.reduce(
       (acc, problem) => {
