@@ -12,7 +12,7 @@ import {
   addNewOrganisationAction,
   updateOrganisationAction,
 } from "../_actions";
-import ErrorsForm from "../../../_components/ui/Form/ErrorsForm";
+import ErrorsForm from "../../../_components/ui/Form/ErrorsFormMessage";
 
 const OrganisationForm = ({
   categoriesSelection = [],

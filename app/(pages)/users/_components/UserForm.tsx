@@ -7,7 +7,7 @@ import { useActionState } from "react";
 import { UserRestrictedType } from "@/app/_utils/db/prismaTypes";
 
 import ToggleSwitch from "@/app/_components/ui/Form/ToggleSwitch";
-import ErrorsForm from "../../../_components/ui/Form/ErrorsForm";
+import ErrorsForm from "../../../_components/ui/Form/ErrorsFormMessage";
 import { addNewUserAction, updateUserAction } from "../_actions";
 import Select from "@/app/_components/ui/Form/Select";
 

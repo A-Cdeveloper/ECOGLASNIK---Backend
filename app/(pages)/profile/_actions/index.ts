@@ -3,7 +3,6 @@
 
 import prisma from "@/app/_utils/db/db";
 import { UserFormSchema } from "@/app/_utils/zod/userSchemas";
-import { revalidatePath } from "next/cache";
 
 export const updateProfileAction = async (
   prevFormData: any,
@@ -23,7 +22,10 @@ export const updateProfileAction = async (
     const errors = validation.error.issues.map(
       (issue: { message: string }) => issue.message
     );
-    return errors as string[];
+    return {
+      success: false,
+      message: [...errors] as string[],
+    };
   }
 
   await prisma.user.update({
@@ -38,7 +40,10 @@ export const updateProfileAction = async (
     },
   });
 
-  revalidatePath("/profile");
+  return {
+    success: true,
+    message: ["Profil je uspješno ažuriran!"],
+  };
 };
 
 // export const deleteUserAction = async (uid: number) => {

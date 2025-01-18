@@ -4,7 +4,7 @@ import { SubmitButton } from "@/app/_components/ui/Buttons/SubmitButton";
 import Input from "@/app/_components/ui/Form/Input";
 import { useState } from "react";
 
-import ErrorsForm from "@/app/_components/ui/Form/ErrorsForm";
+import ErrorsFormMessage from "@/app/_components/ui/Form/ErrorsFormMessage";
 
 import { useRouter } from "next/navigation";
 import { LoginUserAction } from "../_actions";
@@ -40,7 +40,7 @@ const LoginForm = () => {
       <Input type="password" name="password" placeholder="Lozinka" />
 
       <div className="text-center">
-        {errors.length > 0 && <ErrorsForm errors={errors as string[]} />}
+        {errors.length > 0 && <ErrorsFormMessage errors={errors as string[]} />}
         <SubmitButton>Prijava</SubmitButton>
         <p className="text-secondary-500/80 text-[13px] text-center mt-4">
           <Link href="forgot-password">Zaboravljena lozinka?</Link>

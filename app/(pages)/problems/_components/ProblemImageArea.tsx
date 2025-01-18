@@ -6,7 +6,7 @@ import {
   deleteProblemImageAction,
   uploadProblemImageAction,
 } from "../_actions";
-import ErrorsForm from "@/app/_components/ui/Form/ErrorsForm";
+import ErrorsFormMessage from "@/app/_components/ui/Form/ErrorsFormMessage";
 import MiniSpinner from "@/app/_components/ui/MiniSpinner";
 import CloseButton from "@/app/_components/ui/Buttons/CloseButton";
 
@@ -99,7 +99,7 @@ const ProblemImageArea = ({
           </label>
         </>
       )}
-      {error && <ErrorsForm errors={[error]} />}
+      {error && <ErrorsFormMessage errors={[error]} />}
       {loadingImageUpload && (
         <div className="flex  items-center gap-x-4">
           Upload fotografije: <MiniSpinner />

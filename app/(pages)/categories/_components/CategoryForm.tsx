@@ -4,7 +4,7 @@ import Input from "@/app/_components/ui/Form/Input";
 import CheckboxGroup from "@/app/_components/ui/Form/CheckboxGroup";
 import { SubmitButton } from "@/app/_components/ui/Buttons/SubmitButton";
 import { useActionState } from "react";
-import ErrorsForm from "../../../_components/ui/Form/ErrorsForm";
+import ErrorsForm from "../../../_components/ui/Form/ErrorsFormMessage";
 import Link from "next/link";
 
 import { ProblemCategoriesType } from "@/app/_utils/db/prismaTypes";

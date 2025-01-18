@@ -9,7 +9,7 @@ import { ProblemCustumTypeWithUser } from "@/app/_utils/db/prismaTypes";
 import { useActionState, useState } from "react";
 import { updateProblemAction } from "../_actions";
 import ProblemImageArea from "./ProblemImageArea";
-import ErrorsForm from "@/app/_components/ui/Form/ErrorsForm";
+import ErrorsFormMessage from "@/app/_components/ui/Form/ErrorsFormMessage";
 import Map from "../../../_components/ui/Map";
 import { convertLatLngToString } from "@/app/_utils/helpers";
 import { statuses } from "./FilterOptions";
@@ -93,7 +93,7 @@ const ProblemForm = ({
         </div>
 
         <div className="text-end">
-          {errors.length > 0 && <ErrorsForm errors={errors} />}
+          {errors.length > 0 && <ErrorsFormMessage errors={errors} />}
           <SubmitButton loading={loadingImageUpload}>Izmeni</SubmitButton>
         </div>
       </form>
