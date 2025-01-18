@@ -57,16 +57,6 @@ export async function POST(req: Request) {
     // Set token in HTTP-only cookie
     const response = NextResponse.json({
       message: "Uspešna prijava.",
-      data: {
-        uid: user.uid,
-        email: user.email,
-        firstname: user.firstname,
-        lastname: user.lastname,
-        phone: user.phone,
-        role: user.role,
-        createdAt: user.createdAt,
-        updatedAt: user.updatedAt,
-      },
       tokenExpiry: tokenExpiry,
     });
     response.cookies.set("authToken", token, {
