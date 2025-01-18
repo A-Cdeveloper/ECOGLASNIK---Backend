@@ -4,8 +4,14 @@ import { HiMiniCheckCircle, HiMiniMinusCircle } from "react-icons/hi2";
 import DynamicIcon from "@/app/_components/ui/DynamicIcon";
 import Operations from "@/app/_components/dataOperations/IconOperationsButtons";
 import { deleteUserAction } from "../_actions";
+import { getUserFromToken } from "@/app/(auth)/_actions";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
+
+const superAdminUid = async () => {
+  const user = await getUserFromToken();
+  return user?.uid;
+};
 
 export const getColumnsUsers = ({
   operations = true,
@@ -80,13 +86,22 @@ export const getColumnsUsers = ({
     ? [
         {
           header: "",
-          accessor: (row: any) => (
-            <Operations
-              id={row.uid as number}
-              basePath="users"
-              deleteAction={deleteUserAction}
-            />
-          ),
+          accessor: async (row: any) => {
+            if (
+              row.uid === 1 ||
+              row.uid === (await superAdminUid()) ||
+              (row.role === "superadmin" && row.uid !== (await superAdminUid()))
+            )
+              return;
+
+            return (
+              <Operations
+                id={row.uid as number}
+                basePath="users"
+                deleteAction={deleteUserAction}
+              />
+            );
+          },
         },
       ]
     : []),
