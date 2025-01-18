@@ -2,7 +2,7 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 
-const logo = "/ecoglasnik.png";
+const logo = "@/public/ecoglasnik.png";
 
 const Logo = ({ className }: { className?: string }) => {
   return (
