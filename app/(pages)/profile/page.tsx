@@ -4,8 +4,12 @@ import Image from "next/image";
 import ProfileForm from "./_components/ProfileForm";
 import Button from "@/app/_components/ui/Buttons/Button";
 import ProfilePasswordForm from "./_components/ProfilePasswordForm";
+import { getUserFromToken } from "@/app/(auth)/_actions";
+import { formatDate } from "@/app/_utils/helpers";
+import { UserRestrictedType } from "@/app/_utils/db/prismaTypes";
 
-const PageProfile = () => {
+const PageProfile = async () => {
+  const user = await getUserFromToken();
   return (
     <>
       <BackButton />
@@ -21,16 +25,16 @@ const PageProfile = () => {
               className="rounded-full w-3/4 h-full mx-auto"
             />
             <div className="text-[13px]">
-              Nalog Kreiran: 12.12.2024.
+              Nalog Kreiran: {user && formatDate(user?.createdAt.toString())}
               <br />
-              Poslednja izmena: 06.01.2025.
+              Poslednja izmena:{user && formatDate(user?.updatedAt.toString())}
             </div>
             <Button variation="danger">Obriši nalog</Button>
           </div>
           <div>
             <Headline level={3}>Podaci o korisniku</Headline>
 
-            <ProfileForm />
+            <ProfileForm user={user as UserRestrictedType} />
           </div>
           <div>
             <Headline level={3}>Promeni lozinku</Headline>

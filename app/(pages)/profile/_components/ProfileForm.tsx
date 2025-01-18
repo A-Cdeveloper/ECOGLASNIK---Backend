@@ -2,24 +2,24 @@
 
 import { SubmitButton } from "@/app/_components/ui/Buttons/SubmitButton";
 import Input from "@/app/_components/ui/Form/Input";
-// import { useActionState } from "react";
 
+import ErrorsForm from "@/app/_components/ui/Form/ErrorsForm";
 import { UserRestrictedType } from "@/app/_utils/db/prismaTypes";
-
-// import ToggleSwitch from "@/app/_components/ui/Form/ToggleSwitch";
-// import ErrorsForm from "../../../_components/ui/Form/ErrorsForm";
-// import { addNewUserAction, updateUserAction } from "../_actions";
-// import Select from "@/app/_components/ui/Form/Select";
+import { useActionState } from "react";
+import { updateProfileAction } from "../_actions";
 
 const ProfileForm = ({ user }: { user?: UserRestrictedType }) => {
   ////////////
-  // const action = user ? updateUserAction : addNewUserAction;
 
-  // const [errors, formAction] = useActionState(action, []);
+  const [errors, formAction] = useActionState(updateProfileAction, []);
 
   return (
-    <form action={() => {}} className="mt-4 w-full flex flex-col space-y-3">
-      {/* {user && <input type="hidden" name="uid" value={user.uid} />} */}
+    <form action={formAction} className="mt-4 w-full flex flex-col space-y-3">
+      {user && (
+        <>
+          <input type="hidden" name="uid" value={user.uid} />
+        </>
+      )}
       <Input
         type="text"
         name="firstname"
@@ -38,7 +38,6 @@ const ProfileForm = ({ user }: { user?: UserRestrictedType }) => {
         name="email"
         placeholder="E-mail adresa"
         defaultValue={user?.email}
-        readOnly={!!user?.email}
       />
 
       <Input
@@ -49,7 +48,7 @@ const ProfileForm = ({ user }: { user?: UserRestrictedType }) => {
       />
 
       <div>
-        {/* {errors.length > 0 && <ErrorsForm errors={errors} />} */}
+        {errors && errors.length > 0 && <ErrorsForm errors={errors} />}
         <div className="text-end">
           <SubmitButton>Izmeni podatke</SubmitButton>
         </div>
