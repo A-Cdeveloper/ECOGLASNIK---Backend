@@ -5,7 +5,7 @@ import Headline from "@/app/_components/ui/Headline";
 import Table from "@/app/_components/ui/Tables/Table";
 import { getCategoryById } from "@/app/_utils/api_utils/categories";
 import { Problem } from "@prisma/client";
-import Stats from "../../../_components/dataOperations/stats/Stats";
+import Stats from "../../../_components/dataOperations/problemsStats/Stats";
 import { getColumnsOrganisations } from "../../organisations/_components/ColumnsOrganisations";
 import { getColumnsProblems } from "../../problems/_components/ColumnsProblems";
 import { cloneCategoryByIdAction, deleteCategoryByIdAction } from "../_actions";
@@ -24,7 +24,11 @@ const CategoryPage = async ({
 
       <Headline level={1}>{category?.cat_name}</Headline>
 
-      <Stats items={category?.problems as Problem[]} />
+      <Stats
+        items={category?.problems as Problem[]}
+        statFilter={category?.cat_id}
+        statParam="problems"
+      />
 
       <div className="my-8">
         <Table

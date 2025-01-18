@@ -18,6 +18,21 @@ export const createJWT = async (userId: string) => {
     .sign(secret);
 };
 
+export const decodeJWT = async (token: string): Promise<{ userId: string }> => {
+  try {
+    const secret = new TextEncoder().encode(process.env.JWT_SECRET);
+    const { payload } = await jwtVerify(token, secret);
+    if (!payload.userId) {
+      throw new Error("Invalid token: Missing userId");
+    }
+
+    return { userId: payload.userId as string };
+  } catch (error) {
+    console.error("Greška prilikom dekodiranja tokena:", error);
+    throw new Error("Token nije validan.");
+  }
+};
+
 export const verifyJWT = async (token: string) => {
   const secret = new TextEncoder().encode(process.env.JWT_SECRET);
   return await jwtVerify(token, secret);

@@ -4,7 +4,7 @@ import Headline from "@/app/_components/ui/Headline";
 import Table from "@/app/_components/ui/Tables/Table";
 
 import ItemOperationsButtons from "@/app/_components/dataOperations/ItemOperationsButtons";
-import Stats from "@/app/_components/dataOperations/stats/Stats";
+import Stats from "@/app/_components/dataOperations/problemsStats/Stats";
 import { getOrganisation } from "@/app/_utils/api_utils/organisations";
 import { Problem } from "@prisma/client";
 import { getColumnsCategories } from "../../categories/_components/ColumnsCategories";

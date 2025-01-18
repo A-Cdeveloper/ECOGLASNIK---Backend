@@ -6,20 +6,16 @@ import MiniSpinner from "../MiniSpinner";
 
 export function SubmitButton({
   children,
-  loadingImageUpload,
+  loading,
 }: {
   children: React.ReactNode;
-  loadingImageUpload?: boolean;
+  loading?: boolean;
 }) {
   const { pending } = useFormStatus();
 
   return (
     <>
-      <Button
-        type="submit"
-        variation="info"
-        disabled={pending || loadingImageUpload}
-      >
+      <Button type="submit" variation="info" disabled={pending || loading}>
         {pending ? (
           <div className="flex items-center gap-x-2">
             <MiniSpinner />

@@ -1,28 +1,29 @@
 "use client";
 
-import Image from "next/image";
-import React, { useEffect, useState } from "react";
-import UserMiniMenu from "./UserMiniMenu";
-import { getDisplayName } from "../../_utils/helpers";
+import { UserRestrictedType } from "@/app/_utils/db/prismaTypes";
 import useOutsideClick from "@/app/hooks/useOutsideClick";
+import Image from "next/image";
+import { useEffect, useState } from "react";
+import { getDisplayName } from "../../_utils/helpers";
+import UserMiniMenu from "./UserMiniMenu";
 
-const UserArea = () => {
+const UserArea = ({ user }: { user: UserRestrictedType }) => {
   const [miniMenuOpen, setMiniMenuOpen] = useState(false);
-  const [displayName, setDisplayName] = useState("Aleksandar Cvetković");
+  const [displayName, setDisplayName] = useState(
+    user.firstname + " " + user.lastname
+  );
 
   const { refEl } = useOutsideClick(() => setMiniMenuOpen(false));
 
   useEffect(() => {
     const handleResize = () =>
       setDisplayName(
-        window.innerWidth < 768
-          ? getDisplayName("Aleksandar Cvetković")
-          : "Aleksandar Cvetković"
+        window.innerWidth < 768 ? getDisplayName(displayName) : displayName
       );
 
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
-  }, []);
+  }, [displayName]);
 
   return (
     <div

@@ -13,7 +13,7 @@ const Navigation = () => {
   return (
     <nav className="py-7">
       <ul>
-        <NavLink href="/" icon={<HiOutlineHome />}>
+        <NavLink href="/dashboard" icon={<HiOutlineHome />}>
           Početna
         </NavLink>
         <NavLink href="/categories" icon={<HiOutlineSquare3Stack3D />}>

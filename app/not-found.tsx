@@ -3,7 +3,7 @@ import Image from "next/image";
 import Button from "./_components/ui/Buttons/Button";
 import Headline from "./_components/ui/Headline";
 import { useRouter } from "next/navigation";
-import errorImg from "../public/404.png";
+import errorImg from "@/public/404.png";
 
 export default function NotFound() {
   const router = useRouter();

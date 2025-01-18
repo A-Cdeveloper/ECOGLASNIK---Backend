@@ -3,7 +3,7 @@
 import { useEffect } from "react";
 
 import Button from "./_components/ui/Buttons/Button";
-import server from "../public/server-down.png";
+import server from "@/public/server-down.png";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
@@ -35,7 +35,7 @@ export default function Error({
           type="button"
           variation="info"
           size="medium"
-          onClick={() => router.refresh()}
+          onClick={() => router.back()}
         >
           Pokušaj ponovo
         </Button>

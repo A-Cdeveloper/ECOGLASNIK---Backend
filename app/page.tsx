@@ -1,51 +1,26 @@
-import Headline from "./_components/ui/Headline";
+import React from "react";
+import LoginForm from "./(auth)/_components/LoginForm";
+import Logo from "./_components/layout/Logo";
 
-export default function HomePage() {
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
+
+const LoginPage = async () => {
+  const cookieStore = cookies();
+  const token = (await cookieStore).get("superAdminToken");
+
+  if (token) {
+    redirect("/dashboard");
+  }
+
   return (
-    <div>
-      <Headline level={1}>Main Content Area</Headline>
-      <p className="mt-4">
-        This is where the scrollable content goes. Excepteur ut irure elit et
-        ipsum incididunt do elit labore sit. Irure reprehenderit amet excepteur
-        velit sint exercitation tempor eu tempor in consectetur. Dolore velit ea
-        id enim. Mollit pariatur reprehenderit commodo cupidatat magna nisi in
-        elit id minim. Reprehenderit eu proident culpa culpa. This is where the
-        scrollable content goes. Excepteur ut irure elit et ipsum incididunt do
-        elit labore sit. Irure reprehenderit amet excepteur velit sint
-        exercitation tempor eu tempor in consectetur. Dolore velit ea id enim.
-        Mollit pariatur reprehenderit commodo cupidatat magna nisi in elit id
-        minim. Reprehenderit eu proident culpa culpa. This is where the
-        scrollable content goes. Excepteur ut irure elit et ipsum incididunt do
-        elit labore sit. Irure reprehenderit amet excepteur velit sint
-        exercitation tempor eu tempor in consectetur. Dolore velit ea id enim.
-        Mollit pariatur reprehenderit commodo cupidatat magna nisi in elit id
-        minim. Reprehenderit eu proident culpa culpa. This is where the
-        scrollable content goes. Excepteur ut irure elit et ipsum incididunt do
-        elit labore sit. Irure reprehenderit amet excepteur velit sint
-        exercitation tempor eu tempor in consectetur. Dolore velit ea id enim.
-        Mollit pariatur reprehenderit commodo cupidatat magna nisi in elit id
-        minim. Reprehenderit eu proident culpa culpa. This is where the
-        scrollable content goes. Excepteur ut irure elit et ipsum incididunt do
-        elit labore sit. Irure reprehenderit amet excepteur velit sint
-        exercitation tempor eu tempor in consectetur. Dolore velit ea id enim.
-        Mollit pariatur reprehenderit commodo cupidatat magna nisi in elit id
-        minim. Reprehenderit eu proident culpa culpa. This is where the
-        scrollable content goes. Excepteur ut irure elit et ipsum incididunt do
-        elit labore sit. Irure reprehenderit amet excepteur velit sint
-        exercitation tempor eu tempor in consectetur. Dolore velit ea id enim.
-        Mollit pariatur reprehenderit commodo cupidatat magna nisi in elit id
-        minim. Reprehenderit eu proident culpa culpa. This is where the
-        scrollable content goes. Excepteur ut irure elit et ipsum incididunt do
-        elit labore sit. Irure reprehenderit amet excepteur velit sint
-        exercitation tempor eu tempor in consectetur. Dolore velit ea id enim.
-        Mollit pariatur reprehenderit commodo cupidatat magna nisi in elit id
-        minim. Reprehenderit eu proident culpa culpa. This is where the
-        scrollable content goes. Excepteur ut irure elit et ipsum incididunt do
-        elit labore sit. Irure reprehenderit amet excepteur velit sint
-        exercitation tempor eu tempor in consectetur. Dolore velit ea id enim.
-        Mollit pariatur reprehenderit commodo cupidatat magna nisi in elit id
-        minim. Reprehenderit eu proident culpa culpa.{" "}
-      </p>
+    <div className="w-full h-full flex justify-center items-center">
+      <div className="flex-col flex-wrap w-[300px] justify-center items-center space-y-2 ">
+        <Logo className="mx-auto" />
+        <LoginForm />
+      </div>
     </div>
   );
-}
+};
+
+export default LoginPage;

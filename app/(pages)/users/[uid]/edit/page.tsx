@@ -10,7 +10,7 @@ const EditUser = async ({ params }: { params: Promise<{ uid: number }> }) => {
   return (
     <div>
       <BackButton />
-      <Headline level={1}>Izmeni korisnika</Headline>
+      <Headline level={1}>Izmeni podatke korisnika</Headline>
       <UserForm user={user as UserRestrictedType} />
     </div>
   );

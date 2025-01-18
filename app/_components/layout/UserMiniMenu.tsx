@@ -1,3 +1,4 @@
+import { LogoutUserAction } from "@/app/(auth)/_actions";
 import { useRouter } from "next/navigation";
 import {
   HiOutlineArrowRightStartOnRectangle,
@@ -32,7 +33,10 @@ const UserMiniMenu = ({
         Profile
       </div>
       <div
-        onClick={() => router.push("/logout")}
+        onClick={async () => {
+          await LogoutUserAction();
+          router.push("/");
+        }}
         className="flex gap-x-2 items-center hover:bg-primary-100 p-2"
       >
         <span className="text-[18px]">

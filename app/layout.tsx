@@ -1,9 +1,5 @@
 import { Noto_Sans } from "next/font/google";
 import "./globals.css";
-import SideBar from "./_components/layout/SideBar";
-import Header from "./_components/layout/Header";
-import Navigation from "./_components/layout/Navigation";
-// import Navigation from "./_components/layout/Navigation";
 
 const notosans = Noto_Sans({
   weight: "400",
@@ -12,29 +8,18 @@ const notosans = Noto_Sans({
 });
 
 export const metadata = {
-  title: "ECOGLASNIK - Admin panel",
-  description: "",
-  favicon: "/ecoglasnik.png",
+  title: "ECOGLASNIK - Login",
+  description: "Login to the admin panel",
 };
 
-export default function RootLayout({
+export default function LoginLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={notosans.className}>
-      <body>
-        <Header />
-        <div className="flex h-screen pt-[65px] overflow-hidden">
-          <SideBar>
-            <Navigation />
-          </SideBar>
-          <main className="h-full overflow-auto px-[20px] lg:px-8 py-6 flex-1 ms-[50px] xl:ms-[270px]">
-            {children}
-          </main>
-        </div>
-      </body>
+    <html lang="rs" className={notosans.className}>
+      <body>{children}</body>
     </html>
   );
 }

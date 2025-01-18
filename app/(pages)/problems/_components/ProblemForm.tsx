@@ -94,9 +94,7 @@ const ProblemForm = ({
 
         <div className="text-end">
           {errors.length > 0 && <ErrorsForm errors={errors} />}
-          <SubmitButton loadingImageUpload={loadingImageUpload}>
-            Izmeni
-          </SubmitButton>
+          <SubmitButton loading={loadingImageUpload}>Izmeni</SubmitButton>
         </div>
       </form>
     </>
