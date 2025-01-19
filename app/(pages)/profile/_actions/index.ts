@@ -31,6 +31,22 @@ export const updateProfileAction = async (
     };
   }
 
+  const existingUserEmail = await prisma.user.findUnique({
+    where: {
+      email: updateProfileData.email as string,
+      NOT: {
+        uid: +uid, // Exclude the current user
+      },
+    },
+  });
+
+  if (existingUserEmail) {
+    return {
+      success: false,
+      message: ["Već postoji korisnik sa ovom email adresom!"],
+    };
+  }
+
   await prisma.user.update({
     where: {
       uid: +uid,
