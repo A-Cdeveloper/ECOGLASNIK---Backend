@@ -1,7 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use server";
 
+//import { LogoutUserAction } from "@/app/(auth)/_actions";
+import { hashPassword } from "@/app/_utils/auth";
 import prisma from "@/app/_utils/db/db";
+import { registerPasswordSchema } from "@/app/_utils/zod/authSchemas";
 import { UserFormSchema } from "@/app/_utils/zod/userSchemas";
 
 export const updateProfileAction = async (
@@ -42,7 +45,52 @@ export const updateProfileAction = async (
 
   return {
     success: true,
-    message: ["Profil je uspješno ažuriran!"],
+    message: ["Profil je uspešno ažuriran!"],
+  };
+};
+
+export const updateProfilePasswordAction = async (
+  prevFormData: any,
+  formData: FormData
+) => {
+  const updateProfilePassword = {
+    passwordAgain: formData.get("passwordAgain") as string,
+  };
+
+  const uid = formData.get("uid") as string;
+
+  console.log(updateProfilePassword);
+
+  const validation = registerPasswordSchema.safeParse(
+    updateProfilePassword.passwordAgain
+  );
+  if (!validation.success) {
+    const errors = validation.error.issues.map(
+      (issue: { message: string }) => issue.message
+    );
+    console.log(errors);
+    return {
+      success: false,
+      message: [...errors] as string[],
+    };
+  }
+
+  const passwordHash = await hashPassword(updateProfilePassword.passwordAgain);
+
+  await prisma.user.update({
+    where: {
+      uid: +uid,
+    },
+    data: {
+      passwordHash: passwordHash,
+    },
+  });
+
+  // LogoutUserAction();
+
+  return {
+    success: true,
+    message: ["Lozinka je uspešno promenjena!"],
   };
 };
 

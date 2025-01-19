@@ -50,7 +50,9 @@ const Profile = () => {
 
         <div>
           <Headline level={3}>Promeni lozinku</Headline>
-          <ProfilePasswordForm />
+          <ProfilePasswordForm
+            userId={currentUser && (currentUser.uid as number)}
+          />
         </div>
       </div>
       <div className="text-end border-t border-b border-secondary-500/20 py-2">

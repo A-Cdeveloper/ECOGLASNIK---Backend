@@ -3,17 +3,14 @@
 import { SubmitButton } from "@/app/_components/ui/Buttons/SubmitButton";
 import ErrorsFormMessage from "@/app/_components/ui/Form/ErrorsFormMessage";
 import InputPassword from "@/app/_components/ui/Form/InputPassword";
-// import { useActionState } from "react";
 
-import { UserRestrictedType } from "@/app/_utils/db/prismaTypes";
-import { useCallback, useState } from "react";
+import { useActionState, useCallback, useEffect, useState } from "react";
+import { updateProfilePasswordAction } from "../_actions";
+import SuccessFormMessage from "@/app/_components/ui/Form/SuccessFormMessage";
+import { LogoutUserAction } from "@/app/(auth)/_actions";
+import { redirect } from "next/navigation";
 
-// import ToggleSwitch from "@/app/_components/ui/Form/ToggleSwitch";
-// import ErrorsForm from "../../../_components/ui/Form/ErrorsForm";
-// import { addNewUserAction, updateUserAction } from "../_actions";
-// import Select from "@/app/_components/ui/Form/Select";
-
-const ProfilePasswordForm = ({ user }: { user?: UserRestrictedType }) => {
+const ProfilePasswordForm = ({ userId }: { userId?: number }) => {
   const [formFields, setFormFields] = useState<{ [key: string]: string }>({
     password: "",
     passwordAgain: "",
@@ -30,34 +27,54 @@ const ProfilePasswordForm = ({ user }: { user?: UserRestrictedType }) => {
   );
 
   ////////////
-  // const action = user ? updateUserAction : addNewUserAction;
 
-  // const [errors, formAction] = useActionState(action, []);
+  const [response, formAction] = useActionState(updateProfilePasswordAction, {
+    success: false,
+    message: [],
+  });
+
+  useEffect(() => {
+    if (response.success) {
+      (async () => {
+        await LogoutUserAction();
+        redirect("/");
+      })();
+    }
+  }, [response]);
 
   return (
-    <form action={() => {}} className="mt-4 w-full flex flex-col space-y-3">
-      {/* {user && <input type="hidden" name="uid" value={user.uid} />} */}
+    <form action={formAction} className="mt-4 w-full flex flex-col space-y-3">
+      <input type="hidden" name="uid" value={userId} />
       <InputPassword
         name="password"
         placeholder="Lozinka"
         onChange={handleInputChange}
-        value={formFields.password}
+        value={(formFields.password && formFields.password) || ""}
       />
       <InputPassword
         name="passwordAgain"
         placeholder="Lozinka ponovo"
         onChange={handleInputChange}
-        value={formFields.passwordAgain}
+        value={(formFields.passwordAgain && formFields.passwordAgain) || ""}
       />
       <div className="text-center p-0 m-0">
-        {/* {errors.length > 0 && <ErrorsFormMessage errors={errors as string[]} />} */}
         {!isPasswordValid && formFields.passwordAgain && (
           <ErrorsFormMessage errors={["Lozinke se ne podudaraju"]} />
         )}{" "}
       </div>
-      <div className="text-end">
-        <SubmitButton>Postavi novu lozinku</SubmitButton>
-      </div>
+      {/* Success and error messages */}
+      {response.message.length > 0 &&
+        (response.success ? (
+          <SuccessFormMessage message={response.message} />
+        ) : (
+          <ErrorsFormMessage errors={response.message} />
+        ))}
+      {!isPasswordValid ||
+        (formFields.passwordAgain && (
+          <div className="text-end">
+            <SubmitButton>Postavi novu lozinku</SubmitButton>
+          </div>
+        ))}
     </form>
   );
 };
