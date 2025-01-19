@@ -1,6 +1,7 @@
 import Header from "../_components/layout/Header";
 import Navigation from "../_components/layout/Navigation";
 import SideBar from "../_components/layout/SideBar";
+import { UserContextProvider } from "../context/userContext";
 
 export default function RootLayout({
   children,
@@ -8,7 +9,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div>
+    <UserContextProvider>
       <Header />
       <div className="flex h-screen pt-[65px] overflow-hidden">
         <SideBar>
@@ -18,6 +19,6 @@ export default function RootLayout({
           {children}
         </main>
       </div>
-    </div>
+    </UserContextProvider>
   );
 }
