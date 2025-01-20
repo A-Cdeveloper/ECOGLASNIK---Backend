@@ -1,7 +1,7 @@
 import Header from "../_components/layout/Header";
 import Navigation from "../_components/layout/Navigation";
 import SideBar from "../_components/layout/SideBar";
-import { UserContextProvider } from "../context/userContext";
+import { UserContextProvider } from "../context/authContext";
 
 export default function RootLayout({
   children,

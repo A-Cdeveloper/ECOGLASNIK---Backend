@@ -1,6 +1,6 @@
 const ErrorsFormMessage = ({ errors }: { errors: string[] }) => {
   return (
-    <div className=" text-danger-100 w-full py-2 text-[13px] my-2">
+    <div className=" text-danger-100 w-full text-[13px] my-1">
       {errors.map((error) => (
         <p key={error}>{error}</p>
       ))}

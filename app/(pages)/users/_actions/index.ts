@@ -2,7 +2,7 @@
 "use server";
 
 import { deleteUser } from "@/app/_utils/api_utils/users";
-import { sendPasswordResetEmail } from "@/app/_utils/auth/sendEmail";
+import { sendAdminWelcomeEmail } from "@/app/_utils/auth/sendEmail";
 import prisma from "@/app/_utils/db/db";
 import {
   UserFormSchema,
@@ -51,7 +51,7 @@ export const addNewUserAction = async (
     },
   });
 
-  await sendPasswordResetEmail(data.email as string, verificationToken);
+  await sendAdminWelcomeEmail(data.email as string, verificationToken);
 
   revalidatePath("/users");
   redirect("/users");

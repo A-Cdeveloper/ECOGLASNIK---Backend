@@ -15,7 +15,6 @@ export const cloneProblemByIdAction = async (id: string) => {
   try {
     // Fetch the category to be cloned
     const problem = await getProblemById(id);
-    console.log(problem);
 
     if (!problem) {
       throw new Error(`Problem sa ID-om ${id} nije pronađen.`);

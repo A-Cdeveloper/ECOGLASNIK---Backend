@@ -9,7 +9,9 @@ export async function authMiddleware(request: NextRequest) {
 
   // Allow access to the homepage (login page), static assets, and Next.js internals
   if (
-    pathname === "/" || // Allow access to the homepage (login page)
+    pathname === "/" ||
+    pathname === "/reset-password" ||
+    pathname === "/forgot-password" ||
     pathname.startsWith("/public/") || // Exclude public files (static assets)
     pathname.startsWith("/_next/") || // Exclude Next.js internals
     pathname.startsWith("/favicon.ico") // Exclude favicon

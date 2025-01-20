@@ -1,6 +1,6 @@
 "use client";
 
-import { useUser } from "@/app/context/userContext";
+import { useUser } from "@/app/context/authContext";
 import useOutsideClick from "@/app/hooks/useOutsideClick";
 import Image from "next/image";
 import { useEffect, useState } from "react";

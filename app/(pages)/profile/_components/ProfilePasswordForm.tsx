@@ -4,17 +4,25 @@ import { SubmitButton } from "@/app/_components/ui/Buttons/SubmitButton";
 import ErrorsFormMessage from "@/app/_components/ui/Form/ErrorsFormMessage";
 import InputPassword from "@/app/_components/ui/Form/InputPassword";
 
+import { LogoutUserAction } from "@/app/(auth)/_actions";
+import SuccessFormMessage from "@/app/_components/ui/Form/SuccessFormMessage";
+import { useRouter } from "next/navigation";
 import { useActionState, useCallback, useEffect, useState } from "react";
 import { updateProfilePasswordAction } from "../_actions";
-import SuccessFormMessage from "@/app/_components/ui/Form/SuccessFormMessage";
-import { LogoutUserAction } from "@/app/(auth)/_actions";
-import { redirect } from "next/navigation";
 
-const ProfilePasswordForm = ({ userId }: { userId?: number }) => {
+const ProfilePasswordForm = ({
+  userId,
+  removeSessionStorageData,
+}: {
+  userId?: number;
+  removeSessionStorageData: () => void;
+}) => {
   const [formFields, setFormFields] = useState<{ [key: string]: string }>({
     password: "",
     passwordAgain: "",
   });
+
+  const router = useRouter();
 
   const isPasswordValid = formFields.password === formFields.passwordAgain;
 
@@ -37,10 +45,11 @@ const ProfilePasswordForm = ({ userId }: { userId?: number }) => {
     if (response.success) {
       (async () => {
         await LogoutUserAction();
-        redirect("/");
+        removeSessionStorageData();
+        router.push("/");
       })();
     }
-  }, [response]);
+  }, [removeSessionStorageData, response, router]);
 
   return (
     <form action={formAction} className="mt-4 w-full flex flex-col space-y-3">
@@ -49,13 +58,13 @@ const ProfilePasswordForm = ({ userId }: { userId?: number }) => {
         name="password"
         placeholder="Lozinka"
         onChange={handleInputChange}
-        value={(formFields.password && formFields.password) || ""}
+        value={formFields.password || ""}
       />
       <InputPassword
         name="passwordAgain"
         placeholder="Lozinka ponovo"
         onChange={handleInputChange}
-        value={(formFields.passwordAgain && formFields.passwordAgain) || ""}
+        value={formFields.passwordAgain || ""}
       />
       <div className="text-center p-0 m-0">
         {!isPasswordValid && formFields.passwordAgain && (

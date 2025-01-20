@@ -9,6 +9,7 @@ import ErrorsFormMessage from "@/app/_components/ui/Form/ErrorsFormMessage";
 import { useRouter } from "next/navigation";
 import { LoginUserAction } from "../_actions";
 import Link from "next/link";
+import InputPassword from "@/app/_components/ui/Form/InputPassword";
 
 const LoginForm = () => {
   ////////////
@@ -37,13 +38,13 @@ const LoginForm = () => {
       className="space-y-3"
     >
       <Input type="email" name="email" placeholder="E-mail adresa" />
-      <Input type="password" name="password" placeholder="Lozinka" />
+      <InputPassword name="password" placeholder="Lozinka" />
 
       <div className="text-center">
         {errors.length > 0 && <ErrorsFormMessage errors={errors as string[]} />}
         <SubmitButton>Prijava</SubmitButton>
         <p className="text-secondary-500/80 text-[13px] text-center mt-4">
-          <Link href="forgot-password">Zaboravljena lozinka?</Link>
+          <Link href="/forgot-password">Zaboravljena lozinka?</Link>
         </p>
       </div>
     </form>

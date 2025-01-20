@@ -1,5 +1,14 @@
 import nodemailer from "nodemailer";
 import { emailHtml } from ".";
+import { headers } from "next/headers";
+
+export const getRootUrl = async (): Promise<string> => {
+  // Server-side
+  const headersList = headers();
+  const protocol = (await headersList).get("x-forwarded-proto") || "http";
+  const host = (await headersList).get("host");
+  return `${protocol}://${host}`;
+};
 
 const transporter = nodemailer.createTransport({
   host: process.env.SMTP_HOST, // SMTP server host
@@ -40,6 +49,22 @@ export const sendPasswordResetEmail = async (email: string, token: string) => {
       resetUrl,
       "Klinikite na dugme ispod da biste resetovali svoju lozinku:",
       "Resetuj lozinku"
+    ),
+  });
+};
+
+/// backend
+export const sendAdminWelcomeEmail = async (email: string, token: string) => {
+  const resetUrl = `${await getRootUrl()}/reset-password?token=${token}`;
+
+  await transporter.sendMail({
+    from: '"ECOGLASNIK" <admin@cleanme.e-vlasotince.info>',
+    to: email,
+    subject: "ECOGLASNIK - Administratorski nalog",
+    html: emailHtml(
+      resetUrl,
+      "Dobro došli! Vaš administratorki nalog je uspešno kreiran. Kliknite na dugme ispod da biste postavili svoju lozinku:",
+      "Postavi lozinku"
     ),
   });
 };
