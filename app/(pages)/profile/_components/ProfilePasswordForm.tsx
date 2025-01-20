@@ -9,14 +9,9 @@ import SuccessFormMessage from "@/app/_components/ui/Form/SuccessFormMessage";
 import { useRouter } from "next/navigation";
 import { useActionState, useCallback, useEffect, useState } from "react";
 import { updateProfilePasswordAction } from "../_actions";
+import { wait } from "@/app/_utils/helpers";
 
-const ProfilePasswordForm = ({
-  userId,
-  removeSessionStorageData,
-}: {
-  userId?: number;
-  removeSessionStorageData: () => void;
-}) => {
+const ProfilePasswordForm = ({ userId }: { userId?: number }) => {
   const [formFields, setFormFields] = useState<{ [key: string]: string }>({
     password: "",
     passwordAgain: "",
@@ -45,11 +40,12 @@ const ProfilePasswordForm = ({
     if (response.success) {
       (async () => {
         await LogoutUserAction();
-        removeSessionStorageData();
-        router.push("/");
+        await wait(3000);
+        sessionStorage.clear();
+        router.replace("/");
       })();
     }
-  }, [removeSessionStorageData, response, router]);
+  }, [response, router]);
 
   return (
     <form action={formAction} className="mt-4 w-full flex flex-col space-y-3">

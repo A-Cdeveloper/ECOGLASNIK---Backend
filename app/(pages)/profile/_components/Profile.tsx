@@ -2,13 +2,15 @@
 
 import Headline from "@/app/_components/ui/Headline";
 import { UserRestrictedType } from "@/app/_utils/db/prismaTypes";
+import { formatDate } from "@/app/_utils/helpers";
 import { useUser } from "@/app/context/authContext";
 import Image from "next/image";
+import ProfileDelete from "./ProfileDelete";
 import ProfileForm from "./ProfileForm";
 import ProfilePasswordForm from "./ProfilePasswordForm";
-import { formatDate } from "@/app/_utils/helpers";
+
 const Profile = () => {
-  const { user, refreshUser, removeSessionStorageData } = useUser();
+  const { user, refreshUser } = useUser();
 
   return (
     <>
@@ -21,10 +23,10 @@ const Profile = () => {
           className="rounded-full w-[150px] 2xl:w-3/4 h-full ms-0 lg:mx-auto"
         />
         <div className="text-[13px]">
-          Nalog Kreiran: {user && formatDate(user?.createdAt.toString())}
+          Nalog Kreiran: {formatDate(user?.createdAt.toString())}
           <br />
           Poslednja izmena:
-          {formatDate(user && user?.updatedAt.toString())}
+          {formatDate(user?.updatedAt.toString())}
         </div>
       </div>
       <div>
@@ -33,14 +35,11 @@ const Profile = () => {
           refreshUser={refreshUser}
         />
       </div>
-
       <div>
         <Headline level={3}>Promeni lozinku</Headline>
-        <ProfilePasswordForm
-          userId={user && (user.uid as number)}
-          removeSessionStorageData={removeSessionStorageData}
-        />
+        <ProfilePasswordForm userId={user.uid as number} />
       </div>
+      <ProfileDelete userId={user.uid as number} />
     </>
   );
 };

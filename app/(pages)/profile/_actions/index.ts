@@ -4,6 +4,7 @@
 //import { LogoutUserAction } from "@/app/(auth)/_actions";
 import { hashPassword } from "@/app/_utils/auth";
 import prisma from "@/app/_utils/db/db";
+import { handleError } from "@/app/_utils/errorHandler";
 import { registerPasswordSchema } from "@/app/_utils/zod/authSchemas";
 import { UserFormSchema } from "@/app/_utils/zod/userSchemas";
 
@@ -84,7 +85,7 @@ export const updateProfilePasswordAction = async (
     const errors = validation.error.issues.map(
       (issue: { message: string }) => issue.message
     );
-    console.log(errors);
+
     return {
       success: false,
       message: [...errors] as string[],
@@ -106,23 +107,30 @@ export const updateProfilePasswordAction = async (
 
   return {
     success: true,
-    message: ["Lozinka je uspešno promenjena!"],
+    message: [
+      "Lozinka je uspešno promenjena! Molimo Vas da se ponovo prijavite.",
+    ],
   };
 };
 
-// export const deleteUserAction = async (uid: number) => {
-//   // assign all problems to user 1
-//   await prisma.problem.updateMany({
-//     where: {
-//       uid: +uid,
-//     },
-//     data: {
-//       uid: 1,
-//       status: "archive",
-//       updatedAt: new Date(), // Set updatedAt to the current timestamp
-//     },
-//   });
-
-//   await deleteUser(uid);
-//   revalidatePath("/users");
-// };
+export const deleteProfileAction = async (userId: number) => {
+  try {
+    await prisma.user.delete({
+      where: {
+        uid: userId,
+      },
+    });
+    return {
+      success: true,
+      message: ["Profil je uspešno obrisan!"],
+    };
+  } catch (error) {
+    if (error instanceof Error) {
+      handleError(error);
+    }
+    return {
+      success: false,
+      message: ["Greška prilikom brisanja profila!"],
+    };
+  }
+};

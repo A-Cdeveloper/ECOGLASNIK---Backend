@@ -1,5 +1,4 @@
 import { LogoutUserAction } from "@/app/(auth)/_actions";
-import { useUser } from "@/app/context/authContext";
 import { useRouter } from "next/navigation";
 import {
   HiOutlineArrowRightStartOnRectangle,
@@ -14,7 +13,6 @@ const UserMiniMenu = ({
   refEl: React.RefObject<HTMLDivElement>;
 }) => {
   const router = useRouter();
-  const { removeSessionStorageData } = useUser();
 
   return (
     <div
@@ -37,7 +35,7 @@ const UserMiniMenu = ({
       <div
         onClick={async () => {
           await LogoutUserAction();
-          removeSessionStorageData();
+          sessionStorage.clear();
           router.push("/");
         }}
         className="flex gap-x-2 items-center hover:bg-primary-100 p-2"
