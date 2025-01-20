@@ -28,7 +28,6 @@ const ProfileDelete = ({ userId }: { userId: number }) => {
       if (actionResponse.success) {
         await LogoutUserAction();
         await wait(3000);
-        sessionStorage.clear();
         router.replace("/");
       }
     });
