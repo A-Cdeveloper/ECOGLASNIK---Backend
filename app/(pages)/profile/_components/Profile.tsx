@@ -12,6 +12,10 @@ import ProfilePasswordForm from "./ProfilePasswordForm";
 const Profile = () => {
   const { user, refreshUser } = useUser();
 
+  if (!user) {
+    return null;
+  }
+
   return (
     <>
       <div className="space-y-4">
