@@ -39,25 +39,25 @@ const ProfileForm = ({
           type="text"
           name="firstname"
           placeholder="Ime"
-          value={user?.firstname || ""}
+          defaultValue={user?.firstname || ""}
         />
         <Input
           type="text"
           name="lastname"
           placeholder="Prezime"
-          value={user?.lastname || ""}
+          defaultValue={user?.lastname || ""}
         />
         <Input
           type="email"
           name="email"
           placeholder="E-mail adresa"
-          value={user?.email || ""}
+          defaultValue={user?.email || ""}
         />
         <Input
           type="tel"
           name="phone"
           placeholder="Telefon"
-          value={user?.phone || ""}
+          defaultValue={user?.phone || ""}
         />
 
         {/* Success and error messages */}
