@@ -2,11 +2,7 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import ResetPasswordForm from "../_components/ResetPasswordForm";
 
-const ResetPassword = async ({
-  searchParams,
-}: {
-  searchParams: Promise<{ [key: string]: string | undefined }>;
-}) => {
+const ResetPassword = async () => {
   const cookieStore = cookies();
   const token = (await cookieStore).get("superAdminToken");
 
