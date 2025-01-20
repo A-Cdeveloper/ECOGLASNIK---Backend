@@ -1,3 +1,5 @@
+"use client";
+
 import { LogoutUserAction } from "@/app/(auth)/_actions";
 import Button from "@/app/_components/ui/Buttons/Button";
 import { startTransition, useState } from "react";
@@ -15,7 +17,6 @@ const ProfileDelete = ({ userId }: { userId: number }) => {
     message: [] as string[],
   });
 
-  console.log("response" + response);
   const handleDelete = async () => {
     startTransition(async () => {
       const actionResponse = (await deleteProfileAction(userId)) as {
