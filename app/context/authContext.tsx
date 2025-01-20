@@ -14,7 +14,6 @@ type UserContextType = {
   user: UserRestrictedType;
   setUser: (user: UserRestrictedType | null) => void;
   refreshUser: () => Promise<void>; // Function to refresh user data
-  removeSessionStorageData: () => void;
 };
 
 const UserContext = createContext({} as UserContextType);
@@ -28,12 +27,6 @@ export const UserContextProvider = ({
     "user",
     null
   );
-
-  const removeSessionStorageData = useCallback(() => {
-    sessionStorage.removeItem("user");
-    // sessionStorage.removeItem("tokenExpiry");
-    setUser(null);
-  }, [setUser]);
 
   //   // Fetch the user on initial load
   useEffect(() => {
@@ -57,7 +50,6 @@ export const UserContextProvider = ({
     user: user as UserRestrictedType,
     setUser,
     refreshUser,
-    removeSessionStorageData,
   };
 
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
