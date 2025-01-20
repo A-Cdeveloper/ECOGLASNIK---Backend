@@ -31,8 +31,23 @@ export const addNewUserAction = async (
     const errors = validation.error.issues.map(
       (issue: { message: string }) => issue.message
     );
+    return {
+      success: false,
+      message: [...errors] as string[],
+    };
+  }
 
-    return errors as string[];
+  const existingUserEmail = await prisma.user.findUnique({
+    where: {
+      email: data.email as string,
+    },
+  });
+
+  if (existingUserEmail) {
+    return {
+      success: false,
+      message: ["Već postoji korisnik sa ovom email adresom!"],
+    };
   }
 
   const verificationToken = randomBytes(32).toString("hex");
@@ -76,9 +91,11 @@ export const updateUserAction = async (
     const errors = validation.error.issues.map(
       (issue: { message: string }) => issue.message
     );
-    return errors as string[];
+    return {
+      success: false,
+      message: [...errors] as string[],
+    };
   }
-
   await prisma.user.update({
     where: {
       uid: +uid,

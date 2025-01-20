@@ -6,16 +6,20 @@ import { useActionState } from "react";
 
 import { UserRestrictedType } from "@/app/_utils/db/prismaTypes";
 
-import ToggleSwitch from "@/app/_components/ui/Form/ToggleSwitch";
-import ErrorsForm from "../../../_components/ui/Form/ErrorsFormMessage";
-import { addNewUserAction, updateUserAction } from "../_actions";
 import Select from "@/app/_components/ui/Form/Select";
+import SuccessFormMessage from "@/app/_components/ui/Form/SuccessFormMessage";
+import ToggleSwitch from "@/app/_components/ui/Form/ToggleSwitch";
+import ErrorsFormMessage from "../../../_components/ui/Form/ErrorsFormMessage";
+import { addNewUserAction, updateUserAction } from "../_actions";
 
 const UserForm = ({ user }: { user?: UserRestrictedType }) => {
   ////////////
   const action = user ? updateUserAction : addNewUserAction;
 
-  const [errors, formAction] = useActionState(action, []);
+  const [response, formAction] = useActionState(action, {
+    success: false,
+    message: [],
+  });
 
   return (
     <form
@@ -72,7 +76,12 @@ const UserForm = ({ user }: { user?: UserRestrictedType }) => {
       />
 
       <div>
-        {errors.length > 0 && <ErrorsForm errors={errors} />}
+        {response.message.length > 0 &&
+          (response.success ? (
+            <SuccessFormMessage message={response.message} />
+          ) : (
+            <ErrorsFormMessage errors={response.message} />
+          ))}
 
         <SubmitButton>{user ? "Izmeni" : "Dodaj"}</SubmitButton>
       </div>
