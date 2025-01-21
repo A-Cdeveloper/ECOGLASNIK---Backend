@@ -1,13 +1,62 @@
 "use server";
 
 import { createJWT, decodeJWT, verifyPassword } from "@/app/_utils/auth";
+import { sendAdminForgotPasswordEmail } from "@/app/_utils/auth/sendEmail";
 import prisma from "@/app/_utils/db/db";
-import { handleError, validateSchemaRedirect } from "@/app/_utils/errorHandler";
-import { loginSchema } from "@/app/_utils/zod/authSchemas";
+import {
+  handleError,
+  validateSchemaRedirect,
+  validateSchemaResponse,
+} from "@/app/_utils/errorHandler";
+import { emailSchema, loginSchema } from "@/app/_utils/zod/authSchemas";
+import { randomBytes } from "crypto";
 
 import { cookies } from "next/headers";
 
 type LoginUserActionResult = true | string[] | undefined;
+
+export const getUserFromToken = async () => {
+  const cookieStore = await cookies();
+  const token = cookieStore.get("superAdminToken")?.value;
+
+  if (!token) {
+    return null; // User is not authenticated
+  }
+
+  try {
+    const { userId } = await decodeJWT(token);
+
+    // Fetch user data from the database
+    const user = await prisma.user.findUnique({
+      where: {
+        uid: +userId,
+      },
+      select: {
+        uid: true,
+        firstname: true,
+        lastname: true,
+        email: true,
+        phone: true,
+        role: true,
+        isVerified: true,
+        createdAt: true,
+        updatedAt: true,
+      },
+    });
+
+    if (!user) {
+      throw new Error("Korisnik nije pronađen.");
+    }
+
+    return user; // Return full user object
+  } catch (error) {
+    if (error instanceof Error) {
+      throw new Error(
+        `Greška prilikom preuzimanja korisnika: ${error.message}`
+      );
+    }
+  }
+};
 
 export const LoginUserAction = async (
   prevFormData: unknown,
@@ -67,46 +116,52 @@ export const LogoutUserAction = async () => {
   }
 };
 
-export const getUserFromToken = async () => {
-  const cookieStore = await cookies();
-  const token = cookieStore.get("superAdminToken")?.value;
+export const ForgotPasswordAction = async (
+  prevFormData: unknown,
+  formData: FormData
+) => {
+  const data = {
+    email: formData.get("email") as string,
+  };
 
-  if (!token) {
-    return null; // User is not authenticated
+  const validation = validateSchemaResponse(emailSchema, data.email);
+  if (validation) {
+    return validation;
   }
 
   try {
-    const { userId } = await decodeJWT(token);
-
-    // Fetch user data from the database
-    const user = await prisma.user.findUnique({
-      where: {
-        uid: +userId,
-      },
-      select: {
-        uid: true,
-        firstname: true,
-        lastname: true,
-        email: true,
-        phone: true,
-        role: true,
-        isVerified: true,
-        createdAt: true,
-        updatedAt: true,
-      },
-    });
-
+    const user = await prisma.user.findUnique({ where: { email: data.email } });
     if (!user) {
-      throw new Error("Korisnik nije pronađen.");
+      return {
+        success: false,
+        message: ["Korisnik nije pronađen."],
+      };
+    }
+    if (user.role !== "superadmin") {
+      return {
+        success: false,
+        message: ["Nemate administratorska prava."],
+      };
     }
 
-    return user; // Return full user object
+    const verificationToken = randomBytes(32).toString("hex");
+    await prisma.user.update({
+      where: { email: data.email },
+      data: { verificationToken },
+    });
+    sendAdminForgotPasswordEmail(user.email, verificationToken);
+
+    return {
+      success: true,
+      message: [
+        "Poslali smo link za resetovanje lozinke na vašu email adresu.",
+      ],
+    };
   } catch (error) {
-    if (error instanceof Error) {
-      throw new Error(
-        `Greška prilikom preuzimanja korisnika: ${error.message}`
-      );
-    }
+    handleError(error, {
+      customMessage: `Greška prilikom slanja linka za resetovanje lozinke.`,
+      throwError: true,
+    });
   }
 };
 
