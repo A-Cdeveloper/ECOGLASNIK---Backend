@@ -1,13 +1,14 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
+import logo from "@/public/ecoglasnik.png";
 
 const Logo = ({ className }: { className?: string }) => {
   return (
     <div className={`relative w-[230px] ${className}`}>
       <Link href="/dashboard">
         <Image
-          src={"/ecoglasnik.png"}
+          src={logo}
           alt="Logo"
           width={200}
           height={50}
