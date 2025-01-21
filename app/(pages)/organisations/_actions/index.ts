@@ -2,37 +2,10 @@
 "use server";
 
 import prisma from "@/app/_utils/db/db";
+import { handleError, validateSchemaRedirect } from "@/app/_utils/errorHandler";
 import { OrganisationFormSchema } from "@/app/_utils/zod/organisationSchemas";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-
-export const deleteOrganisationByIdAction = async (id: number) => {
-  try {
-    await prisma.organisation.update({
-      where: {
-        oid: id,
-      },
-      data: {
-        categories: {
-          set: [], // Unlink all associated categories
-        },
-      },
-    });
-
-    // Delete the organisation
-    await prisma.organisation.delete({
-      where: {
-        oid: id,
-      },
-    });
-
-    revalidatePath("/organisations");
-  } catch (error: unknown) {
-    if (error instanceof Error) {
-      throw new Error(`Greška prilikom brisanja službe.`);
-    }
-  }
-};
 
 export const addNewOrganisationAction = async (
   prevFormData: any,
@@ -48,13 +21,9 @@ export const addNewOrganisationAction = async (
     categories: formData.getAll("categories").map((id) => Number(id)), // Convert to numbers
   };
 
-  const validation = OrganisationFormSchema.safeParse(data);
-  if (!validation.success) {
-    const errors = validation.error.issues.map(
-      (issue: { message: string }) => issue.message
-    );
-
-    return errors as string[];
+  const validation = validateSchemaRedirect(OrganisationFormSchema, data);
+  if (validation) {
+    return validation;
   }
 
   await prisma.organisation.create({
@@ -87,12 +56,9 @@ export const updateOrganisationAction = async (
 
   const oid = formData.get("oid") as string;
 
-  const validation = OrganisationFormSchema.safeParse(updateData);
-  if (!validation.success) {
-    const errors = validation.error.issues.map(
-      (issue: { message: string }) => issue.message
-    );
-    return errors as string[];
+  const validation = validateSchemaRedirect(OrganisationFormSchema, updateData);
+  if (validation) {
+    return validation;
   }
 
   await prisma.organisation.update({
@@ -112,4 +78,33 @@ export const updateOrganisationAction = async (
 
   revalidatePath("/organisations");
   redirect("/organisations");
+};
+
+export const deleteOrganisationByIdAction = async (id: number) => {
+  try {
+    await prisma.organisation.update({
+      where: {
+        oid: id,
+      },
+      data: {
+        categories: {
+          set: [], // Unlink all associated categories
+        },
+      },
+    });
+
+    // Delete the organisation
+    await prisma.organisation.delete({
+      where: {
+        oid: id,
+      },
+    });
+
+    revalidatePath("/organisations");
+  } catch (error: unknown) {
+    handleError(error, {
+      customMessage: `Greška prilikom brisanja službe.`,
+      throwError: true,
+    });
+  }
 };

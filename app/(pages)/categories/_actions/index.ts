@@ -3,7 +3,7 @@
 
 import { getCategoryById } from "@/app/_utils/api_utils/categories";
 import prisma from "@/app/_utils/db/db";
-import { validateSchemaRedirect } from "@/app/_utils/errorHandler";
+import { handleError, validateSchemaRedirect } from "@/app/_utils/errorHandler";
 import { CategoryFormSchema } from "@/app/_utils/zod/categorySchemas";
 
 import { revalidatePath } from "next/cache";
@@ -13,21 +13,10 @@ export const addNewCategoryAction = async (
   prevFormData: any,
   formData: FormData
 ) => {
-  // await wait(15000);
-
   const data = {
     cat_name: formData.get("cat_name"),
     organisations: formData.getAll("organisations").map((id) => Number(id)), // Convert to numbers
   };
-
-  // const validation = CategoryFormSchema.safeParse(data);
-  // if (!validation.success) {
-  //   const errors = validation.error.issues.map(
-  //     (issue: { message: string }) => issue.message
-  //   );
-
-  //   return errors as string[];
-  // }
 
   const validation = validateSchemaRedirect(CategoryFormSchema, data);
   if (validation) {
@@ -58,12 +47,9 @@ export const updateCategoryAction = async (
 
   const cat_id = formData.get("cat_id") as string;
 
-  const validation = CategoryFormSchema.safeParse(updateData);
-  if (!validation.success) {
-    const errors = validation.error.issues.map(
-      (issue: { message: string }) => issue.message
-    );
-    return errors as string[];
+  const validation = validateSchemaRedirect(CategoryFormSchema, updateData);
+  if (validation) {
+    return validation;
   }
 
   await prisma.problemCategory.update({
@@ -84,14 +70,12 @@ export const updateCategoryAction = async (
 
 export const cloneCategoryByIdAction = async (id: number) => {
   try {
-    // Fetch the category to be cloned
     const category = await getCategoryById(id);
 
     if (!category) {
       throw new Error(`Kategorija sa ID-om ${id} nije pronađena.`);
     }
 
-    // Create the new category with a modified name
     const clonedCategory = await prisma.problemCategory.create({
       data: {
         cat_name: `Clone - ${category.cat_name}`,
@@ -101,11 +85,10 @@ export const cloneCategoryByIdAction = async (id: number) => {
 
     return clonedCategory;
   } catch (error: unknown) {
-    if (error instanceof Error) {
-      throw new Error(
-        `Greška prilikom kloniranja kategorije: ${error.message}`
-      );
-    }
+    handleError(error, {
+      customMessage: `Greška prilikom kloniranja kategorije.`,
+      throwError: true,
+    });
   }
 };
 
@@ -132,8 +115,9 @@ export const deleteCategoryByIdAction = async (id: number) => {
 
     revalidatePath("/categories");
   } catch (error: unknown) {
-    if (error instanceof Error) {
-      throw new Error(`Greška prilikom brisanja kategorije: ${error.message}`);
-    }
+    handleError(error, {
+      customMessage: `Greška prilikom brisanja kategorije.`,
+      throwError: true,
+    });
   }
 };

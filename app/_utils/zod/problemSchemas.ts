@@ -31,6 +31,11 @@ export const problemSchema = problemBaseSchema.extend({
 
 export const updateProblemSchema = problemBaseSchema
   .extend({
-    status: z.union([z.literal("done"), z.literal("active"), z.undefined()]), // Additional field for updates
+    status: z.union([
+      z.literal("done"),
+      z.literal("active"),
+      z.literal("archived"),
+      z.undefined(),
+    ]), // Additional field for updates
   })
   .partial(); // Make all fields optional

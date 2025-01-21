@@ -4,7 +4,7 @@
 //import { LogoutUserAction } from "@/app/(auth)/_actions";
 import { hashPassword } from "@/app/_utils/auth";
 import prisma from "@/app/_utils/db/db";
-import { handleError } from "@/app/_utils/errorHandler";
+import { handleError, validateSchemaResponse } from "@/app/_utils/errorHandler";
 import { registerPasswordSchema } from "@/app/_utils/zod/authSchemas";
 import { UserFormSchema } from "@/app/_utils/zod/userSchemas";
 
@@ -21,15 +21,9 @@ export const updateProfileAction = async (
 
   const uid = formData.get("uid") as string;
 
-  const validation = UserFormSchema.safeParse(updateProfileData);
-  if (!validation.success) {
-    const errors = validation.error.issues.map(
-      (issue: { message: string }) => issue.message
-    );
-    return {
-      success: false,
-      message: [...errors] as string[],
-    };
+  const validation = validateSchemaResponse(UserFormSchema, updateProfileData);
+  if (validation) {
+    return validation;
   }
 
   const existingUserEmail = await prisma.user.findUnique({
@@ -76,20 +70,12 @@ export const updateProfilePasswordAction = async (
 
   const uid = formData.get("uid") as string;
 
-  console.log(updateProfilePassword);
-
-  const validation = registerPasswordSchema.safeParse(
+  const validation = validateSchemaResponse(
+    registerPasswordSchema,
     updateProfilePassword.passwordAgain
   );
-  if (!validation.success) {
-    const errors = validation.error.issues.map(
-      (issue: { message: string }) => issue.message
-    );
-
-    return {
-      success: false,
-      message: [...errors] as string[],
-    };
+  if (validation) {
+    return validation;
   }
 
   const passwordHash = await hashPassword(updateProfilePassword.passwordAgain);

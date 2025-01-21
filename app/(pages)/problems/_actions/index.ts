@@ -4,6 +4,7 @@
 import { getProblemById } from "@/app/_utils/api_utils/problems-api";
 import { MAX_UPLOAD_FILE_SIZE } from "@/app/_utils/contants";
 import prisma from "@/app/_utils/db/db";
+import { handleError, validateSchemaRedirect } from "@/app/_utils/errorHandler";
 import { getOptimizedImageURL, pinata } from "@/app/_utils/pinata/config";
 import { updateProblemSchema } from "@/app/_utils/zod/problemSchemas";
 
@@ -38,9 +39,10 @@ export const cloneProblemByIdAction = async (id: string) => {
 
     return clonedProblem;
   } catch (error: unknown) {
-    if (error instanceof Error) {
-      throw new Error(`Greška prilikom kloniranja problema`);
-    }
+    handleError(error, {
+      customMessage: `Greška prilikom kloniranja problema.`,
+      throwError: true,
+    });
   }
 };
 
@@ -49,23 +51,20 @@ export const updateProblemAction = async (
   formData: FormData
 ) => {
   const updateData = {
-    id: formData.get("id"),
-    title: formData.get("title"),
-    description: formData.get("description"),
-    status: formData.get("status"),
+    id: formData.get("id") as string,
+    title: formData.get("title") as string,
+    description: formData.get("description") as string,
+    status: formData.get("status") as "active" | "done" | "archived",
     position: JSON.parse(formData.get("position") as string),
-    cat_id: Number(formData.get("cat_id")),
+    cat_id: Number(formData.get("cat_id")) as number,
     updatedAt: formData.get("status") !== "active" ? new Date() : null,
-    pinata_id: formData.get("pinata_id"),
-    image: formData.get("image"),
+    pinata_id: formData.get("pinata_id") as string,
+    image: formData.get("image") as string,
   };
 
-  const validation = updateProblemSchema.safeParse(updateData);
-  if (!validation.success) {
-    const errors = validation.error.issues.map(
-      (issue: { message: string }) => issue.message
-    );
-    return errors as string[];
+  const validation = validateSchemaRedirect(updateProblemSchema, updateData);
+  if (validation) {
+    return validation;
   }
 
   await prisma.problem.update({
@@ -98,9 +97,10 @@ export const deleteProblemByIdAction = async (id: string) => {
 
     revalidatePath("/problems");
   } catch (error: unknown) {
-    if (error instanceof Error) {
-      throw new Error(`Greška prilikom brisanja problema`);
-    }
+    handleError(error, {
+      customMessage: `Greška prilikom brisanja problema.`,
+      throwError: true,
+    });
   }
 };
 
@@ -127,9 +127,10 @@ export const uploadProblemImageAction = async (file: File) => {
       id: uploadImage.id,
     };
   } catch (error: unknown) {
-    if (error instanceof Error) {
-      throw new Error(`Greška prilikom dodavanja fotografije problema`);
-    }
+    handleError(error, {
+      customMessage: `Greška prilikom dodavanja fotografije problema.`,
+      throwError: true,
+    });
   }
 };
 
@@ -145,8 +146,9 @@ export const deleteProblemImageAction = async (id: string) => {
       },
     });
   } catch (error: unknown) {
-    if (error instanceof Error) {
-      throw new Error(`Greška prilikom brisanja fotografije problema`);
-    }
+    handleError(error, {
+      customMessage: `Greška prilikom brisanja fotografije problema.`,
+      throwError: true,
+    });
   }
 };

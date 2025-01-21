@@ -2,6 +2,7 @@
 "use server";
 
 import prisma from "@/app/_utils/db/db";
+import { validateSchemaRedirect } from "@/app/_utils/errorHandler";
 import { generateBounds } from "@/app/_utils/helpers";
 import { appSettingsSchema } from "@/app/_utils/zod/settingsSchemas";
 import { revalidatePath } from "next/cache";
@@ -11,8 +12,8 @@ export const updateSettingsAction = async (
   formData: FormData
 ) => {
   const updateData = {
-    appArea: formData.get("appArea"),
-    initialZoom: Number(formData.get("initialZoom")),
+    appArea: formData.get("appArea") as string,
+    initialZoom: Number(formData.get("initialZoom")) as number,
     defaultPosition: JSON.parse(formData.get("defaultPosition") as string),
     boundWidth: Number(formData.get("boundWidth")),
   };
@@ -22,12 +23,9 @@ export const updateSettingsAction = async (
     updateData.boundWidth
   );
 
-  const validation = appSettingsSchema.safeParse(updateData);
-  if (!validation.success) {
-    const errors = validation.error.issues.map(
-      (issue: { message: string }) => issue.message
-    );
-    return errors as string[];
+  const validation = validateSchemaRedirect(appSettingsSchema, updateData);
+  if (validation) {
+    return validation;
   }
 
   await prisma.settings.update({

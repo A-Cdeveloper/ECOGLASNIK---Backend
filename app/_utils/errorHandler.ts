@@ -25,21 +25,21 @@ export function validateSchemaRedirect<T>(
   return null;
 }
 
-export function validateDataResponse<T>(
+export function validateSchemaResponse<T>(
   schema: ZodSchema<T>,
   data: T
-): ValidationResult {
+): ValidationResult | void {
   const validation = schema.safeParse(data);
 
   if (!validation.success) {
     const errors = validation.error.issues.map((issue) => issue.message);
     return {
       success: false,
-      message: errors,
+      message: [...errors] as string[],
     };
   }
 
-  return { success: true }; // Validation successful
+  return; // Validation successful
 }
 
 ///////////////////////////////////////////////////////////////

@@ -2,7 +2,7 @@
 
 import { createJWT, decodeJWT, verifyPassword } from "@/app/_utils/auth";
 import prisma from "@/app/_utils/db/db";
-import { handleError } from "@/app/_utils/errorHandler";
+import { handleError, validateSchemaRedirect } from "@/app/_utils/errorHandler";
 import { loginSchema } from "@/app/_utils/zod/authSchemas";
 
 import { cookies } from "next/headers";
@@ -18,10 +18,9 @@ export const LoginUserAction = async (
     password: formData.get("password") as string,
   };
 
-  // Validate input data
-  const validation = loginSchema.safeParse(data);
-  if (!validation.success) {
-    return validation.error.issues.map((issue) => issue.message) as string[];
+  const validation = validateSchemaRedirect(loginSchema, data);
+  if (validation) {
+    return validation;
   }
 
   try {
@@ -103,11 +102,10 @@ export const getUserFromToken = async () => {
 
     return user; // Return full user object
   } catch (error) {
-    if (error instanceof Error) {
-      throw new Error(
-        `Greška prilikom preuzimanja korisnika: ${error.message}`
-      );
-    }
+    return handleError(error, {
+      customMessage: "Greška prilikom preuzimanja korisnika.",
+      throwError: true,
+    });
   }
 };
 

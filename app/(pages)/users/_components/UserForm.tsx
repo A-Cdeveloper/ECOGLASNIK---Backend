@@ -7,7 +7,7 @@ import { useActionState } from "react";
 import { UserRestrictedType } from "@/app/_utils/db/prismaTypes";
 
 import Select from "@/app/_components/ui/Form/Select";
-import SuccessFormMessage from "@/app/_components/ui/Form/SuccessFormMessage";
+
 import ToggleSwitch from "@/app/_components/ui/Form/ToggleSwitch";
 import ErrorsFormMessage from "../../../_components/ui/Form/ErrorsFormMessage";
 import { addNewUserAction, updateUserAction } from "../_actions";
@@ -76,12 +76,7 @@ const UserForm = ({ user }: { user?: UserRestrictedType }) => {
       />
 
       <div>
-        {response.message.length > 0 &&
-          (response.success ? (
-            <SuccessFormMessage message={response.message} />
-          ) : (
-            <ErrorsFormMessage errors={response.message} />
-          ))}
+        {response?.message && <ErrorsFormMessage errors={response?.message} />}
 
         <SubmitButton>{user ? "Izmeni" : "Dodaj"}</SubmitButton>
       </div>
