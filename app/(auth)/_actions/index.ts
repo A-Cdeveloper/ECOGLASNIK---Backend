@@ -102,10 +102,11 @@ export const getUserFromToken = async () => {
 
     return user; // Return full user object
   } catch (error) {
-    return handleError(error, {
-      customMessage: "Greška prilikom preuzimanja korisnika.",
-      throwError: true,
-    });
+    if (error instanceof Error) {
+      throw new Error(
+        `Greška prilikom preuzimanja korisnika: ${error.message}`
+      );
+    }
   }
 };
 
