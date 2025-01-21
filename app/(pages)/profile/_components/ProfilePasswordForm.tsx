@@ -67,7 +67,8 @@ const ProfilePasswordForm = ({ userId }: { userId?: number }) => {
         )}{" "}
       </div>
       {/* Success and error messages */}
-      {response.message.length > 0 &&
+      {response.message &&
+        response.message.length > 0 &&
         (response.success ? (
           <SuccessFormMessage message={response.message} />
         ) : (
