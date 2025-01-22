@@ -6,7 +6,6 @@ const deleteFileFromPinata = async (pinata_id: string) => {
   try {
     // Use Pinata SDK to delete the file by its UUID
     const response = await pinata.files.delete([pinata_id]);
-    console.log(response);
 
     if (response[0].status !== "OK") {
       const errorObj = JSON.parse(

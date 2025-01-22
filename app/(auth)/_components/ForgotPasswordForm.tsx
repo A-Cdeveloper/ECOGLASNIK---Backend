@@ -31,7 +31,14 @@ const ForgotPasswordForm = () => {
   );
 
   if (response?.success) {
-    content = <SuccessFormMessage message={response?.message as string[]} />;
+    content = (
+      <div className="text-center">
+        <SuccessFormMessage
+          message={response?.message as string[]}
+          animated={false}
+        />
+      </div>
+    );
   }
 
   return <>{content}</>;

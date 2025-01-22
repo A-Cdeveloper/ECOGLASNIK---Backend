@@ -1,6 +1,11 @@
 "use server";
 
-import { createJWT, decodeJWT, verifyPassword } from "@/app/_utils/auth";
+import {
+  createJWT,
+  decodeJWT,
+  hashPassword,
+  verifyPassword,
+} from "@/app/_utils/auth";
 import { sendAdminForgotPasswordEmail } from "@/app/_utils/auth/sendEmail";
 import prisma from "@/app/_utils/db/db";
 import {
@@ -8,7 +13,11 @@ import {
   validateSchemaRedirect,
   validateSchemaResponse,
 } from "@/app/_utils/errorHandler";
-import { emailSchema, loginSchema } from "@/app/_utils/zod/authSchemas";
+import {
+  emailSchema,
+  loginSchema,
+  resetPasswordSchema,
+} from "@/app/_utils/zod/authSchemas";
 import { randomBytes } from "crypto";
 
 import { cookies } from "next/headers";
@@ -165,6 +174,45 @@ export const ForgotPasswordAction = async (
   }
 };
 
-// export const ResetPasswordAction = async (verificationToken: string) => {
+export const ResetPasswordAction = async (
+  prevFormData: unknown,
+  formData: FormData
+) => {
+  const data = {
+    verificationToken: formData.get("verificationToken") as string,
+    password: formData.get("password") as string,
+  };
 
-// }
+  const validation = validateSchemaResponse(resetPasswordSchema, data);
+  if (validation) {
+    return validation;
+  }
+
+  try {
+    const user = await prisma.user.findUnique({
+      where: { verificationToken: data.verificationToken },
+    });
+
+    if (!user) {
+      return {
+        success: false,
+        message: ["Verifikacioni token nije validan."],
+      };
+    }
+
+    const hashedPassword = await hashPassword(data.password);
+    await prisma.user.update({
+      where: { verificationToken: data.verificationToken },
+      data: { passwordHash: hashedPassword, verificationToken: null },
+    });
+    return {
+      success: true,
+      message: ["Vaša lozinka je uspešno resetovana."],
+    };
+  } catch (error) {
+    handleError(error, {
+      customMessage: `Greška prilikom resetovanja lozinke.`,
+      throwError: true,
+    });
+  }
+};

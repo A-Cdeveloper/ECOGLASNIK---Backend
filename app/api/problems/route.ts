@@ -79,7 +79,7 @@ export async function POST(request: NextRequest) {
     }
 
     const errorMessage = error instanceof Error && error.message;
-    console.log(errorMessage);
+
     return NextResponse.json({ error: errorMessage }, { status: 500 });
   }
 }

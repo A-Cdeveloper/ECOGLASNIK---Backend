@@ -110,7 +110,6 @@ export const getUserById = async (id: number) => {
     });
     return user;
   } catch (error: unknown) {
-    console.log(error);
     if (error instanceof Error) {
       throw new Error(`Greška prilikom preuzimanja korisnika`);
     }

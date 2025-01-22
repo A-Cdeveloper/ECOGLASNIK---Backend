@@ -26,7 +26,6 @@ export async function apiMiddleware(request: NextRequest) {
     response.headers.set("Access-Control-Allow-Credentials", "true");
 
     if (request.method === "OPTIONS") {
-      console.log("Preflight request detected:", request.url);
       return new NextResponse(null, {
         status: 204,
         headers: {

@@ -23,48 +23,70 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-export const sendVerificationEmail = async (email: string, token: string) => {
-  const verificationUrl = `${process.env.BASE_URL}/login/verify-account?token=${token}`;
-
+export const sendEmail = async (
+  email: string,
+  url: string,
+  subject: string,
+  message: string,
+  buttonText: string
+) => {
   await transporter.sendMail({
     from: '"ECOGLASNIK" <admin@cleanme.e-vlasotince.info>',
     to: email,
-    subject: "ECOGLASNIK - Aktivacija naloga",
-    html: emailHtml(
-      verificationUrl,
-      "Potvrdite svoju adresu e-pošte klikom na dugme ispod:",
-      "Aktivirajte nalog"
-    ),
+    subject,
+    html: emailHtml(url, message, buttonText),
   });
+};
+
+/// FRONTEND APP
+
+export const sendVerificationEmail = async (email: string, token: string) => {
+  const verificationUrl = `${process.env.BASE_URL}/login/verify-account?token=${token}`;
+  await sendEmail(
+    email,
+    verificationUrl,
+    "ECOGLASNIK - Aktivacija naloga",
+    "Potvrdite svoju adresu e-pošte klikom na dugme ispod:",
+    "Aktivirajte nalog"
+  );
 };
 
 export const sendPasswordResetEmail = async (email: string, token: string) => {
   const resetUrl = `${process.env.BASE_URL}/login/reset-password?token=${token}`;
 
-  await transporter.sendMail({
-    from: '"ECOGLASNIK" <admin@cleanme.e-vlasotince.info>',
-    to: email,
-    subject: "ECOGLASNIK - Reset lozinke",
-    html: emailHtml(
-      resetUrl,
-      "Klinikite na dugme ispod da biste resetovali svoju lozinku:",
-      "Resetuj lozinku"
-    ),
-  });
+  await sendEmail(
+    email,
+    resetUrl,
+    "ECOGLASNIK - Reset lozinke",
+    "Klinikite na dugme ispod da biste resetovali svoju lozinku:",
+    "Resetuj lozinku"
+  );
 };
 
-/// backend
+/// BACKEND APP
 export const sendAdminWelcomeEmail = async (email: string, token: string) => {
   const resetUrl = `${await getRootUrl()}/reset-password?token=${token}`;
 
-  await transporter.sendMail({
-    from: '"ECOGLASNIK" <admin@cleanme.e-vlasotince.info>',
-    to: email,
-    subject: "ECOGLASNIK - Administratorski nalog",
-    html: emailHtml(
-      resetUrl,
-      "Dobro došli! Vaš administratorki nalog je uspešno kreiran. Kliknite na dugme ispod da biste postavili svoju lozinku:",
-      "Postavi lozinku"
-    ),
-  });
+  await sendEmail(
+    email,
+    resetUrl,
+    "ECOGLASNIK - Kreiran administratorski nalog",
+    "Dobro došli! Vaš administratorki nalog je uspešno kreiran. Kliknite na dugme ispod da biste postavili svoju lozinku:",
+    "Postavi lozinku"
+  );
+};
+
+export const sendAdminForgotPasswordEmail = async (
+  email: string,
+  token: string
+) => {
+  const resetUrl = `${await getRootUrl()}/reset-password?token=${token}`;
+
+  await sendEmail(
+    email,
+    resetUrl,
+    "ECOGLASNIK - Reset lozinke",
+    "Klinikite na dugme ispod da biste resetovali svoju lozinku:",
+    "Resetuj lozinku"
+  );
 };
