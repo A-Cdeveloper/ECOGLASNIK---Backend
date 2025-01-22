@@ -107,7 +107,7 @@ export const LoginUserAction = async (
       secure: true, // Ensure secure cookies in production
       sameSite: "none",
       path: "/",
-      maxAge: 24 * 60 * 60, // 1 day in seconds
+      maxAge: 2 * 60,
       expires: tokenExpiry,
     });
 

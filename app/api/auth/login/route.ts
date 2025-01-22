@@ -52,7 +52,7 @@ export async function POST(req: Request) {
     const currentLocalTime = new Date();
 
     // Expiration: Add 1 hour (3600000 ms)
-    const tokenExpiry = currentLocalTime.getTime() + 24 * 60 * 60 * 1000;
+    const tokenExpiry = currentLocalTime.getTime() + 1 * 60 * 60 * 1000;
 
     // Set token in HTTP-only cookie
     const response = NextResponse.json({
@@ -64,7 +64,7 @@ export async function POST(req: Request) {
       secure: true, // Use secure cookies in production
       sameSite: "none",
       path: "/",
-      maxAge: 24 * 60 * 60, // 1 day
+      maxAge: 1.1 * 60 * 60, // 1 day
     });
 
     return response;
