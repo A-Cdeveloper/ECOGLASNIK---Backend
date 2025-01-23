@@ -39,12 +39,12 @@ const ProfilePasswordForm = ({ userId }: { userId?: number }) => {
   useEffect(() => {
     if (response.success) {
       (async () => {
-        await LogoutUserAction();
+        await LogoutUserAction(userId);
         await wait(3000);
         router.replace("/");
       })();
     }
-  }, [response, router]);
+  }, [response, router, userId]);
 
   return (
     <form action={formAction} className="mt-4 w-full flex flex-col space-y-3">

@@ -26,7 +26,7 @@ const ProfileDelete = ({ userId }: { userId: number }) => {
       setResponse(actionResponse);
 
       if (actionResponse.success) {
-        await LogoutUserAction();
+        await LogoutUserAction(userId);
         await wait(3000);
         router.replace("/");
       }

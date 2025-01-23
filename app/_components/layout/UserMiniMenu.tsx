@@ -8,9 +8,11 @@ import {
 const UserMiniMenu = ({
   miniMenuOpen,
   refEl,
+  userId,
 }: {
   miniMenuOpen: boolean;
   refEl: React.RefObject<HTMLDivElement>;
+  userId: number;
 }) => {
   const router = useRouter();
 
@@ -34,7 +36,7 @@ const UserMiniMenu = ({
       </div>
       <div
         onClick={async () => {
-          await LogoutUserAction();
+          await LogoutUserAction(userId as number);
           sessionStorage.clear();
           router.push("/");
         }}

@@ -6,7 +6,8 @@ import { LogoutUserAction } from "../(auth)/_actions";
 
 export const useAutoLogout = (
   tokenExpiry: Date | null,
-  onLogout: () => void
+  onLogout: () => void,
+  userid: number
 ) => {
   const router = useRouter();
 
@@ -18,22 +19,22 @@ export const useAutoLogout = (
 
     if (millisecondsUntilExpiry <= 0) {
       // Token already expired; log out immediately
-      handleLogout(onLogout);
+      handleLogout(onLogout, userid);
       router.replace("/");
     } else {
       // Set a timeout to log out when the token expires
       const timeoutId = setTimeout(() => {
-        handleLogout(onLogout);
+        handleLogout(onLogout, userid);
         router.replace("/");
       }, millisecondsUntilExpiry);
 
       // Clear timeout if the component unmounts
       return () => clearTimeout(timeoutId);
     }
-  }, [tokenExpiry, onLogout, router]);
+  }, [tokenExpiry, onLogout, router, userid]);
 };
 
-const handleLogout = async (onLogout: () => void) => {
+const handleLogout = async (onLogout: () => void, userid: number) => {
   onLogout(); // Client-side state cleanup
-  await LogoutUserAction();
+  await LogoutUserAction(userid);
 };

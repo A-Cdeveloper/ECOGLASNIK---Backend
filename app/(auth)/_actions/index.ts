@@ -99,10 +99,17 @@ export const LoginUserAction = async (
       throw new Error("Nemate administratorska prava."); // Insufficient privileges
     }
 
+    // update lastlogin and status
+    await prisma.user.update({
+      where: { uid: user.uid },
+      data: {
+        lastLogin: new Date(),
+        status: 1,
+      },
+    });
+
     const currentLocalTime = new Date();
 
-    // Expiration: Add 1 hour (3600000 ms)
-    // const tokenExpiry = currentLocalTime.getTime() + 1 * 60 * 60 * 1000;
     const tokenExpiry = currentLocalTime.getTime() + 1 * 60 * 60 * 1000;
 
     //const token = await createJWT(user.uid.toString());
@@ -122,9 +129,17 @@ export const LoginUserAction = async (
   }
 };
 
-export const LogoutUserAction = async () => {
+export const LogoutUserAction = async (userId?: number) => {
   try {
     // (await cookies()).delete("superAdminToken");
+
+    await prisma.user.update({
+      where: { uid: userId },
+      data: {
+        status: 0,
+      },
+    });
+
     (
       await // (await cookies()).delete("superAdminToken");
       cookies()

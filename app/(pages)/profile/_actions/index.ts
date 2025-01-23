@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use server";
 
-//import { LogoutUserAction } from "@/app/(auth)/_actions";
 import { hashPassword } from "@/app/_utils/auth";
 import prisma from "@/app/_utils/db/db";
 import { handleError, validateSchemaResponse } from "@/app/_utils/errorHandler";
@@ -88,8 +87,6 @@ export const updateProfilePasswordAction = async (
       passwordHash: passwordHash,
     },
   });
-
-  // LogoutUserAction();
 
   return {
     success: true,

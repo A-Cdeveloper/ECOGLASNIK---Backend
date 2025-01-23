@@ -58,7 +58,11 @@ const UserArea = () => {
         {user ? displayName : <MiniSpinner />}
       </span>
 
-      <UserMiniMenu miniMenuOpen={miniMenuOpen} refEl={refEl} />
+      <UserMiniMenu
+        miniMenuOpen={miniMenuOpen}
+        refEl={refEl}
+        userId={user?.uid}
+      />
     </div>
   );
 };

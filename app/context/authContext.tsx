@@ -45,7 +45,7 @@ export const UserContextProvider = ({
           setTokenExpiry(null);
           return;
         }
-        setUser(userData.user);
+        setUser(userData.user as UserRestrictedType);
         setTokenExpiry(userData.tokenExpiry || null);
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
       } catch (error: unknown) {
@@ -67,7 +67,8 @@ export const UserContextProvider = ({
   // Auto-logout when token expires
   useAutoLogout(
     tokenExpiry ? new Date(tokenExpiry) : null,
-    removeSessionStorageData
+    removeSessionStorageData,
+    user?.uid as number
   );
 
   // Function to refresh user data (e.g., after editing)
@@ -78,7 +79,7 @@ export const UserContextProvider = ({
       setTokenExpiry(null);
       return;
     }
-    setUser(updatedUser.user);
+    setUser(updatedUser.user as UserRestrictedType);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
