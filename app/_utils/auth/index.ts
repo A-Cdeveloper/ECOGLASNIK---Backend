@@ -10,26 +10,41 @@ export const verifyPassword = async (password: string, hash: string) => {
   return await bcrypt.compare(password, hash);
 };
 
-export const createJWT = async (userId: string) => {
+export const createJWT = async (
+  userId: string,
+  tokenExpiry?: number
+): Promise<string> => {
   const secret = new TextEncoder().encode(process.env.JWT_SECRET);
-  return await new SignJWT({ userId })
+
+  const expiry = tokenExpiry ?? Date.now() + 2 * 60 * 60 * 1000; // Default: 2 hours
+
+  return await new SignJWT({ userId, tokenExpiry: expiry })
     .setProtectedHeader({ alg: "HS256" })
-    .setExpirationTime("2h")
+    .setExpirationTime(expiry / 1000)
     .sign(secret);
 };
 
-export const decodeJWT = async (token: string): Promise<{ userId: string }> => {
+export const decodeJWT = async (
+  token: string
+): Promise<{ userId: string; tokenExpiry?: string }> => {
   try {
     const secret = new TextEncoder().encode(process.env.JWT_SECRET);
     const { payload } = await jwtVerify(token, secret);
+
     if (!payload.userId) {
       throw new Error("Invalid token: Missing userId");
     }
 
-    return { userId: payload.userId as string };
+    // `tokenExpiry` is optional, so it's included only if available
+    return {
+      userId: payload.userId as string,
+      tokenExpiry: payload.tokenExpiry
+        ? (payload.tokenExpiry as string)
+        : undefined,
+    };
   } catch (error) {
-    console.error("Greška prilikom dekodiranja tokena:", error);
-    throw new Error("Token nije validan.");
+    console.error("Error decoding token:", error);
+    throw new Error("Token is not valid.");
   }
 };
 

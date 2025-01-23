@@ -33,7 +33,10 @@ export const getUserFromToken = async () => {
   }
 
   try {
-    const { userId } = await decodeJWT(token);
+    const { userId, tokenExpiry } = await decodeJWT(token);
+
+    console.log("User ID:", userId);
+    console.log("Token Expiry:", tokenExpiry);
 
     // Fetch user data from the database
     const user = await prisma.user.findUnique({
@@ -99,8 +102,13 @@ export const LoginUserAction = async (
       throw new Error("Nemate administratorska prava."); // Insufficient privileges
     }
 
-    const token = await createJWT(user.uid.toString());
-    const tokenExpiry = new Date(Date.now() + 24 * 60 * 60 * 1000); // 1 day expiry
+    const currentLocalTime = new Date();
+
+    // Expiration: Add 1 hour (3600000 ms)
+    const tokenExpiry = currentLocalTime.getTime() + 1 * 60 * 60 * 1000;
+
+    //const token = await createJWT(user.uid.toString());
+    const token = await createJWT(user.uid.toString(), tokenExpiry);
 
     (await cookies()).set("superAdminToken", token, {
       httpOnly: true,
@@ -108,7 +116,6 @@ export const LoginUserAction = async (
       sameSite: "none",
       path: "/",
       maxAge: 2 * 60,
-      expires: tokenExpiry,
     });
 
     return true;
