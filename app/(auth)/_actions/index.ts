@@ -103,7 +103,7 @@ export const LoginUserAction = async (
 
     // Expiration: Add 1 hour (3600000 ms)
     // const tokenExpiry = currentLocalTime.getTime() + 1 * 60 * 60 * 1000;
-    const tokenExpiry = currentLocalTime.getTime() + 1 * 60 * 1000;
+    const tokenExpiry = currentLocalTime.getTime() + 1 * 60 * 60 * 1000;
 
     //const token = await createJWT(user.uid.toString());
     const token = await createJWT(user.uid.toString(), tokenExpiry);
@@ -113,7 +113,7 @@ export const LoginUserAction = async (
       secure: true, // Ensure secure cookies in production
       sameSite: "none",
       path: "/",
-      maxAge: 1.1 * 60,
+      maxAge: 1.1 * 60 * 60,
     });
 
     return true;
