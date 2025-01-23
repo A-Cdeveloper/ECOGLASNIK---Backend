@@ -14,6 +14,8 @@ type UserContextType = {
   user: UserRestrictedType;
   setUser: (user: UserRestrictedType | null) => void;
   refreshUser: () => Promise<void>; // Function to refresh user data
+  tokenExpiry: string | null;
+  setTokenExpiry: (tokenExpiry: string | null) => void;
 };
 
 const UserContext = createContext({} as UserContextType);
@@ -27,22 +29,42 @@ export const UserContextProvider = ({
     "user",
     null
   );
+  const [tokenExpiry, setTokenExpiry] = useSessionStorage<string | null>(
+    "tokenExpiry",
+    null
+  );
 
   //   // Fetch the user on initial load
   useEffect(() => {
     const fetchUser = async () => {
-      const userData = await getUserFromToken();
-      setUser(userData!);
+      try {
+        const userData = await getUserFromToken();
+        if (!userData?.user) {
+          setUser(null);
+          setTokenExpiry(null);
+          return;
+        }
+        setUser(userData.user);
+        setTokenExpiry(userData.tokenExpiry || null);
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      } catch (error: unknown) {
+        setUser(null);
+        setTokenExpiry(null);
+      }
     };
 
     fetchUser();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [setUser, setTokenExpiry]);
 
   // Function to refresh user data (e.g., after editing)
   const refreshUser = useCallback(async () => {
     const updatedUser = await getUserFromToken();
-    setUser(updatedUser!);
+    if (!updatedUser?.user) {
+      setUser(null);
+      setTokenExpiry(null);
+      return;
+    }
+    setUser(updatedUser.user);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -50,6 +72,8 @@ export const UserContextProvider = ({
     user: user as UserRestrictedType,
     setUser,
     refreshUser,
+    tokenExpiry,
+    setTokenExpiry,
   };
 
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
