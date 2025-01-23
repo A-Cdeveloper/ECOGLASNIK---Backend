@@ -35,9 +35,6 @@ export const getUserFromToken = async () => {
   try {
     const { userId, tokenExpiry } = await decodeJWT(token);
 
-    console.log("User ID:", userId);
-    console.log("Token Expiry:", tokenExpiry);
-
     // Fetch user data from the database
     const user = await prisma.user.findUnique({
       where: {
@@ -60,7 +57,7 @@ export const getUserFromToken = async () => {
       throw new Error("Korisnik nije pronađen.");
     }
 
-    return user; // Return full user object
+    return { user, tokenExpiry }; // Return full user object
   } catch (error) {
     if (error instanceof Error) {
       throw new Error(
