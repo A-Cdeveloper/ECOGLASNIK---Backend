@@ -102,7 +102,8 @@ export const LoginUserAction = async (
     const currentLocalTime = new Date();
 
     // Expiration: Add 1 hour (3600000 ms)
-    const tokenExpiry = currentLocalTime.getTime() + 1 * 60 * 60 * 1000;
+    // const tokenExpiry = currentLocalTime.getTime() + 1 * 60 * 60 * 1000;
+    const tokenExpiry = currentLocalTime.getTime() + 1 * 60 * 1000;
 
     //const token = await createJWT(user.uid.toString());
     const token = await createJWT(user.uid.toString(), tokenExpiry);
@@ -112,7 +113,7 @@ export const LoginUserAction = async (
       secure: true, // Ensure secure cookies in production
       sameSite: "none",
       path: "/",
-      maxAge: 2 * 60,
+      maxAge: 1.1 * 60,
     });
 
     return true;
@@ -123,7 +124,17 @@ export const LoginUserAction = async (
 
 export const LogoutUserAction = async () => {
   try {
-    (await cookies()).delete("superAdminToken");
+    // (await cookies()).delete("superAdminToken");
+    (
+      await // (await cookies()).delete("superAdminToken");
+      cookies()
+    ).set("superAdminToken", "", {
+      httpOnly: true,
+      secure: true,
+      sameSite: "none",
+      path: "/",
+      maxAge: 0, // Immediately expire the cookie
+    });
   } catch (error) {
     return handleError(error);
   }

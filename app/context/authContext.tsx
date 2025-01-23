@@ -9,6 +9,7 @@ import React, {
 import { getUserFromToken } from "../(auth)/_actions";
 import { UserRestrictedType } from "../_utils/db/prismaTypes";
 import useSessionStorage from "../hooks/useSessionStorage";
+import { useAutoLogout } from "../hooks/useAutoLogout ";
 
 type UserContextType = {
   user: UserRestrictedType;
@@ -55,6 +56,19 @@ export const UserContextProvider = ({
 
     fetchUser();
   }, [setUser, setTokenExpiry]);
+
+  const removeSessionStorageData = useCallback(() => {
+    sessionStorage.removeItem("user");
+    sessionStorage.removeItem("tokenExpiry");
+    setUser(null);
+    setTokenExpiry(null);
+  }, [setUser, setTokenExpiry]);
+
+  // Auto-logout when token expires
+  useAutoLogout(
+    tokenExpiry ? new Date(tokenExpiry) : null,
+    removeSessionStorageData
+  );
 
   // Function to refresh user data (e.g., after editing)
   const refreshUser = useCallback(async () => {

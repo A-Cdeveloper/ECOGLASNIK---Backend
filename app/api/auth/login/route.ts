@@ -64,7 +64,7 @@ export async function POST(req: Request) {
       secure: true, // Use secure cookies in production
       sameSite: "none",
       path: "/",
-      maxAge: 1.1 * 60 * 60, // 1 day
+      maxAge: 1.1 * 60 * 60,
     });
 
     return response;

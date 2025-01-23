@@ -9,8 +9,11 @@ import { getUserFromToken } from "@/app/(auth)/_actions";
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 const superAdminUid = async () => {
-  const user = await getUserFromToken();
-  return user?.uid;
+  const userData = await getUserFromToken();
+  if (!userData?.user) {
+    return null;
+  }
+  return userData.user?.uid;
 };
 
 export const getColumnsUsers = ({
