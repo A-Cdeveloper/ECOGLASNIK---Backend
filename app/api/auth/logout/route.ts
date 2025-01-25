@@ -1,4 +1,6 @@
 import { authMiddleware } from "@/app/_utils/auth/authMiddleware";
+import prisma from "@/app/_utils/db/db";
+//import prisma from "@/app/_utils/db/db";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {
@@ -6,6 +8,15 @@ export async function POST(request: NextRequest) {
   if (!authResponse.ok) {
     return authResponse; // If unauthorized, return the middleware response
   }
+  const body = await request.json();
+  const { uid } = body;
+
+  await prisma.user.update({
+    where: { uid: uid },
+    data: {
+      status: 0,
+    },
+  });
 
   // Create a response that clears the `authToken` cookie
   const response = NextResponse.json({
