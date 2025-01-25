@@ -1,4 +1,4 @@
-import { formatDate } from "@/app/_utils/helpers";
+import { formatDate, formatDateWithTime } from "@/app/_utils/helpers";
 
 import { HiMiniCheckCircle, HiMiniMinusCircle } from "react-icons/hi2";
 import DynamicIcon from "@/app/_components/ui/DynamicIcon";
@@ -70,10 +70,10 @@ export const getColumnsUsers = ({
     header: "Kreiran",
     accessor: (row: any) => formatDate(row.createdAt),
   },
-  // {
-  //   header: "Status",
-  //   accessor: (row: any) => "Online",
-  // },
+  {
+    header: "Pristup",
+    accessor: (row: any) => formatDateWithTime(row.lastLogin),
+  },
   {
     header: "Prijave",
     accessor: (row: any) => {

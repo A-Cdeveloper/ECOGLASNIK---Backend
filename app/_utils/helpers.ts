@@ -70,6 +70,10 @@ export const formatDate = (dateString: string) => {
   return dateString ? format(new Date(dateString), "dd.MM.yyyy") : "-";
 };
 
+export const formatDateWithTime = (dateString: string) => {
+  return dateString ? format(new Date(dateString), "dd.MM.yyyy HH:mm") : "-";
+};
+
 export const sortByPropertyLength = <T>(
   array: T[],
   property: keyof T,
