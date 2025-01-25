@@ -1,5 +1,5 @@
 export const sortOptions = [
-  { value: "uid-asc", label: "Podrazumevano" },
+  { value: "status-desc", label: "Podrazumevano" },
   { value: "firstname-asc", label: "Ime ↑" },
   { value: "firstname-desc", label: "Ime ↓" },
   { value: "isVerified-asc", label: "Verifikacija ↑" },

@@ -46,6 +46,15 @@ export async function POST(req: Request) {
       );
     }
 
+    // update lastlogin and status
+    await prisma.user.update({
+      where: { uid: user.uid },
+      data: {
+        lastLogin: new Date(),
+        status: 1,
+      },
+    });
+
     // Generate JWT token
     const token = await createJWT(user.uid.toString());
 

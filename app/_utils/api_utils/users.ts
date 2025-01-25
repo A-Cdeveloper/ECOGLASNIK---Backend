@@ -19,7 +19,7 @@ export const getSuperAdmin = async (adminId: number) => {
 };
 
 export const getAllUsers = async (
-  sortBy: string = "uid-asc",
+  sortBy: string = "status-desc",
   role: string = "",
   startIndex?: number,
   pageSize?: number
@@ -27,7 +27,7 @@ export const getAllUsers = async (
   const [field, order] = sortBy.split("-") as [string, "asc" | "desc"];
 
   // Ensure valid sorting inputs
-  const validFields = ["uid", "firstname", "isVerified", "problems_count"]; // Add more valid fields as needed
+  const validFields = ["status", "firstname", "isVerified", "problems_count"]; // Add more valid fields as needed
   const validOrder = ["asc", "desc"];
 
   if (!validFields.includes(field) || !validOrder.includes(order)) {
