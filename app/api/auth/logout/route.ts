@@ -11,8 +11,10 @@ export async function POST(request: NextRequest) {
   const body = await request.json();
   const { uid } = body;
 
-  await prisma.user.update({
-    where: { uid: uid },
+  await prisma.user.updateMany({
+    where: {
+      AND: [{ uid: uid }, { role: { not: "superadmin" } }],
+    },
     data: {
       status: 0,
     },
