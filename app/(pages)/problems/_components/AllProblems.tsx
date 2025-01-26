@@ -31,6 +31,7 @@ const AllProblems = async ({
     sortBy = "createdAt-desc",
     status,
     category,
+    days,
     page = "1",
   } = await searchParams;
 
@@ -41,6 +42,7 @@ const AllProblems = async ({
     sortBy,
     status,
     category,
+    Number(days) || undefined,
     (currentPage - 1) * MAX_PAGE_SIZE,
     MAX_PAGE_SIZE
   )) as {
