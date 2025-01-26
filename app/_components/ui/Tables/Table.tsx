@@ -1,3 +1,5 @@
+import React from "react";
+
 // Column type definition
 type Column<T> = {
   header: string;
@@ -10,29 +12,54 @@ type TableProps<T> = {
   data: T[];
   columns: Column<T>[];
   rowKey: (row: T) => string | number;
+  isMiniTable?: boolean;
 };
 
 // Table component
-const Table = <T,>({ data, columns, rowKey }: TableProps<T>) => {
+const Table = <T,>({
+  data,
+  columns,
+  rowKey,
+  isMiniTable = false,
+}: TableProps<T>) => {
+  const tableClasses = isMiniTable
+    ? "table-auto border-collapse w-full text-left text-[12px]"
+    : "table-auto border-collapse w-full 2xl:w-3/4 text-left mt-3 text-[13px]";
+
+  const wrapperClasses = isMiniTable
+    ? "overflow-x-auto max-h-[300px] scrollbar-thin scrollbar-thumb-secondary-900/30 scrollbar-track-secondary-100/10"
+    : "";
+
+  // Use a dynamic component renderer
+  const HeaderComponent = isMiniTable
+    ? (MiniTableHeader as (props: { columns: Column<T>[] }) => JSX.Element)
+    : (TableHeader as (props: { columns: Column<T>[] }) => JSX.Element);
+
   return (
-    <table className="table-auto border-collapse w-full 2xl:w-3/4 text-left mt-3 text-[13px]">
-      <TableHeader columns={columns} />
-      <tbody>
-        {data.map((row, rowIndex) => (
-          <tr
-            key={rowKey(row)}
-            className={`${
-              rowIndex % 2 === 0 ? "" : "bg-secondary-100/10"
-            }  md:table-row block border-b border-secondary-500/20 text-winter-100/60`}
-          >
-            <TableCell
-              columns={columns}
-              row={row as T extends { status?: unknown } ? T : never}
-            />
-          </tr>
-        ))}
-      </tbody>
-    </table>
+    <div className={wrapperClasses}>
+      <table className={tableClasses}>
+        {React.createElement(HeaderComponent, { columns })}
+        <tbody className={isMiniTable ? "overflow-y-scroll" : ""}>
+          {data.map((row, rowIndex) => (
+            <tr
+              key={rowKey(row)}
+              className={`${
+                isMiniTable
+                  ? "text-winter-100/60 border-b border-secondary-500/20"
+                  : rowIndex % 2 === 0
+                  ? ""
+                  : "bg-secondary-100/10"
+              } md:table-row block border-b border-secondary-500/20 text-winter-100/60`}
+            >
+              <TableCell
+                columns={columns}
+                row={row as T extends { status?: unknown } ? T : never}
+              />
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
   );
 };
 
@@ -45,6 +72,23 @@ const TableHeader = <T,>({ columns }: { columns: Column<T>[] }) => {
           <th
             key={index}
             className={`px-2 lg:px-4 py-1 ${col.className || ""}`}
+          >
+            {col.header}
+          </th>
+        ))}
+      </tr>
+    </thead>
+  );
+};
+
+const MiniTableHeader = <T,>({ columns }: { columns: Column<T>[] }) => {
+  return (
+    <thead className="sticky top-0 z-10 bg-primary-100/50">
+      <tr className="border-b border-secondary-500/20 uppercase text-[12px]">
+        {columns.map((col, index) => (
+          <th
+            key={index}
+            className={`px-2 lg:px-4 py-2 ${col.className || ""}`}
           >
             {col.header}
           </th>
