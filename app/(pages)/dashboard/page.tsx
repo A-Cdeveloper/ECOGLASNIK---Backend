@@ -1,51 +1,22 @@
 import Headline from "@/app/_components/ui/Headline";
+import GeneralStats from "./_components/GeneralStats";
 
 export default function HomePage() {
   return (
-    <div>
-      <Headline level={1}>Main Content Area</Headline>
-      <p className="mt-4">
-        This is where the scrollable content goes. Excepteur ut irure elit et
-        ipsum incididunt do elit labore sit. Irure reprehenderit amet excepteur
-        velit sint exercitation tempor eu tempor in consectetur. Dolore velit ea
-        id enim. Mollit pariatur reprehenderit commodo cupidatat magna nisi in
-        elit id minim. Reprehenderit eu proident culpa culpa. This is where the
-        scrollable content goes. Excepteur ut irure elit et ipsum incididunt do
-        elit labore sit. Irure reprehenderit amet excepteur velit sint
-        exercitation tempor eu tempor in consectetur. Dolore velit ea id enim.
-        Mollit pariatur reprehenderit commodo cupidatat magna nisi in elit id
-        minim. Reprehenderit eu proident culpa culpa. This is where the
-        scrollable content goes. Excepteur ut irure elit et ipsum incididunt do
-        elit labore sit. Irure reprehenderit amet excepteur velit sint
-        exercitation tempor eu tempor in consectetur. Dolore velit ea id enim.
-        Mollit pariatur reprehenderit commodo cupidatat magna nisi in elit id
-        minim. Reprehenderit eu proident culpa culpa. This is where the
-        scrollable content goes. Excepteur ut irure elit et ipsum incididunt do
-        elit labore sit. Irure reprehenderit amet excepteur velit sint
-        exercitation tempor eu tempor in consectetur. Dolore velit ea id enim.
-        Mollit pariatur reprehenderit commodo cupidatat magna nisi in elit id
-        minim. Reprehenderit eu proident culpa culpa. This is where the
-        scrollable content goes. Excepteur ut irure elit et ipsum incididunt do
-        elit labore sit. Irure reprehenderit amet excepteur velit sint
-        exercitation tempor eu tempor in consectetur. Dolore velit ea id enim.
-        Mollit pariatur reprehenderit commodo cupidatat magna nisi in elit id
-        minim. Reprehenderit eu proident culpa culpa. This is where the
-        scrollable content goes. Excepteur ut irure elit et ipsum incididunt do
-        elit labore sit. Irure reprehenderit amet excepteur velit sint
-        exercitation tempor eu tempor in consectetur. Dolore velit ea id enim.
-        Mollit pariatur reprehenderit commodo cupidatat magna nisi in elit id
-        minim. Reprehenderit eu proident culpa culpa. This is where the
-        scrollable content goes. Excepteur ut irure elit et ipsum incididunt do
-        elit labore sit. Irure reprehenderit amet excepteur velit sint
-        exercitation tempor eu tempor in consectetur. Dolore velit ea id enim.
-        Mollit pariatur reprehenderit commodo cupidatat magna nisi in elit id
-        minim. Reprehenderit eu proident culpa culpa. This is where the
-        scrollable content goes. Excepteur ut irure elit et ipsum incididunt do
-        elit labore sit. Irure reprehenderit amet excepteur velit sint
-        exercitation tempor eu tempor in consectetur. Dolore velit ea id enim.
-        Mollit pariatur reprehenderit commodo cupidatat magna nisi in elit id
-        minim. Reprehenderit eu proident culpa culpa.{" "}
-      </p>
-    </div>
+    <>
+      <Headline level={1}>Dobro došli</Headline>
+      <GeneralStats />
+      <div className="mt-4 w-full 2xl:w-2/3 space-y-2 flex justify-between items-center bg-rose-500">
+        <div>#USERS</div>
+        <div>#PRoblems last</div>
+      </div>
+
+      <div className="mt-4 w-full 2xl:w-3/4 space-y-2 flex justify-between items-center bg-rose-500">
+        grafici
+        <div>problemi po kategorijama</div>
+        <div>problemi po vremenu </div>
+        <div>problemi po organizacijama</div>
+      </div>
+    </>
   );
 }
