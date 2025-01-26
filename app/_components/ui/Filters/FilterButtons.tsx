@@ -9,14 +9,16 @@ export type FilterOption = {
 type FilterButtonsProps<T extends FilterOption> = {
   filterList: T[];
   queryKey: string;
+  className?: string;
 };
 
 const FilterButtons = <T extends FilterOption>({
   filterList,
   queryKey,
+  className,
 }: FilterButtonsProps<T>) => {
   return (
-    <div className="flex gap-x-0 my-3 w-full lg:w-auto">
+    <div className={`flex gap-x-0 my-3 w-full lg:w-auto ${className}`}>
       {filterList.map((option) => {
         return (
           <FilterButton

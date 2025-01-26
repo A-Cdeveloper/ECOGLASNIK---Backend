@@ -35,7 +35,7 @@ const FilterButton = ({
   };
 
   const buttonClass =
-    "text-winter-100/70 border border-secondary-500/30 font-normal px-2 py-[4px] scale-100 hover:border-secondary-500/80 hover:text-winter-500/80 hover:bg-secondary-500/90 hover:text-primary-900";
+    "text-winter-100/70 border border-secondary-500/30 font-normal px-2 py-[3px] scale-100 hover:border-secondary-500/80 hover:text-winter-500/80 hover:bg-secondary-500/90 hover:text-primary-900 text-[12px]";
   const activeButtonClass = clsx(
     buttonClass,
     "border-secondary-500/80 font-semibold bg-secondary-500/90 text-primary-900"
