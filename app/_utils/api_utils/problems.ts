@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { subDays } from "date-fns";
 import { MAX_PAGE_SIZE } from "../contants";
 import prisma from "../db/db";
 //import { sortByPropertyLength } from "../helpers";
@@ -7,16 +8,18 @@ export const getAllProblems = async (
   sortBy: string = "createdAt-desc",
   status?: string,
   category?: string,
+  days?: number,
   startIndex?: number,
   pageSize?: number
 ) => {
   const [field, order] = sortBy.split("-") as [string, "asc" | "desc"];
 
   const whereClause =
-    status || category
+    status || category || days
       ? {
           ...(status && { status: status.toLowerCase() }),
           ...(category && { category: { cat_id: +category } }),
+          ...(days && { createdAt: { gte: subDays(new Date(), days) } }),
         }
       : undefined;
 
