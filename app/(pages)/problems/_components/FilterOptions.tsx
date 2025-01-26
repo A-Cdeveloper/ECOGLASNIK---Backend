@@ -10,3 +10,10 @@ export const statuses = [
   { value: "done", label: "Rešen" },
   { value: "archive", label: "Arhiviran" },
 ];
+
+export const intervalOptions = [
+  { value: "", label: "7 dana" },
+  { value: "14", label: "14 dana" },
+  { value: "30", label: "30 dana" },
+  { value: "45", label: "45 dana" },
+];
