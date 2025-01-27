@@ -5,6 +5,7 @@ type Column<T> = {
   header: string;
   accessor: (row: T) => React.ReactNode;
   className?: string;
+  isMiniTable?: boolean;
 };
 
 // TableProps definition
@@ -54,6 +55,7 @@ const Table = <T,>({
               <TableCell
                 columns={columns}
                 row={row as T extends { status?: unknown } ? T : never}
+                isMiniTable={isMiniTable}
               />
             </tr>
           ))}
@@ -102,9 +104,11 @@ const MiniTableHeader = <T,>({ columns }: { columns: Column<T>[] }) => {
 const TableCell = <T extends { status?: unknown }>({
   columns,
   row,
+  isMiniTable = false,
 }: {
   columns: Column<T>[];
   row: T;
+  isMiniTable?: boolean;
 }) => {
   const status = typeof row.status === "number" ? row.status : null;
 
@@ -115,7 +119,7 @@ const TableCell = <T extends { status?: unknown }>({
           key={colIndex}
           className={`px-2 lg:px-4 py-1 lg:py-[8px] block md:table-cell ${
             col.className || ""
-          } ${status === 1 ? "text-success-100" : ""}`}
+          } ${status === 1 && !isMiniTable ? "text-success-100" : ""}`}
           data-header={col.header} // Data attribute for accessibility
         >
           {/* Show the header caption only on small screens */}

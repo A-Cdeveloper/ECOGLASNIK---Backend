@@ -7,6 +7,7 @@ import Badge from "@/app/_components/ui/Buttons/Badge";
 import FilterButtons from "@/app/_components/ui/Filters/FilterButtons";
 import { ProblemCustumType } from "@/app/_utils/db/prismaTypes";
 import { getColumnsProblems } from "./ColumnsProblems";
+import NoResurcesFound from "@/app/_components/ui/NoResurcesFound";
 
 const ProblemsByInterval = async ({
   searchParams,
@@ -26,6 +27,21 @@ const ProblemsByInterval = async ({
     problems: ProblemCustumType[];
   };
 
+  let content = (
+    <Table
+      data={problems}
+      columns={getColumnsProblems({})}
+      rowKey={(row) => row.id}
+      isMiniTable
+    />
+  );
+
+  if (problems.length === 0) {
+    content = (
+      <NoResurcesFound>Nema prijava u poslednjih {days} dana.</NoResurcesFound>
+    );
+  }
+
   return (
     <>
       <div className="flex justify-between items-center border-b border-secondary-100/20  px-0 py-2">
@@ -38,12 +54,7 @@ const ProblemsByInterval = async ({
           className="my-0"
         />
       </div>
-      <Table
-        data={problems}
-        columns={getColumnsProblems({})}
-        rowKey={(row) => row.id}
-        isMiniTable
-      />
+      {content}
     </>
   );
 };

@@ -1,4 +1,5 @@
 import { formatDateWithTime } from "@/app/_utils/helpers";
+import Link from "next/link";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
@@ -8,11 +9,15 @@ export const getColumnsUsers = () => [
     accessor: (row: any) => {
       return (
         <>
-          <p>
+          <Link
+            href={`${
+              row.role === "superadmin" ? "#" : `/users/${row.uid}/edit`
+            }`}
+          >
             {row.firstname} {row.lastname}
             <br />
             {row.email}
-          </p>
+          </Link>
         </>
       );
     },
