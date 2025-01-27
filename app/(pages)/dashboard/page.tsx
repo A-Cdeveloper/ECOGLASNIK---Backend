@@ -21,16 +21,16 @@ export default async function HomePage({
         Dobro došli, {user?.firstname} {user?.lastname}
       </Headline>
       <GeneralStats />
-      <div className="mt-4 w-full lg:w-3/4 flex justify-between items-start gap-x-8 overflow-hidden">
-        <div className="w-1/2 self-stretch">
+      <div className="mt-4 w-full 3xl:w-3/4 flex flex-wrap justify-between items-start gap-x-4 overflow-hidden ">
+        <div className="w-full xl:w-[48%] self-stretch">
           <OnlineUsers searchParams={searchParams} />
         </div>
-        <div className="w-1/2">
+        <div className="w-full xl:w-[48%]">
           <ProblemsByInterval searchParams={searchParams} />
         </div>
       </div>
 
-      <div className="mt-4 w-full 2xl:w-3/4 space-y-2 flex justify-between items-center bg-rose-500">
+      <div className="mt-4 w-full 2xl:w-3/4 space-y-2 flex justify-between items-center ">
         grafici
         <div>problemi po kategorijama</div>
         <div>problemi po vremenu </div>

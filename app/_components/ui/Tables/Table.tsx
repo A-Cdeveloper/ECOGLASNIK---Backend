@@ -85,7 +85,7 @@ const TableHeader = <T,>({ columns }: { columns: Column<T>[] }) => {
 
 const MiniTableHeader = <T,>({ columns }: { columns: Column<T>[] }) => {
   return (
-    <thead className="sticky top-0 z-10 bg-primary-100/50">
+    <thead className="sticky top-0 z-10 bg-primary-100/50 hidden md:table-header-group">
       <tr className="border-b border-secondary-500/20 uppercase text-[12px]">
         {columns.map((col, index) => (
           <th
