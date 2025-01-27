@@ -4,7 +4,7 @@ import { getAllProblems } from "@/app/_utils/api_utils/problems";
 import { intervalOptions } from "@/app/(pages)/problems/_components/FilterOptions";
 import NoResurcesFound from "@/app/_components/ui/NoResurcesFound";
 import { ProblemCustumType } from "@/app/_utils/db/prismaTypes";
-import TopSection from "../TopSection";
+import TopSection from "./TopSection";
 import { getColumnsProblems } from "./ColumnsProblems";
 
 const ProblemsByInterval = async ({

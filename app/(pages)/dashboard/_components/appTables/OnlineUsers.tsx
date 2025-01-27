@@ -3,7 +3,7 @@ import NoResurcesFound from "@/app/_components/ui/NoResurcesFound";
 import Table from "@/app/_components/ui/Tables/Table";
 import { getAllUsers } from "@/app/_utils/api_utils/users";
 import { UserRestrictedType } from "@/app/_utils/db/prismaTypes";
-import TopSection from "../TopSection";
+import TopSection from "./TopSection";
 import { getColumnsUsers } from "./ColumnsUsers";
 
 const OnlineUsers = async ({
