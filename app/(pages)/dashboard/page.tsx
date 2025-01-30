@@ -5,7 +5,7 @@ import { UserRestrictedType } from "@/app/_utils/db/prismaTypes";
 import GeneralStats from "./_components/appStats/GeneralStats";
 import TableStats from "./_components/appTables/TableStats";
 //import ChartTimeLine from "./_components/appCharts/ChartTimeLine";
-import ChartsProblems from "./_components/appCharts/ChartsProblems";
+//import ChartsProblems from "./_components/appCharts/ChartsProblems";
 
 export default async function HomePage({
   searchParams,
@@ -26,7 +26,7 @@ export default async function HomePage({
 
       <TableStats searchParams={searchParams} />
 
-      <ChartsProblems searchParams={searchParams} />
+      {/* <ChartsProblems searchParams={searchParams} /> */}
       {/* <div className="mt-4 w-full 3xl:w-3/4 flex flex-wrap justify-between items-start">
         <div className="w-full  h-[400px]">
           <ChartTimeLine />
