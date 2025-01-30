@@ -30,7 +30,7 @@ const OnlineUsers = async ({
   );
 
   if (onlineUsers.length === 0) {
-    content = <NoResurcesFound>Nema prijavljenih korisnika.</NoResurcesFound>;
+    content = <NoResurcesFound>Nema aktivnih korisnika.</NoResurcesFound>;
   }
 
   return (
@@ -40,7 +40,7 @@ const OnlineUsers = async ({
         filteredItems={userStatusOptions}
         queryKey="role"
       >
-        Prijavljeni korisnici
+        Aktivni korisnici
       </TopSection>
 
       {content}

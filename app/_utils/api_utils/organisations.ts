@@ -1,5 +1,6 @@
 import { MAX_PAGE_SIZE } from "../contants";
 import prisma from "../db/db";
+import tailwindConfig from "../../../tailwind.config";
 
 export const getAllOrganisations = async (
   sortBy: string = "oid-asc",
@@ -57,6 +58,127 @@ export const getOrganisation = async (oid: string) => {
   } catch (error: unknown) {
     if (error instanceof Error) {
       throw new Error(`Greška prilikom preuzimanja nadležne službe.`);
+    }
+  }
+};
+
+export const getAllOrganisationsProblems = async () => {
+  try {
+    const organisations = await prisma.organisation.findMany({
+      select: {
+        oid: true,
+        organisation_name: true,
+        categories: {
+          select: {
+            problems: {
+              where: {
+                status: {
+                  not: "archive", // Exclude problems with status "archive"
+                },
+              },
+              select: {
+                id: true, // Fetch problem IDs to enable counting
+              },
+            },
+          },
+        },
+      },
+    });
+
+    const organisationsWithProblemCounts = organisations.map((org, index) => {
+      const value = org.categories.reduce((sum, category) => {
+        return sum + category.problems.length;
+      }, 0);
+
+      const color = `hsl(${index * 15}, 50%, 60%)`;
+
+      return {
+        id: org.organisation_name,
+        label: org.organisation_name,
+        value,
+        color,
+      };
+    });
+
+    return organisationsWithProblemCounts;
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      throw new Error(`Greška.`);
+    }
+  }
+};
+
+export const getOrganisationProblems = async (oid: number) => {
+  try {
+    const organisation = await prisma.organisation.findUnique({
+      where: { oid },
+      select: {
+        organisation_name: true,
+        categories: {
+          select: {
+            problems: {
+              where: {
+                status: {
+                  not: "archive", // Exclude problems with status "archive"
+                },
+              },
+              select: {
+                id: true,
+                status: true, // Fetch status of each problem
+              },
+            },
+          },
+        },
+      },
+    });
+
+    if (!organisation) {
+      throw new Error(`Organisation with ID ${oid} not found.`);
+    }
+
+    // Flatten problems into one array
+    const allProblems = organisation.categories.flatMap(
+      (category) => category.problems
+    );
+
+    // Count problems by status
+    const statusCounts = allProblems.reduce(
+      (acc, problem) => {
+        acc[problem.status] = (acc[problem.status] || 0) + 1;
+        return acc;
+      },
+      { active: 0, done: 0 } as Record<string, number>
+    );
+
+    // Total problems
+    const totalProblems = statusCounts.active + statusCounts.done;
+
+    // Calculate percentages
+    const getPercentage = (count: number) =>
+      totalProblems > 0 ? ((count / totalProblems) * 100).toFixed(2) : "0";
+
+    // Nivo Pie formatted data
+    const pieData = [
+      {
+        id: "aktivni",
+        label: `aktivni`,
+        value: statusCounts.active,
+        percent: getPercentage(statusCounts.active),
+        color: tailwindConfig.theme.extend.colors.danger["100"],
+      },
+      {
+        id: "rešeni",
+        label: `rešeni`,
+        value: statusCounts.done,
+        percent: getPercentage(statusCounts.done),
+        color: tailwindConfig.theme.extend.colors.success["100"],
+      },
+    ];
+
+    return pieData;
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      throw new Error(`Error fetching organisation problems: ${error.message}`);
     }
   }
 };

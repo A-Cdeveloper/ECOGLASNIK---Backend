@@ -103,3 +103,41 @@ export const getCategoryById = async (id: number) => {
     }
   }
 };
+
+export const getAllCategoriesProblems = async () => {
+  try {
+    const categories = await prisma.problemCategory.findMany({
+      select: {
+        cat_id: true,
+        cat_name: true,
+        problems: {
+          where: {
+            status: {
+              not: "archive", // Exclude archived problems
+            },
+          },
+          select: {
+            id: true, // Fetch problem IDs to count them
+          },
+        },
+      },
+    });
+
+    // Compute problem counts
+    const categoriesWithProblemCounts = categories.map((category, index) => {
+      const color = `hsl(${index * 5}, 50%, 60%)`;
+      return {
+        id: category.cat_name,
+        label: category.cat_name,
+        value: category.problems.length, // Number of problems
+        color,
+      };
+    });
+
+    return categoriesWithProblemCounts;
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      throw new Error(`Greška.`);
+    }
+  }
+};

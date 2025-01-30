@@ -7,6 +7,7 @@ const FilterSelector = ({
   filterList,
   className,
   queryKey,
+  noDefaultLabel,
 }: {
   filterList: {
     id: string;
@@ -14,6 +15,7 @@ const FilterSelector = ({
   }[];
   className?: string;
   queryKey: string;
+  noDefaultLabel?: boolean;
 }) => {
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -40,9 +42,11 @@ const FilterSelector = ({
         onChange={handleChange}
         defaultValue={searchParams?.get("category") || ""}
       >
-        <option value="" className="bg-primary-900/80 text-winter-100/70">
-          Sve kategorije
-        </option>
+        {!noDefaultLabel && (
+          <option value="" className="bg-primary-900/80 text-winter-100/70">
+            Sve
+          </option>
+        )}
         {filterList.map((item) => (
           <option
             key={item.id}

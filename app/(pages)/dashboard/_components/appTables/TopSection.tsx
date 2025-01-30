@@ -15,7 +15,7 @@ const TopSection = ({
   queryKey: string;
 }) => {
   return (
-    <div className="flex flex-wrap justify-between items-center border-b border-secondary-100/20 px-0 py-2">
+    <div className="flex flex-wrap justify-between items-center border-y border-secondary-100/20 px-0 py-2">
       <Headline level={3} className="normal-case font-thin w-full 3xl:w-auto">
         {children} <Badge>{itemsCount}</Badge>
       </Headline>
