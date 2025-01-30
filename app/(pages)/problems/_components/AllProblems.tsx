@@ -88,7 +88,6 @@ const AllProblems = async ({
         <FilterSelector
           filterList={categoriesSelection || []}
           queryKey="category"
-          allLabel="Sve kategorije"
         />
         <SortSelector options={sortOptions} defaultSort="id-asc" />
       </TopBar>
