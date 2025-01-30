@@ -16,6 +16,7 @@ const nextConfig: NextConfig = {
       bodySizeLimit: "10mb",
     },
   },
+  transpilePackages: ["@nivo/core", "@nivo/bar", "@nivo/pie"],
 };
 
 export default nextConfig;
