@@ -93,8 +93,7 @@ export const getAllOrganisationsProblems = async () => {
       const color = `hsl(${index * 15}, 50%, 60%)`;
 
       return {
-        id: org.organisation_name,
-        label: org.organisation_name,
+        name: org.organisation_name,
         value,
         color,
       };
@@ -160,18 +159,16 @@ export const getOrganisationProblems = async (oid: number) => {
     // Nivo Pie formatted data
     const pieData = [
       {
-        id: "aktivni",
-        label: `aktivni`,
+        name: `AKTIVNI`,
         value: statusCounts.active,
         percent: getPercentage(statusCounts.active),
-        color: tailwindConfig.theme.extend.colors.danger["100"],
+        color: tailwindConfig.theme.extend.colors.danger["200"],
       },
       {
-        id: "rešeni",
-        label: `rešeni`,
+        name: `REŠENI`,
         value: statusCounts.done,
         percent: getPercentage(statusCounts.done),
-        color: tailwindConfig.theme.extend.colors.success["100"],
+        color: tailwindConfig.theme.extend.colors.success["200"],
       },
     ];
 

@@ -127,8 +127,7 @@ export const getAllCategoriesProblems = async () => {
     const categoriesWithProblemCounts = categories.map((category, index) => {
       const color = `hsl(${index * 5}, 50%, 60%)`;
       return {
-        id: category.cat_name,
-        label: category.cat_name,
+        name: category.cat_name,
         value: category.problems.length, // Number of problems
         color,
       };
