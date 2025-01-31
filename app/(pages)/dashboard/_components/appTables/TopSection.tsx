@@ -9,7 +9,7 @@ const TopSection = ({
   children,
   queryKey,
 }: {
-  itemsCount: number;
+  itemsCount?: number;
   filteredItems: { label: string; value: string }[];
   children: React.ReactNode;
   queryKey: string;
@@ -17,7 +17,7 @@ const TopSection = ({
   return (
     <div className="flex flex-wrap justify-between items-center border-y border-secondary-100/20 px-0 py-2">
       <Headline level={3} className="normal-case font-thin w-full 3xl:w-auto">
-        {children} <Badge>{itemsCount}</Badge>
+        {children} {itemsCount && <Badge>{itemsCount}</Badge>}
       </Headline>
       <FilterButtons
         filterList={filteredItems}

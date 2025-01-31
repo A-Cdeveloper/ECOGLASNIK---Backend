@@ -10,11 +10,11 @@ const ChartsProblems = async ({
     await searchParams;
 
   return (
-    <div className="mt-4 w-full 3xl:w-3/4 flex flex-wrap justify-between items-start">
-      <div className="w-full 2xl:w-[45%] h-[350px]">
+    <div className="mt-4 w-full 3xl:w-5/6 flex flex-wrap justify-between items-start  pb-8 mb-8">
+      <div className="w-full 2xl:w-[47%]">
         <ChartAllProblems filter={chartProblemsFilter} />
       </div>
-      <div className="w-full 2xl:w-[45%] ">
+      <div className="w-full 2xl:w-[47%]">
         <ChartProblemsByOrganisation organisationId={organisationId} />
       </div>
     </div>

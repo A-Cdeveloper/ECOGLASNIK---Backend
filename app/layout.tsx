@@ -8,7 +8,7 @@ const notosans = Noto_Sans({
 });
 
 export const metadata = {
-  title: "ECOGLASNIK - Login",
+  title: "ECOGLASNIK - Admin panel",
   description: "Login to the admin panel",
 };
 

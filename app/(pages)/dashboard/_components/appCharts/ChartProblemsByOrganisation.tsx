@@ -30,14 +30,14 @@ const ChartProblemsByOrganisation = async ({
     | PieChartData[]
     | undefined;
 
-  let content = <PieElement data={data as PieChartData[]} />;
+  let content = (
+    <NoResurcesFound className="h-[300px]">
+      Podaci nisu dostupni.
+    </NoResurcesFound>
+  );
 
-  if (data?.length === 0) {
-    content = (
-      <NoResurcesFound className="h-[300px]">
-        Podaci nisu dostupni.
-      </NoResurcesFound>
-    );
+  if (data && data[0].value !== 0) {
+    content = <PieElement data={data as PieChartData[]} />;
   }
 
   return (

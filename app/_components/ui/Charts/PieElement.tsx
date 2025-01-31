@@ -23,9 +23,9 @@ const PieElement = ({ data }: { data: PieChartData[] }) => {
   }
 
   return (
-    <div className="flex items-center justify-center space-x-6">
+    <div className="flex flex-wrap md:flex-nowrap items-center justify-center ">
       {/* Pie Chart Container */}
-      <div className="w-1/2 h-[300px]">
+      <div className="w-full md:w-1/2 h-[300px] overflow-visible">
         <ResponsiveContainer width="100%" height="100%">
           <PieChart>
             <Pie
@@ -34,8 +34,8 @@ const PieElement = ({ data }: { data: PieChartData[] }) => {
               nameKey="name"
               cx="50%"
               cy="50%"
-              innerRadius={80}
-              outerRadius={120}
+              innerRadius={70}
+              outerRadius={100}
               paddingAngle={5}
               label={renderCustomLabel}
               labelLine={false}
@@ -50,7 +50,7 @@ const PieElement = ({ data }: { data: PieChartData[] }) => {
       </div>
 
       {/* Legend Container (Manually Placed) */}
-      <div className="w-1/2 py-4">
+      <div className="w-full md:w-1/2 py-2">
         {data.map((entry, index) => (
           <div
             key={index}
@@ -91,7 +91,7 @@ any) => {
     <text
       x={x}
       y={y}
-      fill="#111"
+      fill="#fff"
       textAnchor="middle"
       dominantBaseline="central"
       fontSize={14}

@@ -148,3 +148,17 @@ input.disabled {
     transform: translate(0, 0);
   }
 }
+
+.recharts-bar-rectangle:hover {
+  fill: inherit !important;
+}
+
+.recharts-cartesian-grid line {
+  stroke-opacity: 1 !important;
+}
+
+.recharts-cartesian-axis-line,
+.recharts-cartesian-grid line:hover {
+  stroke: inherit !important;
+  background: transparent !important;
+}
