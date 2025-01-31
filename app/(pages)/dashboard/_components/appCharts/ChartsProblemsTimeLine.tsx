@@ -1,9 +1,12 @@
-import BarChartElement from "@/app/_components/ui/Charts/BarChartElement";
-import React from "react";
-import TopSection from "../appTables/TopSection";
 import { intervalOptions } from "@/app/(pages)/problems/_components/FilterOptions";
-import { getProblemTrends } from "@/app/_utils/api_utils/problems";
+import BarChartElement from "@/app/_components/ui/Charts/BarChartElement";
 import NoResurcesFound from "@/app/_components/ui/NoResurcesFound";
+import {
+  BarChartSkeleton,
+  SkeletonTopSection,
+} from "@/app/_components/ui/Skeletons";
+import { getProblemTrends } from "@/app/_utils/api_utils/problems";
+import TopSection from "../appTables/TopSection";
 
 const ChartsProblemsTimeLine = async ({
   searchParams,
@@ -25,7 +28,7 @@ const ChartsProblemsTimeLine = async ({
   }
 
   return (
-    <div className="mt-4 w-full 3xl:w-3/4">
+    <div className="mt-4 w-full 3xl:w-5/6">
       <TopSection filteredItems={intervalOptions} queryKey="interval">
         Pregled problema po vremenskim intervalima
       </TopSection>
@@ -35,3 +38,10 @@ const ChartsProblemsTimeLine = async ({
 };
 
 export default ChartsProblemsTimeLine;
+
+export const ChartsProblemsTimeLineSkeleton = () => (
+  <div className="mt-4 w-full 3xl:w-5/6">
+    <SkeletonTopSection />
+    <BarChartSkeleton />
+  </div>
+);

@@ -4,6 +4,10 @@ import PieElement, {
 import FilterButtons from "@/app/_components/ui/Filters/FilterButtons";
 import Headline from "@/app/_components/ui/Headline";
 import NoResurcesFound from "@/app/_components/ui/NoResurcesFound";
+import {
+  PieSkeleton,
+  SkeletonTopSection,
+} from "@/app/_components/ui/Skeletons";
 import { getAllCategoriesProblems } from "@/app/_utils/api_utils/categories";
 import { getAllOrganisationsProblems } from "@/app/_utils/api_utils/organisations";
 
@@ -47,3 +51,10 @@ const ChartAllProblems = async ({ filter }: { filter: string }) => {
 };
 
 export default ChartAllProblems;
+
+export const ChartAllProblemsSkeleton = () => (
+  <>
+    <SkeletonTopSection />
+    <PieSkeleton statNumber={3} />
+  </>
+);

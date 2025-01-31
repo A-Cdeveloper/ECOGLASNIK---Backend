@@ -1,10 +1,14 @@
 import { userStatusOptions } from "@/app/(pages)/users/_components/FilterOptions";
 import NoResurcesFound from "@/app/_components/ui/NoResurcesFound";
+import {
+  SkeletonTable,
+  SkeletonTopSection,
+} from "@/app/_components/ui/Skeletons";
 import Table from "@/app/_components/ui/Tables/Table";
 import { getAllUsers } from "@/app/_utils/api_utils/users";
 import { UserRestrictedType } from "@/app/_utils/db/prismaTypes";
-import TopSection from "./TopSection";
 import { getColumnsUsers } from "./ColumnsUsers";
+import TopSection from "./TopSection";
 
 const OnlineUsers = async ({
   searchParams,
@@ -49,3 +53,10 @@ const OnlineUsers = async ({
 };
 
 export default OnlineUsers;
+
+export const OnlineUsersSkeleton = () => (
+  <>
+    <SkeletonTopSection />
+    <SkeletonTable cellNumber={3} />
+  </>
+);

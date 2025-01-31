@@ -3,9 +3,13 @@ import Headline from "@/app/_components/ui/Headline";
 import { getUserFromToken } from "@/app/(auth)/_actions";
 import { UserRestrictedType } from "@/app/_utils/db/prismaTypes";
 import ChartsProblems from "./_components/appCharts/ChartsProblems";
-import ChartsProblemsTimeLine from "./_components/appCharts/ChartsProblemsTimeLine";
+import ChartsProblemsTimeLine, {
+  ChartsProblemsTimeLineSkeleton,
+} from "./_components/appCharts/ChartsProblemsTimeLine";
 import GeneralStats from "./_components/appStats/GeneralStats";
 import TableStats from "./_components/appTables/TableStats";
+import { Suspense } from "react";
+import { SkeletonGeneralStats } from "@/app/_components/ui/Skeletons";
 
 export default async function HomePage({
   searchParams,
@@ -21,11 +25,14 @@ export default async function HomePage({
       <Headline level={1} className="normal-case">
         Dobro došli, {user?.firstname} {user?.lastname}
       </Headline>
-      <GeneralStats />
+      <Suspense fallback={<SkeletonGeneralStats boxNumber={4} />}>
+        <GeneralStats />
+      </Suspense>
       <TableStats searchParams={searchParams} />
       <ChartsProblems searchParams={searchParams} />
-
-      <ChartsProblemsTimeLine searchParams={searchParams} />
+      <Suspense fallback={<ChartsProblemsTimeLineSkeleton />}>
+        <ChartsProblemsTimeLine searchParams={searchParams} />{" "}
+      </Suspense>
     </>
   );
 }

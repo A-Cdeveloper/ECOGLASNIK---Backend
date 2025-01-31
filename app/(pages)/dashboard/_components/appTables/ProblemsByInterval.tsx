@@ -6,6 +6,10 @@ import NoResurcesFound from "@/app/_components/ui/NoResurcesFound";
 import { ProblemCustumType } from "@/app/_utils/db/prismaTypes";
 import TopSection from "./TopSection";
 import { getColumnsProblems } from "./ColumnsProblems";
+import {
+  SkeletonTable,
+  SkeletonTopSection,
+} from "@/app/_components/ui/Skeletons";
 
 const ProblemsByInterval = async ({
   searchParams,
@@ -56,3 +60,10 @@ const ProblemsByInterval = async ({
 };
 
 export default ProblemsByInterval;
+
+export const ProblemsByIntervalSkeleton = () => (
+  <>
+    <SkeletonTopSection />
+    <SkeletonTable cellNumber={4} />
+  </>
+);

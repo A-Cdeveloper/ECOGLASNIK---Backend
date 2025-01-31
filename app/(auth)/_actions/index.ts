@@ -60,9 +60,7 @@ export const getUserFromToken = async () => {
     return { user, tokenExpiry }; // Return full user object
   } catch (error) {
     if (error instanceof Error) {
-      throw new Error(
-        `Greška prilikom preuzimanja korisnika: ${error.message}`
-      );
+      throw new Error(`Greška prilikom preuzimanja korisnika`);
     }
   }
 };

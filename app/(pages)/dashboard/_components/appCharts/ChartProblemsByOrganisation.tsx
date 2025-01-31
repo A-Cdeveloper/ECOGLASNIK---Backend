@@ -5,6 +5,10 @@ import FilterSelector from "@/app/_components/ui/Filters/FilterSelector";
 import Headline from "@/app/_components/ui/Headline";
 import NoResurcesFound from "@/app/_components/ui/NoResurcesFound";
 import {
+  PieSkeleton,
+  SkeletonTopSection,
+} from "@/app/_components/ui/Skeletons";
+import {
   getAllOrganisations,
   getOrganisationProblems,
 } from "@/app/_utils/api_utils/organisations";
@@ -63,3 +67,10 @@ const ChartProblemsByOrganisation = async ({
 };
 
 export default ChartProblemsByOrganisation;
+
+export const ChartProblemsByOrganisationSkeleton = () => (
+  <>
+    <SkeletonTopSection />
+    <PieSkeleton statNumber={3} />
+  </>
+);
