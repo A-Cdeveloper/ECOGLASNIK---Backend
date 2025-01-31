@@ -37,7 +37,7 @@ const FilterButton = ({
     }
 
     // You can use router.push to update the URL
-    router.replace(`?${currentParams.toString()}`);
+    router.replace(`?${currentParams.toString()}`, { scroll: false });
 
     // Prevent page jumping by explicitly scrolling
     if (typeof window !== "undefined") {

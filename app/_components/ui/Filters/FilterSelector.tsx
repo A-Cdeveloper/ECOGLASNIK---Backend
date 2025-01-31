@@ -29,7 +29,7 @@ const FilterSelector = ({
     } else {
       params.delete(queryKey);
     }
-    router.push(`?${params.toString()}`);
+    router.push(`?${params.toString()}`, { scroll: false });
   };
 
   return (
