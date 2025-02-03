@@ -60,14 +60,18 @@ export const getColumnsProblems = ({
   {
     header: "Datum prijave",
     accessor: (row: any) => {
-      if (row.officialEmail === "0") return "-";
       return (
         <>
           <span className="block">{formatDate(row.createdAt)}</span>
-          <span className="flex gap-x-1">
-            <DynamicIcon Icon={HiMiniEnvelope} className="text-secondary-500" />
-            prijavljeno
-          </span>
+          {row.officialEmail === "1" && (
+            <span className="flex gap-x-1">
+              <DynamicIcon
+                Icon={HiMiniEnvelope}
+                className="text-secondary-500"
+              />
+              prijavljeno
+            </span>
+          )}
         </>
       );
     },
