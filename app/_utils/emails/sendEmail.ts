@@ -1,6 +1,7 @@
 import nodemailer from "nodemailer";
-import { emailHtml } from "./";
+import { emailHtml, emailToOrganisationHtml } from "./";
 import { headers } from "next/headers";
+import { Problem } from "@prisma/client";
 
 export const getRootUrl = async (): Promise<string> => {
   // Server-side
@@ -91,11 +92,15 @@ export const sendAdminForgotPasswordEmail = async (
   );
 };
 
-export const sendEmailToOrganisations = async (email: string) => {
+export const sendEmailToOrganisations = async (
+  email: string,
+  category: string,
+  problem: Problem
+) => {
   await transporter.sendMail({
     from: '"ECOGLASNIK" <admin@cleanme.e-vlasotince.info>',
     to: email,
-    subject: "TEST PROBLEM",
-    html: "<p>TEST PROBLEM</p>",
+    subject: `Nova prijava komunalnog problema - ${category}`,
+    html: emailToOrganisationHtml(problem),
   });
 };

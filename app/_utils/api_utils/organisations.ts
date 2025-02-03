@@ -67,8 +67,18 @@ export const getOrganisationsByCategory = async (cat_id: string) => {
     const organisations = await prisma.organisation.findMany({
       where: {
         categories: {
-          some: {
-            cat_id: +cat_id, // Filter organisations where the category ID matches
+          some: { cat_id: +cat_id },
+        },
+      },
+      select: {
+        organisation_name: true,
+        organisation_email: true, // Example field
+        categories: {
+          where: {
+            cat_id: +cat_id,
+          },
+          select: {
+            cat_name: true,
           },
         },
       },
