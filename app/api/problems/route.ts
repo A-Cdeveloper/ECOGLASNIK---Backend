@@ -75,8 +75,13 @@ export async function POST(request: NextRequest) {
       const organisations = await getOrganisationsByCategory(
         newProblem?.cat_id.toString()
       );
+
       organisations?.map(async (org) => {
-        await sendEmailToOrganisations(org.organisation_email);
+        await sendEmailToOrganisations(
+          org.organisation_email,
+          org.categories[0].cat_name,
+          newProblem
+        );
       });
     }
 

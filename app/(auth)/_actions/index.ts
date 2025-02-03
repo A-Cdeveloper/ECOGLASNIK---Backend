@@ -5,7 +5,7 @@ import {
   decodeJWT,
   hashPassword,
   verifyPassword,
-} from "@/app/_utils/emails";
+} from "@/app/_utils/auth/index";
 import { sendAdminForgotPasswordEmail } from "@/app/_utils/emails/sendEmail";
 import prisma from "@/app/_utils/db/db";
 import {

@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { loginSchema } from "@/app/_utils/zod/authSchemas"; // Adjust this import path accordingly
 import prisma from "@/app/_utils/db/db"; // Prisma client setup
 import { z } from "zod";
-import { createJWT, verifyPassword } from "@/app/_utils/emails";
+import { createJWT, verifyPassword } from "@/app/_utils/auth/index";
 
 // API handler for login
 export async function POST(req: Request) {

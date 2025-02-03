@@ -1,6 +1,7 @@
 import { NextResponse, NextRequest } from "next/server";
-import { verifyJWT } from "../emails";
+
 import { JWTPayload } from "jose";
+import { verifyJWT } from ".";
 
 type AuthResponseSuccess = {
   userId: JWTPayload["userId"]; // Adjust `JWTPayload` to the actual type returned by `verifyJWT`.

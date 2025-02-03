@@ -1,4 +1,4 @@
-import { decodeJWT } from "@/app/_utils/emails";
+import { decodeJWT } from "@/app/_utils/auth/index";
 import prisma from "@/app/_utils/db/db";
 import { NextResponse } from "next/server";
 import { z } from "zod";
