@@ -8,6 +8,8 @@ import {
   addNewProblem,
   getAllProblems,
 } from "@/app/_utils/api_utils/problems-api";
+import { sendEmailToOrganisations } from "@/app/_utils/emails/sendEmail";
+import { getOrganisationsByCategory } from "@/app/_utils/api_utils/organisations";
 
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
@@ -59,6 +61,7 @@ export async function POST(request: NextRequest) {
         lat: parseFloat(reciveData.position.lat),
         lng: parseFloat(reciveData.position.lng),
       },
+      officialEmail: reciveData.officialEmail || "0",
       createdAt: new Date(), // Set the current date/time
       updatedAt: null, // Explicitly set to null
       status: "active",
@@ -67,6 +70,15 @@ export async function POST(request: NextRequest) {
       image: reciveData.image || "",
       pinata_id: reciveData.pinata_id || "",
     });
+
+    if (newProblem?.officialEmail === "1") {
+      const organisations = await getOrganisationsByCategory(
+        newProblem?.cat_id.toString()
+      );
+      organisations?.map(async (org) => {
+        await sendEmailToOrganisations(org.organisation_email);
+      });
+    }
 
     // Respond with the created problem
     return NextResponse.json(newProblem, { status: 201 });

@@ -62,6 +62,28 @@ export const getOrganisation = async (oid: string) => {
   }
 };
 
+export const getOrganisationsByCategory = async (cat_id: string) => {
+  try {
+    const organisations = await prisma.organisation.findMany({
+      where: {
+        categories: {
+          some: {
+            cat_id: +cat_id, // Filter organisations where the category ID matches
+          },
+        },
+      },
+    });
+
+    return organisations;
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      throw new Error(
+        `Greška prilikom preuzimanja organizacija za kategoriju.`
+      );
+    }
+  }
+};
+
 export const getAllOrganisationsProblems = async () => {
   try {
     const organisations = await prisma.organisation.findMany({

@@ -5,8 +5,8 @@ import {
   decodeJWT,
   hashPassword,
   verifyPassword,
-} from "@/app/_utils/auth";
-import { sendAdminForgotPasswordEmail } from "@/app/_utils/auth/sendEmail";
+} from "@/app/_utils/emails";
+import { sendAdminForgotPasswordEmail } from "@/app/_utils/emails/sendEmail";
 import prisma from "@/app/_utils/db/db";
 import {
   handleError,

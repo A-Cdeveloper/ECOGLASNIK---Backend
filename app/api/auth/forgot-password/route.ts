@@ -4,7 +4,7 @@ import prisma from "../../../_utils/db/db"; // Adjust this to your Prisma client
 //import { sendPasswordEmail } from "../../../_utils/auth/sendEmail"; // Function to send email
 import { forgotPasswordSchema } from "@/app/_utils/zod/authSchemas";
 import { z } from "zod";
-import { sendPasswordResetEmail } from "@/app/_utils/auth/sendEmail";
+import { sendPasswordResetEmail } from "@/app/_utils/emails/sendEmail";
 
 export async function POST(request: NextRequest) {
   try {

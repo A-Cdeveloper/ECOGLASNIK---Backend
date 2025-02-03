@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use server";
 
-import { hashPassword } from "@/app/_utils/auth";
+import { hashPassword } from "@/app/_utils/emails";
 import prisma from "@/app/_utils/db/db";
 import { handleError, validateSchemaResponse } from "@/app/_utils/errorHandler";
 import { registerPasswordSchema } from "@/app/_utils/zod/authSchemas";

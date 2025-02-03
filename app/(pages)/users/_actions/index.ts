@@ -2,7 +2,7 @@
 "use server";
 
 import { deleteUser } from "@/app/_utils/api_utils/users";
-import { sendAdminWelcomeEmail } from "@/app/_utils/auth/sendEmail";
+import { sendAdminWelcomeEmail } from "@/app/_utils/emails/sendEmail";
 import prisma from "@/app/_utils/db/db";
 import { validateSchemaResponse } from "@/app/_utils/errorHandler";
 

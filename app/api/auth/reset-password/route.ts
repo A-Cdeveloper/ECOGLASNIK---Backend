@@ -1,4 +1,4 @@
-import { hashPassword } from "@/app/_utils/auth";
+import { hashPassword } from "@/app/_utils/emails";
 import prisma from "@/app/_utils/db/db"; // Adjust path to your Prisma client
 import { resetPasswordSchema } from "@/app/_utils/zod/authSchemas"; // Import your Zod schema
 import { NextResponse } from "next/server";

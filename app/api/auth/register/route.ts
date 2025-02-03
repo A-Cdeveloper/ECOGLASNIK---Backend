@@ -3,8 +3,8 @@ import { registerSchema } from "@/app/_utils/zod/authSchemas"; // Import your Zo
 import prisma from "@/app/_utils/db/db"; // Adjust path to your Prisma client
 import { randomBytes } from "crypto";
 import { z } from "zod";
-import { hashPassword } from "@/app/_utils/auth";
-import { sendVerificationEmail } from "@/app/_utils/auth/sendEmail";
+import { hashPassword } from "@/app/_utils/emails";
+import { sendVerificationEmail } from "@/app/_utils/emails/sendEmail";
 
 export async function POST(req: Request) {
   try {

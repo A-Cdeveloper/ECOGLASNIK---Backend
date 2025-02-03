@@ -1,5 +1,5 @@
 import nodemailer from "nodemailer";
-import { emailHtml } from ".";
+import { emailHtml } from "./";
 import { headers } from "next/headers";
 
 export const getRootUrl = async (): Promise<string> => {
@@ -89,4 +89,13 @@ export const sendAdminForgotPasswordEmail = async (
     "Klinikite na dugme ispod da biste resetovali svoju lozinku:",
     "Resetuj lozinku"
   );
+};
+
+export const sendEmailToOrganisations = async (email: string) => {
+  await transporter.sendMail({
+    from: '"ECOGLASNIK" <admin@cleanme.e-vlasotince.info>',
+    to: email,
+    subject: "TEST PROBLEM",
+    html: "<p>TEST PROBLEM</p>",
+  });
 };
