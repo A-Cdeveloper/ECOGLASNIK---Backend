@@ -12,12 +12,20 @@ import ItemOperationsButtons from "@/app/_components/dataOperations/ItemOperatio
 const ProblemPage = async ({ params }: { params: Promise<{ id: string }> }) => {
   const problem = await getProblemById((await params).id);
 
+  const isReported = problem?.officialEmail === "1";
   return (
     <>
       <BackButton />
 
       <Headline level={1}>{problem?.title}</Headline>
+
       <div className="mt-4 w-full 2xl:w-2/3">
+        {isReported && (
+          <p className="bg-danger-200/30 py-3 px-4 mb-2">
+            Problem je zvanično prijavljen nadležnim službama. Nisu dozvoljene
+            naknadne izmene.
+          </p>
+        )}
         <div className="grid grid-col-1 lg:grid-cols-2 gap-4 items-start mb-4">
           {/* Left part */}
           <div className="space-y-1">
@@ -77,12 +85,14 @@ const ProblemPage = async ({ params }: { params: Promise<{ id: string }> }) => {
               }
               initialZoom={16}
             />
-            <ItemOperationsButtons
-              id={problem?.id as string}
-              basePath="problems"
-              cloneAction={cloneProblemByIdAction}
-              deleteAction={deleteProblemByIdAction}
-            />
+            {!isReported && (
+              <ItemOperationsButtons
+                id={problem?.id as string}
+                basePath="problems"
+                cloneAction={cloneProblemByIdAction}
+                deleteAction={deleteProblemByIdAction}
+              />
+            )}
           </div>
         </div>{" "}
       </div>

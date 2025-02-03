@@ -11,6 +11,7 @@ type TextAreaType = {
   onChange?: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
   required?: boolean;
   className?: string;
+  readOnly?: boolean;
 };
 
 const TextArea = ({
@@ -21,6 +22,7 @@ const TextArea = ({
   required,
   onChange,
   className,
+  readOnly,
   ...rest
 }: TextAreaType) => {
   const [numberOfChars, setNumberOfChars] = useState(defaultValue?.length || 0);
@@ -42,6 +44,7 @@ const TextArea = ({
         defaultValue={defaultValue}
         required={required}
         onChange={onChangeTextArea}
+        readOnly={readOnly}
         className={clsx(
           `px-2 py-1 w-full h-[120px] bg-transparent border border-secondary-500/30 focus:outline-none focus:border-secondary-500 placeholder:text-winter-100/30
             ${className || ""} ${

@@ -62,6 +62,8 @@ export const updateProblemAction = async (
     image: formData.get("image") as string,
   };
 
+  console.log(updateData);
+
   const validation = validateSchemaRedirect(updateProblemSchema, updateData);
   if (validation) {
     return validation;

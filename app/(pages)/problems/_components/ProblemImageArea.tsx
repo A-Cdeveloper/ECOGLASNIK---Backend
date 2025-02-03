@@ -15,11 +15,13 @@ const ProblemImageArea = ({
   loadingImageUpload,
   setLoadingImageUpload,
   id,
+  disabled,
 }: {
   loadingImageUpload: boolean;
   setLoadingImageUpload: (value: boolean) => void;
   imageSrc: string;
   id: string;
+  disabled?: boolean;
 }) => {
   const [pinataData, setPinataData] = useState({
     pinata_id: "",
@@ -67,16 +69,18 @@ const ProblemImageArea = ({
             alt="Problem Image"
             className="!h-[300px] !w-full"
           />
-          <CloseButton
-            onClick={async () => {
-              setPinataData((prev) => ({
-                ...prev,
-                pinata_id: "",
-                image: "",
-              }));
-              await deleteProblemImageAction(id);
-            }}
-          />
+          {!disabled && (
+            <CloseButton
+              onClick={async () => {
+                setPinataData((prev) => ({
+                  ...prev,
+                  pinata_id: "",
+                  image: "",
+                }));
+                await deleteProblemImageAction(id);
+              }}
+            />
+          )}
         </div>
       )}
       {pinataData.image === "" && !loadingImageUpload && (

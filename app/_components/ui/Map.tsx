@@ -48,10 +48,12 @@ const Map = ({
   defaultPosition,
   initialZoom,
   setDefaultPosition,
+  disabled,
 }: {
   defaultPosition: { lat: number; lng: number };
   initialZoom: number;
   setDefaultPosition?: (position: { lat: number; lng: number }) => void;
+  disabled?: boolean;
 }) => {
   const L = useLeaflet(); // Use custom hook to load Leaflet
 
@@ -78,7 +80,9 @@ const Map = ({
               })
             }
           />
-          <MapClickHandler setDefaultPosition={setDefaultPosition} />
+          {!disabled && (
+            <MapClickHandler setDefaultPosition={setDefaultPosition} />
+          )}
         </MapContainer>
       ) : null}
     </>

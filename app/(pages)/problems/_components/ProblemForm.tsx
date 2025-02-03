@@ -28,10 +28,18 @@ const ProblemForm = ({
   // position
   const [defaultPosition, setDefaultPosition] = useState(problem?.position);
 
+  const isReported = problem?.officialEmail === "1";
+
   return (
     <>
       <form action={formAction} className="mt-4 w-full 2xl:w-2/3">
         {problem && <input type="hidden" name="id" value={problem?.id} />}
+        {isReported && (
+          <p className="bg-danger-200/30 py-3 px-4 mb-2">
+            Problem je zvanično prijavljen nadležnim službama. Nisu dozvoljene
+            naknadne izmene.
+          </p>
+        )}
 
         <div className="grid grid-col-1 lg:grid-cols-2 gap-6 items-start mb-4">
           {/* Left part */}
@@ -41,11 +49,13 @@ const ProblemForm = ({
               name="title"
               placeholder="Naziv Problema"
               defaultValue={problem?.title}
+              readOnly={isReported}
             />
             <TextArea
               name="description"
               placeholder="Opis Problema"
               defaultValue={problem?.description}
+              readOnly={isReported}
             />
 
             <ProblemImageArea
@@ -53,6 +63,7 @@ const ProblemForm = ({
               id={problem?.id || ""}
               loadingImageUpload={loadingImageUpload}
               setLoadingImageUpload={setLoadingImageUpload}
+              disabled={isReported}
             />
           </div>
 
@@ -69,6 +80,7 @@ const ProblemForm = ({
                 name="cat_id"
                 options={categoriesSelection}
                 defaultValue={problem?.category?.cat_id.toString() || ""}
+                isDisabled={isReported}
               />
             </div>
             <div className="grid grid-cols-1 lg:grid-cols-[1fr_250px] items-center gap-2">
@@ -88,6 +100,7 @@ const ProblemForm = ({
               defaultPosition={defaultPosition as { lat: number; lng: number }}
               setDefaultPosition={setDefaultPosition}
               initialZoom={13}
+              disabled={isReported}
             />
           </div>
         </div>

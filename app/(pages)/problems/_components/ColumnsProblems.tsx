@@ -5,6 +5,7 @@ import { formatDate } from "@/app/_utils/helpers";
 import Link from "next/link";
 import {
   HiMiniCheckCircle,
+  HiMiniEnvelope,
   HiMiniExclamationCircle,
   HiPauseCircle,
 } from "react-icons/hi2";
@@ -52,14 +53,26 @@ export const getColumnsProblems = ({
               </Link>
             );
           },
-          className: "max-w-[200px]",
+          className: "max-w-[150px]",
         },
       ]
     : []),
   {
     header: "Datum prijave",
-    accessor: (row: any) => formatDate(row.createdAt),
+    accessor: (row: any) => {
+      if (row.officialEmail === "0") return "-";
+      return (
+        <>
+          <span className="block">{formatDate(row.createdAt)}</span>
+          <span className="flex gap-x-1">
+            <DynamicIcon Icon={HiMiniEnvelope} className="text-secondary-500" />
+            prijavljeno
+          </span>
+        </>
+      );
+    },
   },
+
   {
     header: "Datum rešavanja",
     accessor: (row: any) => formatDate(row.updatedAt),
@@ -97,7 +110,6 @@ export const getColumnsProblems = ({
         },
       ]
     : []),
-
   ...(operations
     ? [
         {

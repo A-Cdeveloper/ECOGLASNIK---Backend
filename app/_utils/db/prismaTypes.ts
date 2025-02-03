@@ -38,6 +38,7 @@ export type ProblemCustumType = Prisma.ProblemGetPayload<{
     updatedAt: true;
     status: true;
     image: true;
+    officialEmail: true;
     category: {
       select: {
         cat_id: true;
@@ -57,6 +58,7 @@ export type ProblemCustumTypeWithUser = Prisma.ProblemGetPayload<{
     status: true;
     image: true;
     position: true;
+    officialEmail: true;
     category: {
       select: {
         cat_id: true;
