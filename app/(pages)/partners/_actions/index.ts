@@ -81,7 +81,7 @@ export const deletePartnerByIdAction = async (id: number) => {
       },
     });
 
-    revalidatePath("/partnerss");
+    revalidatePath("/partners");
   } catch (error: unknown) {
     handleError(error, {
       customMessage: `Greška prilikom brisanja partnera.`,
@@ -105,3 +105,22 @@ export const uploadPartnerImageAction = async (file: File) => {
     message: [url],
   };
 };
+
+// export const deletePartnerImageAction = async (id: number) => {
+//   try {
+//     // Delete the partners
+//     await prisma.partners.update({
+//       where: {
+//         pid: id,
+//       },
+//       data: {
+//         partnerLogo: "",
+//       },
+//     });
+//   } catch (error: unknown) {
+//     handleError(error, {
+//       customMessage: `Greška prilikom brisanja logoa partnera.`,
+//       throwError: true,
+//     });
+//   }
+// };

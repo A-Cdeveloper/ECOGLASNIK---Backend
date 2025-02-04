@@ -18,5 +18,5 @@ export const PartnerSchema = z.object({
     .string()
     .min(1, "Naziv partnera je obavezan")
     .max(60, "Naziv partnera mora biti maksimalno 60 karaktera"),
-  partnerLogo: z.string().min(1, "Slika partnera je obavezna"),
+  partnerLogo: z.string().min(1, "Logo partnera je obavezan"),
 });

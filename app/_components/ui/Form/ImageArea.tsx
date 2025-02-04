@@ -5,6 +5,7 @@ import { useCallback, useState } from "react";
 import MiniSpinner from "../../layout/MiniSpinner";
 import ErrorsFormMessage from "./ErrorsFormMessage";
 import { Partners } from "@prisma/client";
+import CloseButton from "../Buttons/CloseButton";
 
 const ImageArea = ({
   partner,
@@ -41,14 +42,9 @@ const ImageArea = ({
     [setIsLoadingUploadImage]
   );
 
-  // const handleRemoveImage = useCallback(() => {
-  //   setCurrentImageUrl("");
-  //   setCurrentImagePinataId("");
-  //   setFormState((prev) => ({
-  //     ...prev,
-  //     touchForm: true,
-  //   }));
-  // }, [setCurrentImagePinataId, setCurrentImageUrl, setFormState]);
+  const handleRemoveImage = useCallback(() => {
+    setCurrentFileUrl("");
+  }, [setCurrentFileUrl]);
 
   if (isLoadingUploadImage) {
     return (
@@ -64,15 +60,15 @@ const ImageArea = ({
   return (
     <>
       {currentFileUrl && (
-        <div className="relative">
-          {/* <CloseButton onClick={handleRemoveImage} /> */}
+        <div className="relative w-1/2">
+          <CloseButton onClick={handleRemoveImage} />
 
           <Image
             src={currentFileUrl as string}
             alt=""
-            width={300}
+            width={350}
             height={200}
-            className="overflow-hidden my-4 border-double border-4 border-secondary-100"
+            className="w-full overflow-hidden my-4 border-double border-4 border-secondary-100"
           />
         </div>
       )}

@@ -30,7 +30,7 @@ export const getColumnsPartners = ({
       <Picture
         src={row.partnerLogo}
         alt={row.partnerName}
-        className="!h-[100px] !w-[150px]"
+        className="!h-90px] !w-[160px]"
       />
     ),
     className: "max-w-full lg:max-w-[80px]",
