@@ -1,12 +1,6 @@
 import { MAX_UPLOAD_FILE_SIZE } from "@/app/_utils/contants";
 import { getOptimizedImageURL, pinata } from "@/app/_utils/pinata/config";
-import imageCompression from "browser-image-compression";
 import { NextResponse, type NextRequest } from "next/server";
-
-async function compressImage(file: File) {
-  const options = { maxSizeMB: 5, maxWidthOrHeight: 2000 };
-  return await imageCompression(file, options);
-}
 
 export async function POST(request: NextRequest) {
   try {
@@ -33,8 +27,8 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
-    const compressedFile = await compressImage(file);
-    const uploadData = await pinata.upload.file(compressedFile);
+
+    const uploadData = await pinata.upload.file(file);
 
     const url = await getOptimizedImageURL(uploadData.cid);
 
