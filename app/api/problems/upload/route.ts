@@ -1,13 +1,8 @@
-import { NextResponse, type NextRequest } from "next/server";
-import { getOptimizedImageURL, pinata } from "@/app/_utils/pinata/config";
 import { MAX_UPLOAD_FILE_SIZE } from "@/app/_utils/contants";
+import { getOptimizedImageURL, pinata } from "@/app/_utils/pinata/config";
+import { NextResponse, type NextRequest } from "next/server";
 
 export async function POST(request: NextRequest) {
-  const authResponse = await authMiddleware(request);
-  if (!authResponse.ok) {
-    return authResponse; // If unauthorized, return the middleware response
-  }
-
   try {
     const data = await request.formData();
     const file: File | null = data.get("file") as unknown as File;
