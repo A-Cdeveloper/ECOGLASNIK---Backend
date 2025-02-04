@@ -14,6 +14,7 @@ const StatBox = ({
 }) => {
   return (
     <Link
+      key={label}
       href={`/${link}`}
       className="flex border border-secondary-900 hover:border-winter-100/80 rounded-md px-2 py-[10px]  justify-start items-center gap-x-3 cursor-pointer group transition-all duration-500"
     >

@@ -14,13 +14,15 @@ const Picture = ({
 }) => {
   if (!src) {
     return (
-      <div>
+      <div
+        className={clsx(`w-full h-[100px] md:w-[90px]  md:h-[70px]`, className)}
+      >
         <Image
           src={noImage}
           width={450}
           height={300}
           alt={alt}
-          className=" border border-secondary-500/20 p-1"
+          className="w-full h-full object-cover object-center border border-secondary-500/20 p-1"
         />
       </div>
     );

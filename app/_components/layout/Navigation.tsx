@@ -2,6 +2,7 @@ import NavLink from "./NavLink";
 
 import {
   HiOutlineBellAlert,
+  HiOutlineBriefcase,
   HiOutlineCog6Tooth,
   HiOutlineHome,
   HiOutlineSquare3Stack3D,
@@ -24,6 +25,9 @@ const Navigation = () => {
         </NavLink>
         <NavLink href="/organisations" icon={<HiOutlineWrenchScrewdriver />}>
           Službe
+        </NavLink>
+        <NavLink href="/partners" icon={<HiOutlineBriefcase />}>
+          Partneri
         </NavLink>
         <NavLink href="/users" icon={<HiOutlineUsers />}>
           Korisnici

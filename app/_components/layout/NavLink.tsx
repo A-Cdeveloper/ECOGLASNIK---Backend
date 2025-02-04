@@ -24,6 +24,7 @@ const NavLink = ({
   return (
     <li className="group">
       <Link
+        key={href}
         href={href}
         className={clsx(
           `flex gap-x-3 items-center py-2 px-3 text-[14px] uppercase font-semibold`,

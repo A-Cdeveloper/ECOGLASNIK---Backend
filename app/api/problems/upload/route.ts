@@ -16,7 +16,7 @@ export async function POST(request: NextRequest) {
 
     if (file.size > MAX_UPLOAD_FILE_SIZE) {
       return NextResponse.json(
-        { error: "Dozvoljena veličina fotografije je 5MB" },
+        { error: "Dozvoljena veličina fotografije je 15MB" },
         { status: 400 }
       );
     }

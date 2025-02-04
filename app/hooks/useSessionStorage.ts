@@ -1,9 +1,14 @@
 import { useEffect, useState } from "react";
 
 const useSessionStorage = <T>(key: string, initialValue: T) => {
+  const isBrowser = typeof window !== "undefined";
+
   const [data, setData] = useState<T>(() => {
+    if (!isBrowser) return initialValue;
     try {
-      const storedValue = sessionStorage.getItem(key);
+      const storedValue = sessionStorage.getItem(key)
+        ? sessionStorage.getItem(key)
+        : null;
       return storedValue !== null ? JSON.parse(storedValue) : initialValue;
     } catch (error) {
       console.error(`Error parsing session storage key "${key}":`, error);

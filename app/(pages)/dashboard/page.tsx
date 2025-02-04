@@ -1,7 +1,7 @@
 import Headline from "@/app/_components/ui/Headline";
 
 import { getUserFromToken } from "@/app/(auth)/_actions";
-import { UserRestrictedType } from "@/app/_utils/db/prismaTypes";
+
 import ChartsProblems from "./_components/appCharts/ChartsProblems";
 import ChartsProblemsTimeLine, {
   ChartsProblemsTimeLineSkeleton,
@@ -16,9 +16,7 @@ export default async function HomePage({
 }: {
   searchParams: Promise<{ [key: string]: string | undefined }>;
 }) {
-  const { user } = (await getUserFromToken()) as unknown as {
-    user: UserRestrictedType;
-  };
+  const { user } = (await getUserFromToken()) ?? { user: null };
 
   return (
     <>
