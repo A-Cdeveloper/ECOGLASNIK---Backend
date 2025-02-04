@@ -31,7 +31,15 @@ const PartnersForm = ({ partner }: { partner?: Partners }) => {
       <ImageArea
         setIsLoadingUploadImage={setIsLoadingUploadImage}
         isLoadingUploadImage={isLoadingUploadImage}
-        partner={partner}
+        data={partner as Partners}
+        getImageUrl={(data) => {
+          return {
+            alt: data?.partnerName || "",
+            src: data?.partnerLogo || "",
+          };
+        }}
+        label="Dodaj logo partnera"
+        name="partnerLogo"
       />
 
       {errors.length > 0 && <ErrorsForm errors={errors} />}

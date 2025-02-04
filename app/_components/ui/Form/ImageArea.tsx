@@ -4,20 +4,31 @@ import Image from "next/image";
 import { useCallback, useState } from "react";
 import MiniSpinner from "../../layout/MiniSpinner";
 import ErrorsFormMessage from "./ErrorsFormMessage";
-import { Partners } from "@prisma/client";
+
 import CloseButton from "../Buttons/CloseButton";
 
-const ImageArea = ({
-  partner,
-  isLoadingUploadImage,
-  setIsLoadingUploadImage,
-}: {
-  partner?: Partners;
+type ImageAreaProps<T> = {
+  data?: T;
   isLoadingUploadImage: boolean;
   setIsLoadingUploadImage: React.Dispatch<React.SetStateAction<boolean>>;
-}) => {
-  const [currentFileUrl, setCurrentFileUrl] = useState(
-    partner?.partnerLogo || ""
+  getImageUrl: (data: T | undefined) => {
+    alt: string;
+    src: string;
+  };
+  label: string;
+  name: string;
+};
+
+export const ImageArea = <T,>({
+  data,
+  isLoadingUploadImage,
+  setIsLoadingUploadImage,
+  getImageUrl,
+  label,
+  name,
+}: ImageAreaProps<T>) => {
+  const [currentFileUrl, setCurrentFileUrl] = useState<string>(
+    getImageUrl(data).src
   );
 
   const [errors, setErrors] = useState<string[]>([]);
@@ -44,7 +55,7 @@ const ImageArea = ({
 
   const handleRemoveImage = useCallback(() => {
     setCurrentFileUrl("");
-  }, [setCurrentFileUrl]);
+  }, []);
 
   if (isLoadingUploadImage) {
     return (
@@ -64,8 +75,8 @@ const ImageArea = ({
           <CloseButton onClick={handleRemoveImage} />
 
           <Image
-            src={currentFileUrl as string}
-            alt=""
+            src={currentFileUrl}
+            alt={getImageUrl(data).alt}
             width={350}
             height={200}
             className="w-full overflow-hidden my-4 border-double border-4 border-secondary-100"
@@ -81,17 +92,16 @@ const ImageArea = ({
             type="file"
             accept="image/*"
             id="image"
-            name="partnerImage"
+            name={name}
             onChange={handleFileChange}
             className="hidden"
-            defaultValue={currentFileUrl}
           />
 
           <label
             htmlFor="image"
             className="w-full relative h-9 cursor-pointer border-dashed border-1 border-secondary flex justify-center items-center  text-secondary hover:text-winter"
           >
-            Dodaj logo partnera
+            {label}
           </label>
         </>
       )}
