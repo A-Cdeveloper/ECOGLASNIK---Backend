@@ -61,7 +61,7 @@ export async function POST(request: NextRequest) {
         lat: parseFloat(reciveData.position.lat),
         lng: parseFloat(reciveData.position.lng),
       },
-      officialEmail: reciveData.officialEmail || "0",
+      officialEmail: reciveData.officialEmail === "on" ? "1" : "0",
       createdAt: new Date(), // Set the current date/time
       updatedAt: null, // Explicitly set to null
       status: "active",
