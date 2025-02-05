@@ -1,6 +1,7 @@
 "server only";
 
 import { PinataSDK } from "pinata";
+import sharp from "sharp";
 
 export const pinata = new PinataSDK({
   pinataJwt: `${process.env.PINATA_JWT}`,
@@ -26,4 +27,15 @@ export async function getOptimizedImageURL(cid: string) {
   } catch (error) {
     console.error(error);
   }
+}
+
+export async function optimizeImage(file: File): Promise<File> {
+  const buffer = Buffer.from(await file.arrayBuffer());
+
+  const optimizedImage = await sharp(buffer)
+    .resize({ width: 1920 }) // Resize if needed
+    .jpeg({ quality: 80 }) // Compress & convert to JPEG
+    .toBuffer();
+
+  return new File([optimizedImage], file.name, { type: file.type });
 }

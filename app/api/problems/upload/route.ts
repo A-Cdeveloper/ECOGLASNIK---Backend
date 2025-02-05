@@ -1,19 +1,11 @@
 import { MAX_UPLOAD_FILE_SIZE } from "@/app/_utils/contants";
-import { getOptimizedImageURL, pinata } from "@/app/_utils/pinata/config";
+import {
+  getOptimizedImageURL,
+  optimizeImage,
+  pinata,
+} from "@/app/_utils/pinata/config";
 
 import { NextResponse, type NextRequest } from "next/server";
-import sharp from "sharp";
-
-export async function optimizeImage(file: File): Promise<File> {
-  const buffer = Buffer.from(await file.arrayBuffer());
-
-  const optimizedImage = await sharp(buffer)
-    .resize({ width: 1920 }) // Resize if needed
-    .jpeg({ quality: 80 }) // Compress & convert to JPEG
-    .toBuffer();
-
-  return new File([optimizedImage], file.name, { type: file.type });
-}
 
 export async function POST(request: NextRequest) {
   try {
