@@ -5,7 +5,11 @@ import { getProblemById } from "@/app/_utils/api_utils/problems-api";
 import { MAX_UPLOAD_FILE_SIZE } from "@/app/_utils/contants";
 import prisma from "@/app/_utils/db/db";
 import { handleError, validateSchemaRedirect } from "@/app/_utils/errorHandler";
-import { getOptimizedImageURL, pinata } from "@/app/_utils/pinata/config";
+import {
+  getOptimizedImageURL,
+  optimizeImage,
+  pinata,
+} from "@/app/_utils/pinata/config";
 import { updateProblemSchema } from "@/app/_utils/zod/problemSchemas";
 
 import { revalidatePath } from "next/cache";
@@ -120,8 +124,10 @@ export const uploadProblemImageAction = async (file: File) => {
     throw new Error(`Fotografija mora biti u JPG ili PNG formatu`);
   }
 
+  const optimizeFile = await optimizeImage(file);
+
   try {
-    const uploadImage = await pinata.upload.file(file);
+    const uploadImage = await pinata.upload.file(optimizeFile);
     const url = (await getOptimizedImageURL(uploadImage.cid)) as string;
 
     return {
