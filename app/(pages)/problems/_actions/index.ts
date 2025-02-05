@@ -113,7 +113,7 @@ export const uploadProblemImageAction = async (file: File) => {
   }
 
   if (file.size > MAX_UPLOAD_FILE_SIZE) {
-    throw new Error(`Maksimalna velicina fotografije je 5MB`);
+    throw new Error(`Maksimalna velicina fotografije je 10MB`);
   }
 
   if (file.type !== "image/jpeg" && file.type !== "image/png") {

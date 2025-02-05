@@ -13,7 +13,6 @@
   "dependencies": {
     "@prisma/client": "^5.22.0",
     "bcrypt": "^5.1.1",
-    "browser-image-compression": "^2.0.2",
     "clsx": "^2.1.1",
     "date-fns": "^4.1.0",
     "dotenv": "^16.4.7",
@@ -28,6 +27,7 @@
     "react-leaflet": "^5.0.0-rc.2",
     "react-loading-skeleton": "^3.5.0",
     "recharts": "^2.15.1",
+    "sharp": "^0.33.5",
     "tailwind-scrollbar": "^3.1.0",
     "zod": "^3.23.8"
   },
