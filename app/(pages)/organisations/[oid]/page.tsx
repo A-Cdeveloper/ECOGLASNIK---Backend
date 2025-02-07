@@ -9,6 +9,10 @@ import { getOrganisation } from "@/app/_utils/api_utils/organisations";
 import { Problem } from "@prisma/client";
 import { getColumnsCategories } from "../../categories/_components/ColumnsCategories";
 import { deleteOrganisationByIdAction } from "../_actions";
+import { Suspense } from "react";
+import ChartProblemsByOrganisation, {
+  ChartProblemsByOrganisationSkeleton,
+} from "../../dashboard/_components/appCharts/ChartProblemsByOrganisation";
 
 const OrganisationPage = async ({
   params,
@@ -37,6 +41,12 @@ const OrganisationPage = async ({
       </div>
 
       <Stats items={allProblems as Problem[]} />
+
+      <div className="w-full 2xl:w-[47%] min-h-[300px] flex flex-col">
+        <Suspense fallback={<ChartProblemsByOrganisationSkeleton />}>
+          <ChartProblemsByOrganisation organisationId={oid} />
+        </Suspense>
+      </div>
 
       <div className="my-4">
         <Table

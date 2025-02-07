@@ -15,7 +15,7 @@ const Stats = ({
   statFilter?: number;
   statParam?: string;
 }) => {
-  const { total, active, done, archive } = useProblemStats(items as Problem[]);
+  const { total, active, done } = useProblemStats(items as Problem[]);
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-[1fr_1fr_1fr_1fr] mt-4 gap-y-3 w-full 2xl:w-[70%] 3xl:w-[60%] gap-x-4 items-center uppercase">

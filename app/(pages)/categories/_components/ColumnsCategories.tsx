@@ -48,21 +48,31 @@ export const getColumnsCategories = ({
   ...(problems
     ? [
         {
-          header: "Prijave",
+          header: "Ukupno problema",
           accessor: (row: any) =>
             row.problems.filter((problem: any) => problem.status !== "archive")
               .length,
           className: "text-start md:text-center",
         },
         {
-          header: "Aktivne",
+          header: "Zvanične prijave",
+          accessor: (row: any) =>
+            row.problems.filter(
+              (problem: any) =>
+                (problem.status === "done" || problem.status === "active") &&
+                problem.officialEmail === "1"
+            ).length,
+          className: "text-start md:text-center",
+        },
+        {
+          header: "Aktivni",
           accessor: (row: any) =>
             row.problems.filter((problem: any) => problem.status === "active")
               .length,
           className: "text-start md:text-center",
         },
         {
-          header: "Rešene",
+          header: "Rešeni",
           accessor: (row: any) =>
             row.problems.filter((problem: any) => problem.status === "done")
               .length,
