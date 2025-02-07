@@ -53,19 +53,6 @@ const Stats = ({
         Rešeno ({total && done && calculatePercentage(done, total)}
         %)
       </StatBox>
-      <StatBox
-        numberofProblems={archive}
-        goto={
-          statParam
-            ? `/${statParam}?status=archive ${
-                statFilter ? `&category=${statFilter}` : ""
-              }`
-            : "#"
-        }
-        classname="text-secondary-100/50 border-secondary-100/50"
-      >
-        Arhiva
-      </StatBox>
     </div>
   );
 };
