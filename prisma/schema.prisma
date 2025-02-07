@@ -81,7 +81,7 @@ model Settings {
 model Partners {
   pid         Int    @id @default(autoincrement())
   partnerName String
-  partnerLogo String
+  partnerLogo String @db.VarChar(400)
 
   @@map("partners")
 }
