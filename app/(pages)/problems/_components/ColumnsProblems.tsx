@@ -1,7 +1,7 @@
 import DynamicIcon from "@/app/_components/ui/DynamicIcon";
 import Operations from "@/app/_components/dataOperations/IconOperationsButtons";
 import Picture from "@/app/_components/ui/Picture";
-import { formatDate } from "@/app/_utils/helpers";
+import { formatDate } from "@/app/_utils/helpers/";
 import Link from "next/link";
 import {
   HiMiniCheckCircle,

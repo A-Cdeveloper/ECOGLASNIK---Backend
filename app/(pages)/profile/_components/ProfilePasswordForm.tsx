@@ -9,7 +9,7 @@ import SuccessFormMessage from "@/app/_components/ui/Form/SuccessFormMessage";
 import { useRouter } from "next/navigation";
 import { useActionState, useCallback, useEffect, useState } from "react";
 import { updateProfilePasswordAction } from "../_actions";
-import { wait } from "@/app/_utils/helpers";
+import { wait } from "@/app/_utils/helpers/";
 
 const ProfilePasswordForm = ({ userId }: { userId?: number }) => {
   const [formFields, setFormFields] = useState<{ [key: string]: string }>({

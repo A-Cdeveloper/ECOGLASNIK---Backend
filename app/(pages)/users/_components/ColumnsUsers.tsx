@@ -1,4 +1,4 @@
-import { formatDate, formatDateWithTime } from "@/app/_utils/helpers";
+import { formatDate, formatDateWithTime } from "@/app/_utils/helpers/";
 
 import { HiMiniCheckCircle, HiMiniMinusCircle } from "react-icons/hi2";
 import DynamicIcon from "@/app/_components/ui/DynamicIcon";

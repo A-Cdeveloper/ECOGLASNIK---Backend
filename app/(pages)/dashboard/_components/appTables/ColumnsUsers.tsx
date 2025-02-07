@@ -1,4 +1,4 @@
-import { formatDateWithTime } from "@/app/_utils/helpers";
+import { formatDateWithTime } from "@/app/_utils/helpers/";
 import Link from "next/link";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */

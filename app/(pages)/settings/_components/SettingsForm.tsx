@@ -10,7 +10,7 @@ import InputRange from "@/app/_components/ui/Form/InputRange";
 import {
   calculateDistanceFromBounds,
   convertLatLngToString,
-} from "@/app/_utils/helpers";
+} from "@/app/_utils/helpers/";
 
 const SettingsForm = ({ settings }: { settings: SettingsWithoutId }) => {
   const [errors, formAction] = useActionState(updateSettingsAction, []);

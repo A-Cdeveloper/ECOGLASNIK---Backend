@@ -1,5 +1,5 @@
 import { Problem } from "@prisma/client";
-import { formatDate } from "../helpers/helpers";
+import { formatDate } from "../helpers";
 
 const logo = `${process.env.BASE_URL}/ecoglasnik.png`;
 

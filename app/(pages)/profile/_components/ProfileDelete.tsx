@@ -6,7 +6,7 @@ import { startTransition, useState } from "react";
 import { deleteProfileAction } from "../_actions";
 import SuccessFormMessage from "@/app/_components/ui/Form/SuccessFormMessage";
 import ErrorsFormMessage from "@/app/_components/ui/Form/ErrorsFormMessage";
-import { wait } from "@/app/_utils/helpers";
+import { wait } from "@/app/_utils/helpers/";
 import { useRouter } from "next/navigation";
 
 const ProfileDelete = ({ userId }: { userId: number }) => {

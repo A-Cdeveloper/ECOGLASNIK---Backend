@@ -11,7 +11,7 @@ import { updateProblemAction } from "../_actions";
 import ProblemImageArea from "./ProblemImageArea";
 import ErrorsFormMessage from "@/app/_components/ui/Form/ErrorsFormMessage";
 import Map from "../../../_components/ui/Map";
-import { convertLatLngToString } from "@/app/_utils/helpers";
+import { convertLatLngToString } from "@/app/_utils/helpers/";
 import { statuses } from "./FilterOptions";
 
 const ProblemForm = ({

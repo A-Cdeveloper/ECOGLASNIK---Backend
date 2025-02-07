@@ -4,7 +4,7 @@ import Headline from "@/app/_components/ui/Headline";
 import Map from "@/app/_components/ui/Map";
 import Picture from "@/app/_components/ui/Picture";
 import { getProblemById } from "@/app/_utils/api_utils/problems";
-import { convertLatLngToString, formatDate } from "@/app/_utils/helpers";
+import { convertLatLngToString, formatDate } from "@/app/_utils/helpers/";
 import { cloneProblemByIdAction, deleteProblemByIdAction } from "../_actions";
 import { statuses } from "../_components/FilterOptions";
 import ItemOperationsButtons from "@/app/_components/dataOperations/ItemOperationsButtons";

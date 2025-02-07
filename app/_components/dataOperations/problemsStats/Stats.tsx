@@ -1,6 +1,6 @@
 "use client";
 
-import { calculatePercentage } from "@/app/_utils/helpers";
+import { calculatePercentage } from "@/app/_utils/helpers/";
 import React from "react";
 import StatBox from "./StatBox";
 import useProblemStats from "@/app/hooks/useProblemStats";

@@ -3,7 +3,7 @@
 
 import prisma from "@/app/_utils/db/db";
 import { validateSchemaRedirect } from "@/app/_utils/helpers/errorHandler";
-import { generateBounds } from "@/app/_utils/helpers";
+import { generateBounds } from "@/app/_utils/helpers/";
 import { appSettingsSchema } from "@/app/_utils/zod/settingsSchemas";
 import { revalidatePath } from "next/cache";
 
