@@ -7,7 +7,7 @@ import { useActionState } from "react";
 // import ErrorsForm from "./ErrorsForm";
 import Link from "next/link";
 
-import { OrganisationType } from "@/app/_utils/db/prismaTypes";
+import { OrganisationType } from "@/app/types/prismaTypes";
 import {
   addNewOrganisationAction,
   updateOrganisationAction,

@@ -9,16 +9,18 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <UserContextProvider>
-      <Header />
-      <div className="flex h-screen pt-[65px] overflow-hidden">
-        <SideBar>
-          <Navigation />
-        </SideBar>
-        <main className="h-full overflow-auto px-[20px] lg:px-8 py-6 flex-1 ms-[50px] xl:ms-[270px]">
-          {children}
-        </main>
-      </div>
-    </UserContextProvider>
+    <>
+      <UserContextProvider>
+        <Header />
+        <div className="flex h-screen pt-[65px] overflow-hidden">
+          <SideBar>
+            <Navigation />
+          </SideBar>
+          <main className="h-full overflow-auto px-[20px] lg:px-8 py-6 flex-1 ms-[50px] xl:ms-[270px]">
+            {children}
+          </main>
+        </div>
+      </UserContextProvider>
+    </>
   );
 }

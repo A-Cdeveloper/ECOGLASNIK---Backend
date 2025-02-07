@@ -4,7 +4,7 @@ import { SubmitButton } from "@/app/_components/ui/Buttons/SubmitButton";
 import Input from "@/app/_components/ui/Form/Input";
 import { useActionState } from "react";
 
-import { UserRestrictedType } from "@/app/_utils/db/prismaTypes";
+import { UserRestrictedType } from "@/app/types/prismaTypes";
 
 import Select from "@/app/_components/ui/Form/Select";
 

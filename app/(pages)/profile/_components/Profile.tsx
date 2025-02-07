@@ -1,7 +1,7 @@
 "use client";
 
 import Headline from "@/app/_components/ui/Headline";
-import { UserRestrictedType } from "@/app/_utils/db/prismaTypes";
+import { UserRestrictedType } from "@/app/types/prismaTypes";
 import { formatDate } from "@/app/_utils/helpers";
 import { useUser } from "@/app/context/authContext";
 import Image from "next/image";

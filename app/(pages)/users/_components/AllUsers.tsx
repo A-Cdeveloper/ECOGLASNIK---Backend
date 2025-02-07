@@ -16,7 +16,7 @@ import {
   SkeletonTopBar,
 } from "@/app/_components/ui/Skeletons";
 import { getAllUsers } from "@/app/_utils/api_utils/users";
-import { UserRestrictedType } from "@/app/_utils/db/prismaTypes";
+import { UserRestrictedType } from "@/app/types/prismaTypes";
 import Link from "next/link";
 import { userStatusOptions } from "./FilterOptions";
 

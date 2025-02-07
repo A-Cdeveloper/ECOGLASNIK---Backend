@@ -2,7 +2,7 @@ import BackButton from "@/app/_components/ui/Buttons/BackButton";
 import Headline from "@/app/_components/ui/Headline";
 import { getAllCategories } from "@/app/_utils/api_utils/categories";
 import { getProblemById } from "@/app/_utils/api_utils/problems";
-import { ProblemCustumTypeWithUser } from "@/app/_utils/db/prismaTypes";
+import { ProblemCustumTypeWithUser } from "@/app/types/prismaTypes";
 import ProblemForm from "../../_components/ProblemForm";
 
 const EditProblem = async ({ params }: { params: Promise<{ id: string }> }) => {

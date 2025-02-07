@@ -1,5 +1,5 @@
 import { getAllCategories } from "@/app/_utils/api_utils/categories";
-import { ProblemCategoriesType } from "@/app/_utils/db/prismaTypes";
+import { ProblemCategoriesType } from "@/app/types/prismaTypes";
 
 import { NextResponse } from "next/server";
 

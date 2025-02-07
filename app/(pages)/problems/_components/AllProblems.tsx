@@ -18,7 +18,7 @@ import {
 } from "@/app/_components/ui/Skeletons";
 import { getAllCategories } from "@/app/_utils/api_utils/categories";
 import { getAllProblems } from "@/app/_utils/api_utils/problems";
-import { ProblemCustumType } from "@/app/_utils/db/prismaTypes";
+import { ProblemCustumType } from "@/app/types/prismaTypes";
 import Link from "next/link";
 import { problemStatusOptions } from "./FilterOptions";
 

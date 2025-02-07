@@ -5,7 +5,7 @@ import Select from "@/app/_components/ui/Form/Select";
 import TextArea from "@/app/_components/ui/Form/TextArea";
 
 import { SubmitButton } from "@/app/_components/ui/Buttons/SubmitButton";
-import { ProblemCustumTypeWithUser } from "@/app/_utils/db/prismaTypes";
+import { ProblemCustumTypeWithUser } from "@/app/types/prismaTypes";
 import { useActionState, useState } from "react";
 import { updateProblemAction } from "../_actions";
 import ProblemImageArea from "./ProblemImageArea";

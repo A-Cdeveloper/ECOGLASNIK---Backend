@@ -4,7 +4,7 @@ import { getAllCategories } from "@/app/_utils/api_utils/categories";
 import { getOrganisation } from "@/app/_utils/api_utils/organisations";
 import React from "react";
 import OrganisationForm from "../../_components/OrganisationForm";
-import { OrganisationType } from "@/app/_utils/db/prismaTypes";
+import { OrganisationType } from "@/app/types/prismaTypes";
 
 const EditOrganisation = async ({
   params,

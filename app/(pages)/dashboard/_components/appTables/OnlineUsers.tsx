@@ -6,7 +6,7 @@ import {
 } from "@/app/_components/ui/Skeletons";
 import Table from "@/app/_components/ui/Tables/Table";
 import { getAllUsers } from "@/app/_utils/api_utils/users";
-import { UserRestrictedType } from "@/app/_utils/db/prismaTypes";
+import { UserRestrictedType } from "@/app/types/prismaTypes";
 import { getColumnsUsers } from "./ColumnsUsers";
 import TopSection from "./TopSection";
 

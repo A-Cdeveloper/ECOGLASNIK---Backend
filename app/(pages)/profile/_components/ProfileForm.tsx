@@ -6,7 +6,7 @@ import ErrorsFormMessage from "@/app/_components/ui/Form/ErrorsFormMessage";
 import SuccessFormMessage from "@/app/_components/ui/Form/SuccessFormMessage";
 import { useActionState, useEffect } from "react";
 import { updateProfileAction } from "../_actions";
-import { UserRestrictedType } from "@/app/_utils/db/prismaTypes";
+import { UserRestrictedType } from "@/app/types/prismaTypes";
 import Headline from "@/app/_components/ui/Headline";
 
 const ProfileForm = ({

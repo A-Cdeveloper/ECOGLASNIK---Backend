@@ -7,7 +7,7 @@ import { useActionState } from "react";
 import ErrorsForm from "../../../_components/ui/Form/ErrorsFormMessage";
 import Link from "next/link";
 
-import { ProblemCategoriesType } from "@/app/_utils/db/prismaTypes";
+import { ProblemCategoriesType } from "@/app/types/prismaTypes";
 
 const CategoryForm = ({
   organisationsSelection,

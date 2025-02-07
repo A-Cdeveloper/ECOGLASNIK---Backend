@@ -7,7 +7,7 @@ import React, {
   useEffect,
 } from "react";
 import { getUserFromToken } from "../(auth)/_actions";
-import { UserRestrictedType } from "../_utils/db/prismaTypes";
+import { UserRestrictedType } from "../types/prismaTypes";
 import useSessionStorage from "../hooks/useSessionStorage";
 import { useAutoLogout } from "../hooks/useAutoLogout ";
 

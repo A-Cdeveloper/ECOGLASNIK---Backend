@@ -3,7 +3,7 @@ import Headline from "@/app/_components/ui/Headline";
 import { getCategoryById } from "@/app/_utils/api_utils/categories";
 import { getAllOrganisations } from "@/app/_utils/api_utils/organisations";
 import CategoryForm from "../../_components/CategoryForm";
-import { ProblemCategoriesType } from "@/app/_utils/db/prismaTypes";
+import { ProblemCategoriesType } from "@/app/types/prismaTypes";
 import { Organisation } from "@prisma/client";
 
 const EditCategory = async ({

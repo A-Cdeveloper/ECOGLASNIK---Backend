@@ -11,7 +11,7 @@ import { getColumnsCategories } from "./ColumnsCategories";
 import { sortOptions } from "./SortOptions";
 
 import { getAllCategories } from "@/app/_utils/api_utils/categories";
-import { ProblemCategoriesType } from "@/app/_utils/db/prismaTypes";
+import { ProblemCategoriesType } from "@/app/types/prismaTypes";
 import {
   SkeletonPagination,
   SkeletonTable,
