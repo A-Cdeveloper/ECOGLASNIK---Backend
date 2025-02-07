@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { containsProfanity } from "../helpers";
 
 // Shared position schema
 export const positionSchema = z.object({
@@ -12,12 +13,18 @@ const problemBaseSchema = z.object({
     .string()
     .min(1, "Naslov problema je obavezan")
     .max(60, "Naslov mora biti maksimalno 60 karaktera")
-    .transform((val) => val.trim()),
+    .transform((val) => val.trim())
+    .refine((val) => !containsProfanity(val), {
+      message: "Nalov sadrži neprimerene reči.",
+    }),
   description: z
     .string()
     .min(1, "Opis problema je obavezan.")
     .max(300, "Opis problema mora biti maksimalno 300 karaktera")
-    .transform((val) => val.trim()),
+    .transform((val) => val.trim())
+    .refine((val) => !containsProfanity(val), {
+      message: "Opis sadrži neprimerene reči.",
+    }),
   officialEmail: z.string().optional(),
   cat_id: z.number().int(),
   image: z.string().optional(),

@@ -1,4 +1,5 @@
 import { format } from "date-fns";
+import { bannedRegex } from "../contants";
 
 export const getDisplayName = (name: string) => {
   if (!name) return "";
@@ -97,3 +98,5 @@ export const calculatePercentage = (part: number, whole: number): number => {
 
 export const wait = (ms: number) =>
   new Promise((resolve) => setTimeout(resolve, ms));
+
+export const containsProfanity = (text: string) => bannedRegex.test(text);
