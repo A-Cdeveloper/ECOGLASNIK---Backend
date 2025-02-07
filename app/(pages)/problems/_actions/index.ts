@@ -4,7 +4,10 @@
 import { getProblemById } from "@/app/_utils/api_utils/problems-api";
 import { MAX_UPLOAD_FILE_SIZE } from "@/app/_utils/contants";
 import prisma from "@/app/_utils/db/db";
-import { handleError, validateSchemaRedirect } from "@/app/_utils/errorHandler";
+import {
+  handleError,
+  validateSchemaRedirect,
+} from "@/app/_utils/helpers/errorHandler";
 import {
   getOptimizedImageURL,
   optimizeImage,

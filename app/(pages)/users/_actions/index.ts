@@ -4,7 +4,7 @@
 import { deleteUser } from "@/app/_utils/api_utils/users";
 import { sendAdminWelcomeEmail } from "@/app/_utils/emails/sendEmail";
 import prisma from "@/app/_utils/db/db";
-import { validateSchemaResponse } from "@/app/_utils/errorHandler";
+import { validateSchemaResponse } from "@/app/_utils/helpers/errorHandler";
 
 import {
   UserFormSchema,

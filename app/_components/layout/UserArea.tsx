@@ -4,7 +4,7 @@ import { useUser } from "@/app/context/authContext";
 import useOutsideClick from "@/app/hooks/useOutsideClick";
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import { getDisplayName } from "../../_utils/helpers";
+import { getDisplayName } from "../../_utils/helpers/helpers";
 import UserMiniMenu from "./UserMiniMenu";
 import MiniSpinner from "./MiniSpinner";
 

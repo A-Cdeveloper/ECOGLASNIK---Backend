@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { MAX_PAGE_SIZE } from "../contants";
 import prisma from "../db/db";
-import { sortByPropertyLength } from "../helpers";
+import { sortByPropertyLength } from "../helpers/helpers";
 
 export const getAllCategories = async (
   sortBy: string = "cat_id-asc",

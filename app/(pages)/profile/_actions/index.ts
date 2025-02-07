@@ -3,7 +3,10 @@
 
 import { hashPassword } from "@/app/_utils/auth/index";
 import prisma from "@/app/_utils/db/db";
-import { handleError, validateSchemaResponse } from "@/app/_utils/errorHandler";
+import {
+  handleError,
+  validateSchemaResponse,
+} from "@/app/_utils/helpers/errorHandler";
 import { registerPasswordSchema } from "@/app/_utils/zod/authSchemas";
 import { UserFormSchema } from "@/app/_utils/zod/userSchemas";
 

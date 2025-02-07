@@ -3,7 +3,10 @@
 
 import { getCategoryById } from "@/app/_utils/api_utils/categories";
 import prisma from "@/app/_utils/db/db";
-import { handleError, validateSchemaRedirect } from "@/app/_utils/errorHandler";
+import {
+  handleError,
+  validateSchemaRedirect,
+} from "@/app/_utils/helpers/errorHandler";
 import { CategoryFormSchema } from "@/app/_utils/zod/categorySchemas";
 
 import { revalidatePath } from "next/cache";

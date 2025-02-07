@@ -12,7 +12,7 @@ import {
   handleError,
   validateSchemaRedirect,
   validateSchemaResponse,
-} from "@/app/_utils/errorHandler";
+} from "@/app/_utils/helpers/errorHandler";
 import {
   emailSchema,
   loginSchema,
