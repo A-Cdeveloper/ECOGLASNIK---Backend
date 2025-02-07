@@ -84,7 +84,7 @@ export const SkeletonGeneralStats = ({
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 2xl:grid-cols-[1fr_1fr_1fr_1fr] my-8 gap-2 w-full 2xl:w-[60%] ">
       {Array.from({ length: boxNumber }).map((_, colIndex) => {
         return (
-          <>
+          <div key={colIndex}>
             <Skeleton
               key={colIndex}
               height={60}
@@ -92,7 +92,7 @@ export const SkeletonGeneralStats = ({
               className="opacity-40 w-full"
               count={1}
             />
-          </>
+          </div>
         );
       })}
     </div>
@@ -117,7 +117,7 @@ export const PieSkeleton = ({ statNumber }: { statNumber: number }) => {
       {/* Legend Container (Manually Placed) */}
       <div className="w-full md:w-1/2 py-2 h-[300]">
         {Array.from({ length: statNumber }).map((_, colIndex) => (
-          <>
+          <div key={colIndex}>
             <Skeleton
               key={colIndex}
               height={8}
@@ -125,7 +125,7 @@ export const PieSkeleton = ({ statNumber }: { statNumber: number }) => {
               className="opacity-40 w-full"
               count={1}
             />
-          </>
+          </div>
         ))}
       </div>
     </div>
