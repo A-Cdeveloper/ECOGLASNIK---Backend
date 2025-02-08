@@ -108,24 +108,15 @@ export const getProblemTrends = async (days: number = 7) => {
   const startDate = subDays(endDate, days);
 
   try {
-    // Single query to fetch both active and resolved problems
+    // Fetch problems created within the date range
     const problems = await prisma.problem.findMany({
       where: {
-        OR: [
-          {
-            createdAt: { gte: startDate, lte: endDate },
-            NOT: { status: "archived" },
-          },
-          {
-            updatedAt: { gte: startDate, lte: endDate },
-            status: "done",
-          },
-        ],
+        createdAt: { gte: startDate, lte: endDate },
+        NOT: { status: "archive" },
       },
       select: {
         id: true,
         createdAt: true,
-        updatedAt: true,
         status: true,
       },
     });
@@ -137,17 +128,16 @@ export const getProblemTrends = async (days: number = 7) => {
       trends[dateKey] = { aktivni: 0, reseni: 0 };
     }
 
-    // Process problems in a single loop
+    // Process problems based on createdAt
     problems.forEach((p) => {
       const createdDateKey = format(p.createdAt, "dd.MM.yyyy");
       if (trends[createdDateKey]) {
-        trends[createdDateKey].aktivni += 1;
-      }
+        if (p.status === "active") {
+          trends[createdDateKey].aktivni += 1;
+        }
 
-      if (p.status === "done" && p.updatedAt) {
-        const updatedDateKey = format(p.updatedAt, "dd.MM.yyyy");
-        if (trends[updatedDateKey]) {
-          trends[updatedDateKey].reseni += 1;
+        if (p.status === "done") {
+          trends[createdDateKey].reseni += 1;
         }
       }
     });

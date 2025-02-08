@@ -33,8 +33,6 @@ const ProblemsByInterval = async ({
     return problem.status !== "archive";
   });
 
-  console.log(notArchivedProblems.length);
-
   let content = (
     <Table
       data={notArchivedProblems}
