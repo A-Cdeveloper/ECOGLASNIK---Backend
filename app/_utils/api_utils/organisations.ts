@@ -200,7 +200,7 @@ export const getOrganisationProblems = async (oid: number) => {
         name: `REŠENI`,
         value: statusCounts.done,
         percent: getPercentage(statusCounts.done),
-        color: tailwindConfig.theme.extend.colors.success["200"],
+        color: tailwindConfig.theme.extend.colors.turquoise["100"],
       },
     ];
 

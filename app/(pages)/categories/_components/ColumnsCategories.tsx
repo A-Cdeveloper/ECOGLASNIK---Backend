@@ -55,16 +55,6 @@ export const getColumnsCategories = ({
           className: "text-start md:text-center",
         },
         {
-          header: "Zvanične prijave",
-          accessor: (row: any) =>
-            row.problems.filter(
-              (problem: any) =>
-                (problem.status === "done" || problem.status === "active") &&
-                problem.officialEmail === "1"
-            ).length,
-          className: "text-start md:text-center",
-        },
-        {
           header: "Aktivni",
           accessor: (row: any) =>
             row.problems.filter((problem: any) => problem.status === "active")
@@ -78,6 +68,15 @@ export const getColumnsCategories = ({
               .length,
           className: "text-start md:text-center",
         },
+        {
+          header: "Zvanične prijave",
+          accessor: (row: any) =>
+            row.problems.filter(
+              (problem: any) =>
+                problem.status !== "archive" && problem.officialEmail === "1"
+            ).length,
+          className: "text-start md:text-center opacity-50",
+        },
       ]
     : []),
 
@@ -90,7 +89,9 @@ export const getColumnsCategories = ({
               id={row.cat_id as number}
               basePath="categories"
               cloneAction={cloneCategoryByIdAction}
-              deleteAction={deleteCategoryByIdAction}
+              deleteAction={
+                row.problems.length === 0 ? deleteCategoryByIdAction : undefined
+              }
             />
           ),
         },

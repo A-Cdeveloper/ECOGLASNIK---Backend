@@ -7,7 +7,7 @@ type ItemOperationsButtonsProps<T> = {
   id: T;
   basePath: string; // Base path for the dynamic route, e.g., "problems", "categories"
   cloneAction?: (id: T) => Promise<any>; // Accept any return type
-  deleteAction: (id: T) => Promise<any>; // Accept any return type
+  deleteAction?: (id: T) => Promise<any>; // Accept any return type
 };
 
 const ItemOperationsButtons = <T extends number | string>({
@@ -39,16 +39,17 @@ const ItemOperationsButtons = <T extends number | string>({
           Kloniraj
         </Button>
       )}
-
-      <Button
-        variation="danger"
-        onClick={async () => {
-          await deleteAction(id);
-          redirect(`/${basePath}`);
-        }}
-      >
-        Obriši
-      </Button>
+      {deleteAction && (
+        <Button
+          variation="danger"
+          onClick={async () => {
+            await deleteAction(id);
+            redirect(`/${basePath}`);
+          }}
+        >
+          Obriši
+        </Button>
+      )}
     </div>
   );
 };

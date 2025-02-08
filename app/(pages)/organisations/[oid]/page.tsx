@@ -44,7 +44,10 @@ const OrganisationPage = async ({
 
       <div className="w-full 2xl:w-[47%] min-h-[300px] flex flex-col">
         <Suspense fallback={<ChartProblemsByOrganisationSkeleton />}>
-          <ChartProblemsByOrganisation organisationId={oid} />
+          <ChartProblemsByOrganisation
+            organisationId={oid}
+            showHeader={false}
+          />
         </Suspense>
       </div>
 
@@ -63,7 +66,11 @@ const OrganisationPage = async ({
         <ItemOperationsButtons
           id={organisation?.oid as number}
           basePath="organisations"
-          deleteAction={deleteOrganisationByIdAction}
+          deleteAction={
+            organisation?.categories.length === 0
+              ? deleteOrganisationByIdAction
+              : undefined
+          }
         />
       </div>
     </>

@@ -22,7 +22,7 @@ export const getAllProblems = async (
           ...(category && { category: { cat_id: +category } }),
           ...(days && { createdAt: { gte: subDays(new Date(), days) } }),
         }
-      : undefined;
+      : { status: { not: "archive" } };
 
   try {
     const [problems, totalProblems] = await Promise.all([

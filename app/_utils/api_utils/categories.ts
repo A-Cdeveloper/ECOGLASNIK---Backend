@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import tailwindConfig from "@/tailwind.config";
 import { MAX_PAGE_SIZE } from "../contants";
 import prisma from "../db/db";
 import { sortByPropertyLength } from "../helpers";
@@ -35,6 +36,7 @@ export const getAllCategories = async (
               select: {
                 title: true,
                 status: true,
+                officialEmail: true,
               },
             },
           },
@@ -68,6 +70,7 @@ export const getAllCategories = async (
               select: {
                 title: true,
                 status: true,
+                officialEmail: true,
               },
             },
           },
@@ -137,6 +140,77 @@ export const getAllCategoriesProblems = async () => {
   } catch (error: unknown) {
     if (error instanceof Error) {
       throw new Error(`Greška.`);
+    }
+  }
+};
+
+export const getSingleCategoryProblems = async (id: number) => {
+  try {
+    const category = await prisma.problemCategory.findUnique({
+      where: {
+        cat_id: id,
+      },
+
+      select: {
+        problems: {
+          where: {
+            status: {
+              not: "archive", // Exclude problems with status "archive"
+            },
+          },
+          select: {
+            id: true,
+            status: true, // Fetch status of each problem
+          },
+        },
+      },
+    });
+
+    if (!category) {
+      throw new Error(`category with ID ${id} not found.`);
+    }
+
+    // // Flatten problems into one array
+    // const allProblems = category.problems.flatMap(
+    //   (category) => category.problems
+    // );
+
+    // // // Count problems by status
+    const statusCounts = category.problems.reduce(
+      (acc, problem) => {
+        acc[problem.status] = (acc[problem.status] || 0) + 1;
+        return acc;
+      },
+      { active: 0, done: 0 } as Record<string, number>
+    );
+
+    // // // Total problems
+    const totalProblems = statusCounts.active + statusCounts.done;
+
+    // // // Calculate percentages
+    const getPercentage = (count: number) =>
+      totalProblems > 0 ? ((count / totalProblems) * 100).toFixed(2) : "0";
+
+    // // // Nivo Pie formatted data
+    const pieData = [
+      {
+        name: `AKTIVNI`,
+        value: statusCounts.active,
+        percent: getPercentage(statusCounts.active),
+        color: tailwindConfig.theme.extend.colors.danger["200"],
+      },
+      {
+        name: `REŠENI`,
+        value: statusCounts.done,
+        percent: getPercentage(statusCounts.done),
+        color: tailwindConfig.theme.extend.colors.turquoise["100"],
+      },
+    ];
+
+    return pieData;
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      throw new Error(`Error fetching category problems: ${error.message}`);
     }
   }
 };

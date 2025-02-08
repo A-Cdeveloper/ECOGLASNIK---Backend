@@ -18,8 +18,10 @@ import { Organisation } from "@prisma/client";
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const ChartProblemsByOrganisation = async ({
   organisationId,
+  showHeader = true,
 }: {
   organisationId: string;
+  showHeader?: boolean;
 }) => {
   const { organisations } = (await getAllOrganisations("oid-asc")) as {
     organisations: Organisation[];
@@ -46,20 +48,25 @@ const ChartProblemsByOrganisation = async ({
 
   return (
     <>
-      <div className="flex flex-wrap justify-between items-center border-y border-secondary-100/20 px-0 py-2">
-        <Headline level={3} className="normal-case font-thin w-full md:w-auto">
-          Status problema po službama
-        </Headline>
+      {showHeader && (
+        <div className="flex flex-wrap justify-between items-center border-y border-secondary-100/20 px-0 py-2">
+          <Headline
+            level={3}
+            className="normal-case font-thin w-full md:w-auto"
+          >
+            Status problema po službama
+          </Headline>
 
-        {organisations && (
-          <FilterSelector
-            filterList={organisationSelection}
-            queryKey="organisationId"
-            noDefaultLabel={true}
-            className="w-full md:w-[250px]"
-          />
-        )}
-      </div>
+          {organisations && (
+            <FilterSelector
+              filterList={organisationSelection}
+              queryKey="organisationId"
+              noDefaultLabel={true}
+              className="w-full md:w-[250px]"
+            />
+          )}
+        </div>
+      )}
 
       {content}
     </>

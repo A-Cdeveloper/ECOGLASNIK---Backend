@@ -49,6 +49,9 @@ export const getAllUsers = async (
           take: pageSize || MAX_PAGE_SIZE,
           include: {
             problems: {
+              where: {
+                status: { not: "archive" }, // Exclude archived problems
+              },
               select: {
                 title: true,
               },
@@ -72,6 +75,9 @@ export const getAllUsers = async (
           },
           include: {
             problems: {
+              where: {
+                status: { not: "archive" }, // Exclude archived problems
+              },
               select: {
                 title: true,
               },

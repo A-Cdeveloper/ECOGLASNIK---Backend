@@ -21,7 +21,11 @@ const Stats = ({
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-[1fr_1fr_1fr_1fr] mt-4 gap-y-3 w-full 2xl:w-[70%] 3xl:w-[60%] gap-x-4 items-center uppercase">
       <StatBox
         numberofProblems={total}
-        goto={statParam ? `/${statParam}` : "#"}
+        goto={
+          statParam
+            ? `/${statParam}?${statFilter ? `category=${statFilter}` : ""}`
+            : "#"
+        }
         classname="text-skyblue-100 border-skyblue-100"
       >
         Ukupno
@@ -30,20 +34,21 @@ const Stats = ({
         numberofProblems={active}
         goto={
           statParam
-            ? `/${statParam}?status=active ${
+            ? `/${statParam}?status=active${
                 statFilter ? `&category=${statFilter}` : ""
               }`
             : "#"
         }
         classname="text-danger-100 border-danger-100"
       >
-        Aktivno
+        Aktivno ({total && active && calculatePercentage(active, total)}
+        %)
       </StatBox>
       <StatBox
         numberofProblems={done}
         goto={
           statParam
-            ? `/${statParam}?status=done ${
+            ? `/${statParam}?status=done${
                 statFilter ? `&category=${statFilter}` : ""
               }`
             : "#"
