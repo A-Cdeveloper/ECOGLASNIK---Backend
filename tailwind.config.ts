@@ -113,6 +113,7 @@ export default {
         },
         skyblue: {
           100: "#A0D9EF",
+          200: "#61AFCEFF",
           500: "#20A7DB",
           900: "#1C96C5",
         },

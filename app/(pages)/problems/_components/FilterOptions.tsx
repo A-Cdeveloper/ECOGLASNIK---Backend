@@ -2,11 +2,13 @@ export const problemStatusOptions = [
   { value: "", label: "Svi" },
   { value: "active", label: "Aktivni" },
   { value: "done", label: "Rešeni" },
+  { value: "waiting", label: "U odradi" },
 ];
 
 export const statuses = [
   { value: "active", label: "Aktivan" },
   { value: "done", label: "Rešen" },
+  { value: "waiting", label: "U odradi" },
 ];
 
 export const intervalOptions = [

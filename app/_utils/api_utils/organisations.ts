@@ -178,7 +178,7 @@ export const getOrganisationProblems = async (oid: number) => {
         acc[problem.status] = (acc[problem.status] || 0) + 1;
         return acc;
       },
-      { active: 0, done: 0 } as Record<string, number>
+      { active: 0, done: 0, waiting: 0 } as Record<string, number>
     );
 
     // Total problems
@@ -191,6 +191,12 @@ export const getOrganisationProblems = async (oid: number) => {
     // Nivo Pie formatted data
     const pieData = [
       {
+        name: `U OBRADI`,
+        value: statusCounts.waiting,
+        percent: getPercentage(statusCounts.waiting),
+        color: tailwindConfig.theme.extend.colors.skyblue["200"],
+      },
+      {
         name: `AKTIVNI`,
         value: statusCounts.active,
         percent: getPercentage(statusCounts.active),
@@ -200,7 +206,7 @@ export const getOrganisationProblems = async (oid: number) => {
         name: `REŠENI`,
         value: statusCounts.done,
         percent: getPercentage(statusCounts.done),
-        color: tailwindConfig.theme.extend.colors.turquoise["100"],
+        color: tailwindConfig.theme.extend.colors.success["200"],
       },
     ];
 

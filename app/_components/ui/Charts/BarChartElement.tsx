@@ -45,6 +45,10 @@ const BarChartElement = ({ data }: { data: any }) => {
           dataKey="reseni"
           fill={tailwindConfig.theme.extend.colors.success[200]}
         />
+        <Bar
+          dataKey="odrada"
+          fill={tailwindConfig.theme.extend.colors.skyblue[200]}
+        />
       </BarChart>
     </ResponsiveContainer>
   );

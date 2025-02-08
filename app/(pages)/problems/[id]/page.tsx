@@ -1,13 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import ItemOperationsButtons from "@/app/_components/dataOperations/ItemOperationsButtons";
 import BackButton from "@/app/_components/ui/Buttons/BackButton";
 import Headline from "@/app/_components/ui/Headline";
 import Map from "@/app/_components/ui/Map";
 import Picture from "@/app/_components/ui/Picture";
 import { getProblemById } from "@/app/_utils/api_utils/problems";
 import { convertLatLngToString, formatDate } from "@/app/_utils/helpers/";
-import { cloneProblemByIdAction, deleteProblemByIdAction } from "../_actions";
 import { statuses } from "../_components/FilterOptions";
-import ItemOperationsButtons from "@/app/_components/dataOperations/ItemOperationsButtons";
 
 const ProblemPage = async ({ params }: { params: Promise<{ id: string }> }) => {
   const problem = await getProblemById((await params).id);
@@ -18,19 +17,23 @@ const ProblemPage = async ({ params }: { params: Promise<{ id: string }> }) => {
       <BackButton />
 
       <Headline level={1}>{problem?.title}</Headline>
-
+      {isReported && (
+        <p className="bg-danger-200/80 py-3 px-4 mb-2">
+          Problem je zvanično prijavljen nadležnim službama. Nisu dozvoljene
+          naknadne izmene osim izmene statusa problema.
+        </p>
+      )}
+      {problem?.status === "archive" && (
+        <p className="bg-danger-200/80 py-3 px-4 mb-2">
+          Problem je ariviran (obrisan) od strane korisnika.
+        </p>
+      )}
+      {problem?.status === "waiting" && (
+        <p className="bg-blue-200/80 text-primary-900 py-3 px-4 mb-2">
+          Problem čeka na odobrenje za prikazivanje.
+        </p>
+      )}
       <div className="mt-4 w-full 2xl:w-2/3">
-        {isReported && (
-          <p className="bg-danger-200/30 py-3 px-4 mb-2">
-            Problem je zvanično prijavljen nadležnim službama. Nisu dozvoljene
-            naknadne izmene osim izmene statusa problema.
-          </p>
-        )}
-        {problem?.status === "archive" && (
-          <p className="bg-danger-200/30 py-3 px-4 mb-2">
-            Problem je ariviran (obrisan) od strane korisnika.
-          </p>
-        )}
         <div className="grid grid-col-1 lg:grid-cols-2 gap-4 items-start mb-4">
           {/* Left part */}
           <div className="space-y-1">
@@ -90,12 +93,10 @@ const ProblemPage = async ({ params }: { params: Promise<{ id: string }> }) => {
               }
               initialZoom={16}
             />
-            {!isReported && problem?.status !== "archive" && (
+            {problem?.status !== "archive" && (
               <ItemOperationsButtons
                 id={problem?.id as string}
                 basePath="problems"
-                cloneAction={cloneProblemByIdAction}
-                deleteAction={deleteProblemByIdAction}
               />
             )}
           </div>

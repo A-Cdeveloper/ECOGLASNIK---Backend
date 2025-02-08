@@ -61,15 +61,21 @@ export const updateProblemAction = async (
     id: formData.get("id") as string,
     title: formData.get("title") as string,
     description: formData.get("description") as string,
-    status: formData.get("status") as "active" | "done" | "archived",
+    status: formData.get("status") as
+      | "active"
+      | "done"
+      | "archived"
+      | "waiting",
     position: JSON.parse(formData.get("position") as string),
     cat_id: Number(formData.get("cat_id")) as number,
-    updatedAt: formData.get("status") !== "active" ? new Date() : null,
+    updatedAt:
+      formData.get("status") !== "active" &&
+      formData.get("status") !== "waiting"
+        ? new Date()
+        : null,
     pinata_id: formData.get("pinata_id") as string,
     image: formData.get("image") as string,
   };
-
-  console.log(updateData);
 
   const validation = validateSchemaRedirect(updateProblemSchema, updateData);
   if (validation) {

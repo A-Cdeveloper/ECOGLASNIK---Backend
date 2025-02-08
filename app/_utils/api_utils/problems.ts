@@ -122,10 +122,13 @@ export const getProblemTrends = async (days: number = 7) => {
     });
 
     // Initialize trends with all days set to zero
-    const trends: Record<string, { aktivni: number; reseni: number }> = {};
+    const trends: Record<
+      string,
+      { aktivni: number; reseni: number; odrada: number }
+    > = {};
     for (let i = 0; i <= days; i++) {
       const dateKey = format(subDays(endDate, i), "dd.MM.yyyy");
-      trends[dateKey] = { aktivni: 0, reseni: 0 };
+      trends[dateKey] = { aktivni: 0, reseni: 0, odrada: 0 };
     }
 
     // Process problems based on createdAt
@@ -138,6 +141,9 @@ export const getProblemTrends = async (days: number = 7) => {
 
         if (p.status === "done") {
           trends[createdDateKey].reseni += 1;
+        }
+        if (p.status === "waiting") {
+          trends[createdDateKey].odrada += 1;
         }
       }
     });

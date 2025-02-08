@@ -15,10 +15,10 @@ const Stats = ({
   statFilter?: number;
   statParam?: string;
 }) => {
-  const { total, active, done } = useProblemStats(items as Problem[]);
+  const { total, active, done, waiting } = useProblemStats(items as Problem[]);
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mt-4 gap-y-3 w-full 2xl:w-[70%] 3xl:w-[60%] gap-x-4 items-center uppercase">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 mt-4 gap-y-3 w-full 2xl:w-[80%]  3xl:w-[70%] gap-x-4 items-center uppercase">
       <StatBox
         numberofProblems={total}
         goto={
@@ -53,10 +53,23 @@ const Stats = ({
               }`
             : "#"
         }
-        classname="text-turquoise-100 border-turquoise-100"
+        classname="text-success-200 border-success-200"
       >
         Rešeno ({total && done && calculatePercentage(done, total)}
         %)
+      </StatBox>
+      <StatBox
+        numberofProblems={waiting}
+        goto={
+          statParam
+            ? `/${statParam}?status=waiting${
+                statFilter ? `&category=${statFilter}` : ""
+              }`
+            : "#"
+        }
+        classname="text-skyblue-200 border-skyblue-200"
+      >
+        Obrada
       </StatBox>
     </div>
   );

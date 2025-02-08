@@ -35,9 +35,9 @@ const ProblemForm = ({
       <form action={formAction} className="mt-4 w-full 2xl:w-2/3">
         {problem && <input type="hidden" name="id" value={problem?.id} />}
         {isReported && (
-          <p className="bg-danger-200/30 py-3 px-4 mb-2">
+          <p className="bg-danger-200/80 py-3 px-4 mb-2">
             Problem je zvanično prijavljen nadležnim službama. Nisu dozvoljene
-            naknadne izmene.
+            naknadne izmene osim izmene statusa problema.
           </p>
         )}
 

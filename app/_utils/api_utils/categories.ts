@@ -181,11 +181,12 @@ export const getSingleCategoryProblems = async (id: number) => {
         acc[problem.status] = (acc[problem.status] || 0) + 1;
         return acc;
       },
-      { active: 0, done: 0 } as Record<string, number>
+      { active: 0, done: 0, waiting: 0 } as Record<string, number>
     );
 
     // // // Total problems
-    const totalProblems = statusCounts.active + statusCounts.done;
+    const totalProblems =
+      statusCounts.active + statusCounts.done + statusCounts.waiting;
 
     // // // Calculate percentages
     const getPercentage = (count: number) =>
@@ -193,6 +194,12 @@ export const getSingleCategoryProblems = async (id: number) => {
 
     // // // Nivo Pie formatted data
     const pieData = [
+      {
+        name: `OBRADA`,
+        value: statusCounts.waiting,
+        percent: getPercentage(statusCounts.waiting),
+        color: tailwindConfig.theme.extend.colors.skyblue["200"],
+      },
       {
         name: `AKTIVNI`,
         value: statusCounts.active,
@@ -203,7 +210,7 @@ export const getSingleCategoryProblems = async (id: number) => {
         name: `REŠENI`,
         value: statusCounts.done,
         percent: getPercentage(statusCounts.done),
-        color: tailwindConfig.theme.extend.colors.turquoise["100"],
+        color: tailwindConfig.theme.extend.colors.success["200"],
       },
     ];
 

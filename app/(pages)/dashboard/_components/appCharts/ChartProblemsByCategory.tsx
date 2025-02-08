@@ -11,13 +11,15 @@ const ChartProblemsByCategory = async ({ catId }: { catId: string }) => {
     | PieChartData[]
     | undefined;
 
+  console.log(data);
+
   let content = (
     <NoResurcesFound className="h-[300px]">
       Podaci nisu dostupni.
     </NoResurcesFound>
   );
 
-  if (data && data[0].value !== 0) {
+  if (data && data.some((item) => item.value !== 0)) {
     content = <PieElement data={data as PieChartData[]} />;
   }
 

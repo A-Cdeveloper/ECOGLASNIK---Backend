@@ -8,6 +8,7 @@ import {
   HiMiniEnvelope,
   HiMiniExclamationCircle,
   HiMiniPauseCircle,
+  HiMiniQuestionMarkCircle,
 } from "react-icons/hi2";
 import { cloneProblemByIdAction, deleteProblemByIdAction } from "../_actions";
 
@@ -104,7 +105,7 @@ export const getColumnsProblems = ({
                 return (
                   <DynamicIcon
                     Icon={HiMiniCheckCircle}
-                    className="text-green-500 ms-3"
+                    className="text-success-200 ms-3"
                   />
                 );
               case "archive":
@@ -112,6 +113,14 @@ export const getColumnsProblems = ({
                   <DynamicIcon
                     Icon={HiMiniPauseCircle}
                     className="text-warrning-500 ms-3"
+                  />
+                );
+
+              case "waiting":
+                return (
+                  <DynamicIcon
+                    Icon={HiMiniQuestionMarkCircle}
+                    className="text-skyblue-200 ms-3"
                   />
                 );
             }

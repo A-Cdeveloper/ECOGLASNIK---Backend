@@ -43,6 +43,7 @@ export const updateProblemSchema = problemBaseSchema
       z.literal("done"),
       z.literal("active"),
       z.literal("archived"),
+      z.literal("waiting"),
       z.undefined(),
     ]), // Additional field for updates
   })

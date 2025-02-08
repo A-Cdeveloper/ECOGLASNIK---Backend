@@ -4,6 +4,7 @@ import Link from "next/link";
 import {
   HiMiniCheckCircle,
   HiMiniExclamationCircle,
+  HiMiniQuestionMarkCircle,
   HiPauseCircle,
 } from "react-icons/hi2";
 
@@ -61,7 +62,7 @@ export const getColumnsProblems = ({
                 return (
                   <DynamicIcon
                     Icon={HiMiniCheckCircle}
-                    className="text-green-500 ms-3"
+                    className="text-success-200 ms-3"
                   />
                 );
               case "archive":
@@ -69,6 +70,13 @@ export const getColumnsProblems = ({
                   <DynamicIcon
                     Icon={HiPauseCircle}
                     className="text-warrning-500 ms-3"
+                  />
+                );
+              case "waiting":
+                return (
+                  <DynamicIcon
+                    Icon={HiMiniQuestionMarkCircle}
+                    className="text-skyblue-200 ms-3"
                   />
                 );
             }
