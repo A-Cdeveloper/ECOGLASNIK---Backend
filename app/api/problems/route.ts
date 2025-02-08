@@ -26,7 +26,9 @@ export async function GET(request: NextRequest) {
   try {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const conditions: any = {
-      NOT: { status: "archive" },
+      NOT: {
+        OR: [{ status: "archive" }, { status: "waiting" }],
+      },
     };
     if (status) conditions.status = status;
     if (cat_id) conditions.cat_id = +cat_id;
@@ -64,7 +66,7 @@ export async function POST(request: NextRequest) {
       officialEmail: reciveData.officialEmail === "on" ? "1" : "0",
       createdAt: new Date(), // Set the current date/time
       updatedAt: null, // Explicitly set to null
-      status: "active",
+      status: "waiting",
       cat_id: reciveData.cat_id, // Match your database column name
       uid: reciveData.uid, // Match your database column name
       image: reciveData.image || "",
