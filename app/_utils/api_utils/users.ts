@@ -1,3 +1,4 @@
+import { UserRole } from "@prisma/client";
 import { MAX_PAGE_SIZE } from "../contants";
 import prisma from "../db/db";
 import { sortByPropertyLength } from "../helpers";
@@ -7,7 +8,7 @@ export const getSuperAdmin = async (adminId: number) => {
     const superadmin = await prisma.user.findUnique({
       where: {
         uid: adminId,
-        role: "superadmin",
+        role: UserRole.SUPERADMIN,
       },
     });
     return superadmin;
@@ -36,7 +37,7 @@ export const getAllUsers = async (
 
   const whereClause = role
     ? {
-        role: role.toLowerCase(), // Assuming status values are stored in lowercase
+        role: role as UserRole,
       }
     : undefined;
 

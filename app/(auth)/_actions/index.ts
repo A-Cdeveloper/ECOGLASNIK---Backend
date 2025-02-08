@@ -22,6 +22,8 @@ import { randomBytes } from "crypto";
 
 import { cookies } from "next/headers";
 
+import { UserRole } from "@prisma/client";
+
 type LoginUserActionResult = true | string[] | undefined;
 
 export const getUserFromToken = async () => {
@@ -93,7 +95,7 @@ export const LoginUserAction = async (
       throw new Error("Pogrešna lozinka. Pokušajte ponovo."); // Incorrect password
     }
 
-    if (user.role !== "superadmin") {
+    if (user.role !== UserRole.SUPERADMIN) {
       throw new Error("Nemate administratorska prava."); // Insufficient privileges
     }
 
@@ -174,7 +176,7 @@ export const ForgotPasswordAction = async (
         message: ["Korisnik nije pronađen."],
       };
     }
-    if (user.role !== "superadmin") {
+    if (user.role !== UserRole.SUPERADMIN) {
       return {
         success: false,
         message: ["Nemate administratorska prava."],

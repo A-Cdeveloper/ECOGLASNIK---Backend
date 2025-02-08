@@ -5,6 +5,7 @@ import { randomBytes } from "crypto";
 import { z } from "zod";
 import { hashPassword } from "@/app/_utils/auth/index";
 import { sendVerificationEmail } from "@/app/_utils/emails/sendEmail";
+import { UserRole } from "@prisma/client";
 
 export async function POST(req: Request) {
   try {
@@ -41,7 +42,7 @@ export async function POST(req: Request) {
         email: data.email,
         passwordHash,
         verificationToken,
-        role: "user",
+        role: UserRole.USER,
       },
     });
 

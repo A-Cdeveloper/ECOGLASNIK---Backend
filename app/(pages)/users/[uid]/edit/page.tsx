@@ -4,12 +4,13 @@ import UserForm from "../../_components/UserForm";
 import { getUserById } from "@/app/_utils/api_utils/users";
 import { UserRestrictedType } from "@/app/types/prismaTypes";
 import Link from "next/link";
+import { UserRole } from "@prisma/client";
 
 const EditUser = async ({ params }: { params: Promise<{ uid: number }> }) => {
   const user = await getUserById(+(await params).uid);
 
   let content = <UserForm user={user as UserRestrictedType} />;
-  if (user?.role === "superadmin") {
+  if (user?.role === UserRole.SUPERADMIN) {
     content = (
       <>
         <p>Ne mozete izmeniti podatke drugog superadmina.</p>

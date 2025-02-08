@@ -5,6 +5,7 @@ import DynamicIcon from "@/app/_components/ui/DynamicIcon";
 import Operations from "@/app/_components/dataOperations/IconOperationsButtons";
 import { deleteUserAction } from "../_actions";
 import { getUserFromToken } from "@/app/(auth)/_actions";
+import { UserRole } from "@prisma/client";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
@@ -93,7 +94,8 @@ export const getColumnsUsers = ({
             if (
               row.uid === 1 ||
               row.uid === (await superAdminUid()) ||
-              (row.role === "superadmin" && row.uid !== (await superAdminUid()))
+              (row.role === UserRole.SUPERADMIN &&
+                row.uid !== (await superAdminUid()))
             )
               return;
 

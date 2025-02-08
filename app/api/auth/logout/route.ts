@@ -1,5 +1,6 @@
 import { authMiddleware } from "@/app/_utils/auth/authMiddleware";
 import prisma from "@/app/_utils/db/db";
+import { UserRole } from "@prisma/client";
 //import prisma from "@/app/_utils/db/db";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -13,7 +14,7 @@ export async function POST(request: NextRequest) {
 
   await prisma.user.updateMany({
     where: {
-      AND: [{ uid: uid }, { role: { not: "superadmin" } }],
+      AND: [{ uid: uid }, { role: { not: UserRole.SUPERADMIN } }],
     },
     data: {
       status: 0,

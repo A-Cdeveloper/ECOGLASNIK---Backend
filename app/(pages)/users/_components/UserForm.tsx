@@ -11,6 +11,7 @@ import Select from "@/app/_components/ui/Form/Select";
 import ToggleSwitch from "@/app/_components/ui/Form/ToggleSwitch";
 import ErrorsFormMessage from "../../../_components/ui/Form/ErrorsFormMessage";
 import { addNewUserAction, updateUserAction } from "../_actions";
+import { UserRole } from "@prisma/client";
 
 const UserForm = ({ user }: { user?: UserRestrictedType }) => {
   ////////////
@@ -62,10 +63,10 @@ const UserForm = ({ user }: { user?: UserRestrictedType }) => {
         <Select
           name="role"
           options={[
-            { value: "user", label: "user" },
-            { value: "superadmin", label: "superadmin" },
+            { value: UserRole.USER, label: "Korisnik" },
+            { value: UserRole.SUPERADMIN, label: "Superadmin" },
           ]}
-          defaultValue={user?.role || "user"}
+          defaultValue={user?.role || UserRole.USER}
         />
       )}
 

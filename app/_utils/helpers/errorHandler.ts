@@ -58,7 +58,7 @@ export function handleError(
   } else if (error instanceof Prisma.PrismaClientUnknownRequestError) {
     errorMessage = "Baza podataka nije dostupna.";
   } else if (error instanceof Error) {
-    errorMessage = customMessage ? customMessage : "Greška na serveru.";
+    errorMessage = error.message;
   } else {
     errorMessage = customMessage ? customMessage : "Greška na serveru.";
   }

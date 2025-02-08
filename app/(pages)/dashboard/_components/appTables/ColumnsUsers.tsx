@@ -1,4 +1,5 @@
 import { formatDateWithTime } from "@/app/_utils/helpers/";
+import { UserRole } from "@prisma/client";
 import Link from "next/link";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -11,7 +12,7 @@ export const getColumnsUsers = () => [
         <>
           <Link
             href={`${
-              row.role === "superadmin" ? "#" : `/users/${row.uid}/edit`
+              row.role === UserRole.SUPERADMIN ? "#" : `/users/${row.uid}/edit`
             }`}
           >
             {row.firstname} {row.lastname}

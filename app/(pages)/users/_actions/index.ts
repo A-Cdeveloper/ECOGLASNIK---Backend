@@ -13,6 +13,7 @@ import {
 import { randomBytes } from "crypto";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import { UserRole } from "@prisma/client";
 
 export const addNewUserAction = async (
   prevFormData: any,
@@ -55,7 +56,7 @@ export const addNewUserAction = async (
       email: data.email as string,
       phone: data.phone as string,
       isVerified: data.isVerified,
-      role: "superadmin",
+      role: UserRole.SUPERADMIN,
       createdAt: new Date(),
       passwordHash: "",
       verificationToken,
@@ -106,7 +107,7 @@ export const updateUserAction = async (
       lastname: updatedData.lastname as string,
       phone: updatedData.phone as string,
       isVerified: updatedData.isVerified,
-      role: updatedData.role as string,
+      role: updatedData.role as UserRole,
     },
   });
 
