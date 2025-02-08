@@ -142,7 +142,6 @@ export async function DELETE(
     const archiveProblem = await updateProblem(id, {
       uid: superadmin?.uid,
       status: "archive",
-      updatedAt: new Date(), // Set updatedAt to the current timestamp
     });
 
     return NextResponse.json(archiveProblem, { status: 200 });

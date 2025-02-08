@@ -23,7 +23,12 @@ const ProblemPage = async ({ params }: { params: Promise<{ id: string }> }) => {
         {isReported && (
           <p className="bg-danger-200/30 py-3 px-4 mb-2">
             Problem je zvanično prijavljen nadležnim službama. Nisu dozvoljene
-            naknadne izmene.
+            naknadne izmene osim izmene statusa problema.
+          </p>
+        )}
+        {problem?.status === "archive" && (
+          <p className="bg-danger-200/30 py-3 px-4 mb-2">
+            Problem je ariviran (obrisan) od strane korisnika.
           </p>
         )}
         <div className="grid grid-col-1 lg:grid-cols-2 gap-4 items-start mb-4">
@@ -85,7 +90,7 @@ const ProblemPage = async ({ params }: { params: Promise<{ id: string }> }) => {
               }
               initialZoom={16}
             />
-            {!isReported && (
+            {!isReported && problem?.status !== "archive" && (
               <ItemOperationsButtons
                 id={problem?.id as string}
                 basePath="problems"

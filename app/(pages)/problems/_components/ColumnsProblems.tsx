@@ -7,6 +7,7 @@ import {
   HiMiniCheckCircle,
   HiMiniEnvelope,
   HiMiniExclamationCircle,
+  HiMiniPauseCircle,
 } from "react-icons/hi2";
 import { cloneProblemByIdAction, deleteProblemByIdAction } from "../_actions";
 
@@ -17,11 +18,13 @@ export const getColumnsProblems = ({
   status = true,
   operations = true,
   image = true,
+  archive = false,
 }: {
   image?: boolean;
   category?: boolean;
   status?: boolean;
   operations?: boolean;
+  archive?: boolean;
 }) => [
   ...(image
     ? [
@@ -75,11 +78,15 @@ export const getColumnsProblems = ({
       );
     },
   },
+  ...(!archive
+    ? [
+        {
+          header: "Datum rešavanja",
+          accessor: (row: any) => formatDate(row.updatedAt),
+        },
+      ]
+    : []),
 
-  {
-    header: "Datum rešavanja",
-    accessor: (row: any) => formatDate(row.updatedAt),
-  },
   ...(status
     ? [
         {
@@ -103,7 +110,7 @@ export const getColumnsProblems = ({
               case "archive":
                 return (
                   <DynamicIcon
-                    Icon={HiMiniCheckCircle}
+                    Icon={HiMiniPauseCircle}
                     className="text-warrning-500 ms-3"
                   />
                 );

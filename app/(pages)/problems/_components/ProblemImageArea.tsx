@@ -83,7 +83,7 @@ const ProblemImageArea = ({
           )}
         </div>
       )}
-      {pinataData.image === "" && !loadingImageUpload && (
+      {pinataData.image === "" && !loadingImageUpload && !disabled && (
         <>
           <input
             type="file"
