@@ -18,7 +18,7 @@ const Stats = ({
   const { total, active, done } = useProblemStats(items as Problem[]);
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-[1fr_1fr_1fr_1fr] mt-4 gap-y-3 w-full 2xl:w-[70%] 3xl:w-[60%] gap-x-4 items-center uppercase">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mt-4 gap-y-3 w-full 2xl:w-[70%] 3xl:w-[60%] gap-x-4 items-center uppercase">
       <StatBox
         numberofProblems={total}
         goto={
