@@ -29,9 +29,15 @@ const ProblemsByInterval = async ({
     problems: ProblemCustumType[];
   };
 
+  const notArchivedProblems = problems.filter((problem) => {
+    return problem.status !== "archive";
+  });
+
+  console.log(notArchivedProblems.length);
+
   let content = (
     <Table
-      data={problems}
+      data={notArchivedProblems}
       columns={getColumnsProblems({})}
       rowKey={(row) => row.id}
       isMiniTable
@@ -47,7 +53,7 @@ const ProblemsByInterval = async ({
   return (
     <>
       <TopSection
-        itemsCount={problems.length}
+        itemsCount={notArchivedProblems.length}
         filteredItems={intervalOptions}
         queryKey="days"
       >

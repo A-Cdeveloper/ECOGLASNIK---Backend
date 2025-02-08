@@ -28,7 +28,7 @@ const Table = <T,>({
     : "table-auto border-collapse w-full 2xl:w-3/4 text-left mt-3 text-[13px]";
 
   const wrapperClasses = isMiniTable
-    ? "overflow-x-auto max-h-[300px] scrollbar-thin scrollbar-thumb-secondary-900/30 scrollbar-track-secondary-100/10"
+    ? "overflow-x-auto max-h-[250px] scrollbar-thin scrollbar-thumb-secondary-900/30 scrollbar-track-secondary-100/10"
     : "";
 
   // Use a dynamic component renderer
