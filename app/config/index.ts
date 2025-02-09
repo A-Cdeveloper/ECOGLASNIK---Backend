@@ -9,11 +9,11 @@ const getFrontendBaseUrl = () => {
   if (hostname.includes("localhost")) {
     return "http://localhost:5173"; // Local Frontend
   }
-  if (hostname.includes("cleanme")) {
-    return "https://www.cleanme.e-vlasotince.info"; // Demo
+  if (hostname.includes("demo")) {
+    return "https://www.demo.ecoglasnik.org"; // Demo
   }
 
-  return "https://www.cleanme.e-vlasotince.info"; // Fallback
+  return "https://www.demo.ecoglasnik.org"; // Fallback
 };
 
 export const BASE_URL = getFrontendBaseUrl();
