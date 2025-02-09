@@ -13,6 +13,9 @@ const getFrontendBaseUrl = () => {
   if (hostname.includes("cleanme")) {
     return "https://www.cleanme.e-vlasotince.info"; // App 1 Frontend
   }
+  if (hostname.includes("vlasotince")) {
+    return "https://vlasotince.ecoglasnik.org/"; // App 1 Frontend
+  }
 
   return "https://www.cleanme.e-vlasotince.info"; // Fallback
 };
