@@ -9,7 +9,7 @@ const getFrontendBaseUrl = () => {
   if (hostname.includes("localhost")) {
     return "http://localhost:5173"; // Local Frontend
   }
-  if (hostname.includes("demo")) {
+  if (hostname.includes("demo-api")) {
     return "https://www.demo.ecoglasnik.org"; // Demo
   }
 
