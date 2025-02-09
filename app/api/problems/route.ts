@@ -73,20 +73,6 @@ export async function POST(request: NextRequest) {
       pinata_id: reciveData.pinata_id || "",
     });
 
-    if (newProblem?.officialEmail === "1") {
-      const organisations = await getOrganisationsByCategory(
-        newProblem?.cat_id.toString()
-      );
-
-      organisations?.map(async (org) => {
-        await sendEmailToOrganisations(
-          org.organisation_email,
-          org.categories[0].cat_name,
-          newProblem
-        );
-      });
-    }
-
     // Respond with the created problem
     return NextResponse.json(newProblem, { status: 201 });
   } catch (error) {
