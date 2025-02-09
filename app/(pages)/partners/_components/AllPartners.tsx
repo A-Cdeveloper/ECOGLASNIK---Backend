@@ -5,7 +5,7 @@ import NoResurcesFound from "@/app/_components/ui/NoResurcesFound";
 import Pagination from "@/app/_components/ui/Pagination/Pagination";
 
 import TopBar, { AddNew } from "@/app/_components/ui/TopBar";
-import { MAX_PAGE_SIZE } from "@/app/_utils/contants";
+import { MAX_PAGE_SIZE } from "@/app/config";
 import { Partners } from "@prisma/client";
 import Link from "next/link";
 import { getColumnsPartners } from "./ColumnsPartners";

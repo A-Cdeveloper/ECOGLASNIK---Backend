@@ -5,7 +5,7 @@ import NoResurcesFound from "@/app/_components/ui/NoResurcesFound";
 import Pagination from "@/app/_components/ui/Pagination/Pagination";
 import SortSelector from "@/app/_components/ui/Sorting/SortSelector";
 import TopBar from "@/app/_components/ui/TopBar";
-import { MAX_PAGE_SIZE } from "@/app/_utils/contants";
+import { MAX_PAGE_SIZE } from "@/app/config";
 import { getColumnsProblems } from "./ColumnsProblems";
 import { sortOptions } from "./SortOptions";
 

@@ -6,7 +6,7 @@ import Pagination from "@/app/_components/ui/Pagination/Pagination";
 import SortSelector from "@/app/_components/ui/Sorting/SortSelector";
 import TopBar, { AddNew } from "@/app/_components/ui/TopBar";
 import { getAllOrganisations } from "@/app/_utils/api_utils/organisations";
-import { MAX_PAGE_SIZE } from "@/app/_utils/contants";
+import { MAX_PAGE_SIZE } from "@/app/config";
 import { Organisation } from "@prisma/client";
 import Link from "next/link";
 import { getColumnsOrganisations } from "./ColumnsOrganisations";

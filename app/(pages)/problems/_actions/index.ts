@@ -3,7 +3,7 @@
 
 import { getOrganisationsByCategory } from "@/app/_utils/api_utils/organisations";
 import { getProblemById } from "@/app/_utils/api_utils/problems-api";
-import { MAX_UPLOAD_FILE_SIZE } from "@/app/_utils/contants";
+import { MAX_UPLOAD_FILE_SIZE } from "@/app/config";
 import prisma from "@/app/_utils/db/db";
 import { sendEmailToOrganisations } from "@/app/_utils/emails/sendEmail";
 import {

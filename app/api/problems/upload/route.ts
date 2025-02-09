@@ -1,4 +1,4 @@
-import { MAX_UPLOAD_FILE_SIZE } from "@/app/_utils/contants";
+import { MAX_UPLOAD_FILE_SIZE } from "@/app/config";
 import {
   getOptimizedImageURL,
   optimizeImage,
