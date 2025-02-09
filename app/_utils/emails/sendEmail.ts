@@ -33,7 +33,7 @@ export const sendEmail = async (
   buttonText: string
 ) => {
   await transporter.sendMail({
-    from: '"ECOGLASNIK" <admin@cleanme.e-vlasotince.info>',
+    from: `ECOGLASNIK ${process.env.EMAIL_USER}`,
     to: email,
     subject,
     html: emailHtml(url, message, buttonText),
@@ -92,14 +92,14 @@ export const sendAdminForgotPasswordEmail = async (
     "Resetuj lozinku"
   );
 };
-
+/////////////////////////////////////////////////////////////////
 export const sendEmailToOrganisations = async (
   email: string,
   category: string,
   problem: Problem
 ) => {
   await transporter.sendMail({
-    from: '"ECOGLASNIK" <admin@cleanme.e-vlasotince.info>',
+    from: `ECOGLASNIK ${process.env.EMAIL_USER}`,
     to: email,
     subject: `Nova prijava komunalnog problema - ${category}`,
     html: emailToOrganisationHtml(problem),
