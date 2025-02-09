@@ -36,8 +36,6 @@ const ChartProblemsByOrganisation = async ({
     | PieChartData[]
     | undefined;
 
-  console.log(data);
-
   let content = (
     <NoResurcesFound className="h-[300px]">
       Podaci nisu dostupni.

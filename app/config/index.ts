@@ -4,17 +4,13 @@ export const MAX_UPLOAD_FILE_SIZE = 10 * 1024 * 1024;
 export const MAX_PAGE_SIZE = 10;
 
 const getFrontendBaseUrl = () => {
-  const hostname =
-    process.env.VERCEL_URL || process.env.HOSTNAME || "localhost";
+  const hostname = process.env.VERCEL_URL || "localhost";
 
   if (hostname.includes("localhost")) {
     return "http://localhost:5173"; // Local Frontend
   }
   if (hostname.includes("cleanme")) {
-    return "https://www.cleanme.e-vlasotince.info"; // App 1 Frontend
-  }
-  if (hostname.includes("vlasotince")) {
-    return "https://vlasotince.ecoglasnik.org/"; // App 1 Frontend
+    return "https://www.cleanme.e-vlasotince.info"; // Demo
   }
 
   return "https://www.cleanme.e-vlasotince.info"; // Fallback

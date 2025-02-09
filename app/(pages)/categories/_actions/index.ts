@@ -96,7 +96,6 @@ export const cloneCategoryByIdAction = async (id: number) => {
 };
 
 export const deleteCategoryByIdAction = async (id: number) => {
-  console.log(id);
   try {
     // Disconnect organisations first
     await prisma.problemCategory.update({

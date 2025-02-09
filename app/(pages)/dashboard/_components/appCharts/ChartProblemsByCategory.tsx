@@ -11,8 +11,6 @@ const ChartProblemsByCategory = async ({ catId }: { catId: string }) => {
     | PieChartData[]
     | undefined;
 
-  console.log(data);
-
   let content = (
     <NoResurcesFound className="h-[300px]">
       Podaci nisu dostupni.

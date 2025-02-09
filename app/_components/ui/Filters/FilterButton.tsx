@@ -22,7 +22,6 @@ const FilterButton = ({
     // Set scrollRestoration to manual to prevent page jumping
     if (typeof window !== "undefined") {
       window.history.scrollRestoration = "manual";
-      console.log("manual");
     }
   }, []);
 
