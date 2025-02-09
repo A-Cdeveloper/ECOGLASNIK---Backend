@@ -1,9 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use server";
 
+import { getOrganisationsByCategory } from "@/app/_utils/api_utils/organisations";
 import { getProblemById } from "@/app/_utils/api_utils/problems-api";
 import { MAX_UPLOAD_FILE_SIZE } from "@/app/_utils/contants";
 import prisma from "@/app/_utils/db/db";
+import { sendEmailToOrganisations } from "@/app/_utils/emails/sendEmail";
 import {
   handleError,
   validateSchemaRedirect,
@@ -68,6 +70,7 @@ export const updateProblemAction = async (
       | "waiting",
     position: JSON.parse(formData.get("position") as string),
     cat_id: Number(formData.get("cat_id")) as number,
+    officialEmail: formData.get("officialEmail") as string,
     updatedAt:
       formData.get("status") !== "active" &&
       formData.get("status") !== "waiting"
@@ -82,7 +85,7 @@ export const updateProblemAction = async (
     return validation;
   }
 
-  await prisma.problem.update({
+  const newProblem = await prisma.problem.update({
     where: {
       id: updateData.id as string,
     },
@@ -97,6 +100,21 @@ export const updateProblemAction = async (
       image: updateData.image as string,
     },
   });
+
+  // send email to oragnisations
+  if (updateData?.officialEmail === "1" && updateData.status !== "waiting") {
+    const organisations = await getOrganisationsByCategory(
+      updateData?.cat_id.toString()
+    );
+
+    organisations?.map(async (org) => {
+      await sendEmailToOrganisations(
+        org.organisation_email,
+        org.categories[0].cat_name,
+        newProblem
+      );
+    });
+  }
 
   revalidatePath("/problems");
   redirect("/problems");

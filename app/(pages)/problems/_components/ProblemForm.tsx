@@ -45,6 +45,11 @@ const ProblemForm = ({
           {/* Left part */}
           <div className="space-y-2">
             <Input
+              type="hidden"
+              name="officialEmail"
+              value={problem?.officialEmail}
+            />
+            <Input
               type="text"
               name="title"
               placeholder="Naziv Problema"

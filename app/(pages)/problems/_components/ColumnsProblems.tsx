@@ -67,12 +67,15 @@ export const getColumnsProblems = ({
         <>
           <span className="block">{formatDate(row.createdAt)}</span>
           {row.officialEmail === "1" && (
-            <span className="flex gap-x-1">
-              <DynamicIcon
-                Icon={HiMiniEnvelope}
-                className="text-secondary-500"
-              />
-              prijavljeno
+            <span
+              className={`flex gap-x-1 ${
+                row.status === "waiting"
+                  ? "text-skyblue-200"
+                  : "text-success-200"
+              }`}
+            >
+              <DynamicIcon Icon={HiMiniEnvelope} />
+              {row.status === "waiting" ? "zahtev na čekanju" : "poslat zahtev"}
             </span>
           )}
         </>
