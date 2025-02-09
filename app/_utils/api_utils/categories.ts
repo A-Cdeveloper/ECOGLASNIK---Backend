@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import tailwindConfig from "@/tailwind.config";
-import { MAX_PAGE_SIZE } from "../contants";
+import { MAX_PAGE_SIZE } from "@/app/config";
 import prisma from "../db/db";
 import { sortByPropertyLength } from "../helpers";
 

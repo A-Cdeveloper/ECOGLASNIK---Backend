@@ -1,5 +1,5 @@
 import { format } from "date-fns";
-import { bannedRegex } from "../contants";
+import { bannedRegex } from "@/app/config";
 
 export const getDisplayName = (name: string) => {
   if (!name) return "";

@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { MAX_UPLOAD_FILE_SIZE } from "../contants";
+import { MAX_UPLOAD_FILE_SIZE } from "@/app/config";
 
 // Schema for incoming form data
 

@@ -1,5 +1,5 @@
 import { UserRole } from "@prisma/client";
-import { MAX_PAGE_SIZE } from "../contants";
+import { MAX_PAGE_SIZE } from "@/app/config";
 import prisma from "../db/db";
 import { sortByPropertyLength } from "../helpers";
 
