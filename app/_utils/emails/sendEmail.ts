@@ -33,7 +33,7 @@ export const sendEmail = async (
   buttonText: string
 ) => {
   await transporter.sendMail({
-    from: `ECOGLASNIK ${process.env.EMAIL_USER}`,
+    from: `ECOGLASNIK <${process.env.EMAIL_USER}>`,
     to: email,
     subject,
     html: emailHtml(url, message, buttonText),
@@ -99,7 +99,7 @@ export const sendEmailToOrganisations = async (
   problem: Problem
 ) => {
   await transporter.sendMail({
-    from: `ECOGLASNIK ${process.env.EMAIL_USER}`,
+    from: `ECOGLASNIK <${process.env.EMAIL_USER}>`,
     to: email,
     subject: `Nova prijava komunalnog problema - ${category}`,
     html: emailToOrganisationHtml(problem),
