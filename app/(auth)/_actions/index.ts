@@ -188,7 +188,8 @@ export const ForgotPasswordAction = async (
       where: { email: data.email },
       data: { verificationToken },
     });
-    sendAdminForgotPasswordEmail(user.email, verificationToken);
+
+    await sendAdminForgotPasswordEmail(user.email, verificationToken);
 
     return {
       success: true,
