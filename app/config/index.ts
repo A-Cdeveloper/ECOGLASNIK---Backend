@@ -12,6 +12,9 @@ const getFrontendBaseUrl = () => {
   if (hostname.includes("demo-api")) {
     return "https://www.demo.ecoglasnik.org"; // Demo
   }
+  if (hostname.includes("vlasotince-api")) {
+    return "https://www.vlasotince.ecoglasnik.org"; // Demo
+  }
 
   return "https://www.demo.ecoglasnik.org"; // Fallback
 };
