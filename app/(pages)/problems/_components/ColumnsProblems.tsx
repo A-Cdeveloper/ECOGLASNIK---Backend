@@ -11,7 +11,7 @@ import {
   HiMiniQuestionMarkCircle,
 } from "react-icons/hi2";
 import { cloneProblemByIdAction, deleteProblemByIdAction } from "../_actions";
-import { ProblemStatus } from "@prisma/client";
+import { ProblemOfficialEmail, ProblemStatus } from "@prisma/client";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
@@ -67,18 +67,18 @@ export const getColumnsProblems = ({
       return (
         <>
           <span className="block">{formatDate(row.createdAt)}</span>
-          {row.officialEmail === "1" && (
+          {row.officialEmail !== ProblemOfficialEmail.NONE && (
             <span
               className={`flex gap-x-1 ${
-                row.status === ProblemStatus.WAITING
+                row.officialEmail === ProblemOfficialEmail.REQUESTED
                   ? "text-skyblue-200"
                   : "text-success-200"
               }`}
             >
               <DynamicIcon Icon={HiMiniEnvelope} />
-              {row.status === ProblemStatus.WAITING
+              {row.officialEmail === ProblemOfficialEmail.REQUESTED
                 ? "zahtev na čekanju"
-                : "poslat zahtev"}
+                : "prijava poslata"}
             </span>
           )}
         </>

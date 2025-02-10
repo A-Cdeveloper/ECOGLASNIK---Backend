@@ -34,21 +34,27 @@ enum ProblemStatus {
   WAITING
 }
 
+enum ProblemOfficialEmail {
+  NONE
+  REQUESTED
+  SENDED
+}
+
 model Problem {
-  id            String          @id @default(uuid())
+  id            String               @id @default(uuid())
   title         String
   description   String
   position      Json
-  createdAt     DateTime        @default(now())
+  createdAt     DateTime             @default(now())
   updatedAt     DateTime?
-  status        ProblemStatus   @default(WAITING)
+  status        ProblemStatus        @default(WAITING)
   cat_id        Int
   uid           Int
-  officialEmail String          @default("0")
-  image         String          @db.VarChar(400)
-  pinata_id     String          @default("") @db.VarChar(400)
-  category      ProblemCategory @relation(fields: [cat_id], references: [cat_id])
-  user          User            @relation(fields: [uid], references: [uid])
+  officialEmail ProblemOfficialEmail @default(NONE) // Use the enum type
+  image         String               @db.VarChar(400)
+  pinata_id     String               @default("") @db.VarChar(400)
+  category      ProblemCategory      @relation(fields: [cat_id], references: [cat_id])
+  user          User                 @relation(fields: [uid], references: [uid])
 
   @@index([cat_id], map: "problems_cat_id_fkey")
   @@index([uid], map: "problems_uid_fkey")

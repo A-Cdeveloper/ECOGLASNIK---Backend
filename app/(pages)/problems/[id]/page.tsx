@@ -8,38 +8,20 @@ import { getProblemById } from "@/app/_utils/api_utils/problems";
 import { convertLatLngToString, formatDate } from "@/app/_utils/helpers/";
 import { statuses } from "../_components/FilterOptions";
 import { ProblemStatus } from "@prisma/client";
+import ProblemInfoMessage from "../_components/ProblemInfoMessage";
 
 const ProblemPage = async ({ params }: { params: Promise<{ id: string }> }) => {
   const problem = await getProblemById((await params).id);
 
-  const isReported = problem?.officialEmail === "1";
   return (
     <>
       <BackButton />
 
       <Headline level={1}>{problem?.title}</Headline>
-      {isReported && problem.status === ProblemStatus.WAITING && (
-        <p className="bg-danger-200/80 py-3 px-4 mb-2">
-          Korisnik je zatrazio zvanicnu prijavu problema nadležnim službama.
-          <br /> Nisu dozvoljene naknadne izmene osim izmene statusa problema.
-        </p>
-      )}
-      {isReported && problem.status !== ProblemStatus.WAITING && (
-        <p className="bg-danger-200/80 py-3 px-4 mb-2">
-          Prijava je zvanicno poslata nadležnim službama.
-          <br /> Nisu dozvoljene naknadne izmene osim izmene statusa problema.
-        </p>
-      )}
-      {problem?.status === ProblemStatus.ARCHIVE && (
-        <p className="bg-danger-200/80 py-3 px-4 mb-2">
-          Problem je ariviran (obrisan) od strane korisnika.
-        </p>
-      )}
-      {problem?.status === ProblemStatus.WAITING && (
-        <p className="bg-blue-200/80 text-primary-900 py-3 px-4 mb-2">
-          Problem čeka na odobrenje za prikazivanje.
-        </p>
-      )}
+      <ProblemInfoMessage
+        status={problem?.status}
+        officialEmail={problem?.officialEmail}
+      />
       <div className="mt-4 w-full 2xl:w-2/3">
         <div className="grid grid-col-1 lg:grid-cols-2 gap-4 items-start mb-4">
           {/* Left part */}

@@ -13,7 +13,8 @@ import ErrorsFormMessage from "@/app/_components/ui/Form/ErrorsFormMessage";
 import Map from "../../../_components/ui/Map";
 import { convertLatLngToString } from "@/app/_utils/helpers/";
 import { statuses } from "./FilterOptions";
-import { ProblemStatus } from "@prisma/client";
+import { ProblemOfficialEmail, ProblemStatus } from "@prisma/client";
+import ProblemInfoMessage from "./ProblemInfoMessage";
 
 const ProblemForm = ({
   problem,
@@ -29,24 +30,19 @@ const ProblemForm = ({
   // position
   const [defaultPosition, setDefaultPosition] = useState(problem?.position);
 
-  const isReported = problem?.officialEmail === "1";
+  const isNotEditable =
+    problem?.officialEmail === ProblemOfficialEmail.REQUESTED ||
+    problem?.officialEmail === ProblemOfficialEmail.SENDED ||
+    problem?.status === ProblemStatus.ARCHIVE;
 
   return (
     <>
+      <ProblemInfoMessage
+        status={problem?.status}
+        officialEmail={problem?.officialEmail}
+      />
       <form action={formAction} className="mt-4 w-full 2xl:w-2/3">
         {problem && <input type="hidden" name="id" value={problem?.id} />}
-        {isReported && problem.status === ProblemStatus.WAITING && (
-          <p className="bg-danger-200/80 py-3 px-4 mb-2">
-            Korisnik je zatrazio zvanicnu prijavu problema nadležnim službama.
-            <br /> Nisu dozvoljene naknadne izmene osim izmene statusa problema.
-          </p>
-        )}
-        {isReported && problem.status !== ProblemStatus.WAITING && (
-          <p className="bg-danger-200/80 py-3 px-4 mb-2">
-            Prijava je zvanicno poslata nadležnim službama.
-            <br /> Nisu dozvoljene naknadne izmene osim izmene statusa problema.
-          </p>
-        )}
 
         <div className="grid grid-col-1 lg:grid-cols-2 gap-6 items-start mb-4">
           {/* Left part */}
@@ -61,13 +57,13 @@ const ProblemForm = ({
               name="title"
               placeholder="Naziv Problema"
               defaultValue={problem?.title}
-              readOnly={isReported}
+              readOnly={isNotEditable}
             />
             <TextArea
               name="description"
               placeholder="Opis Problema"
               defaultValue={problem?.description}
-              readOnly={isReported}
+              readOnly={isNotEditable}
             />
 
             <ProblemImageArea
@@ -75,7 +71,7 @@ const ProblemForm = ({
               id={problem?.id || ""}
               loadingImageUpload={loadingImageUpload}
               setLoadingImageUpload={setLoadingImageUpload}
-              disabled={isReported}
+              disabled={isNotEditable}
             />
           </div>
 
@@ -92,7 +88,7 @@ const ProblemForm = ({
                 name="cat_id"
                 options={categoriesSelection}
                 defaultValue={problem?.category?.cat_id.toString() || ""}
-                isDisabled={isReported}
+                isDisabled={isNotEditable}
               />
             </div>
             <div className="grid grid-cols-1 lg:grid-cols-[1fr_250px] items-center gap-2">
@@ -112,7 +108,7 @@ const ProblemForm = ({
               defaultPosition={defaultPosition as { lat: number; lng: number }}
               setDefaultPosition={setDefaultPosition}
               initialZoom={13}
-              disabled={isReported}
+              disabled={isNotEditable}
             />
           </div>
         </div>
@@ -120,7 +116,7 @@ const ProblemForm = ({
         <div className="text-end">
           {errors.length > 0 && <ErrorsFormMessage errors={errors} />}
           <SubmitButton loading={loadingImageUpload}>
-            {isReported && problem.status === ProblemStatus.WAITING
+            {isNotEditable && problem.status === ProblemStatus.WAITING
               ? "Sačuvaj izmene i pošalji"
               : "Sačuvaj izmene"}
           </SubmitButton>

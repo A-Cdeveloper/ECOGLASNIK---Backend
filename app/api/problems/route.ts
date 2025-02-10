@@ -10,7 +10,7 @@ import {
 } from "@/app/_utils/api_utils/problems-api";
 import { sendEmailToOrganisations } from "@/app/_utils/emails/sendEmail";
 import { getOrganisationsByCategory } from "@/app/_utils/api_utils/organisations";
-import { ProblemStatus } from "@prisma/client";
+import { ProblemOfficialEmail, ProblemStatus } from "@prisma/client";
 
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
@@ -67,7 +67,10 @@ export async function POST(request: NextRequest) {
         lat: parseFloat(reciveData.position.lat),
         lng: parseFloat(reciveData.position.lng),
       },
-      officialEmail: reciveData.officialEmail === "on" ? "1" : "0",
+      officialEmail:
+        reciveData.officialEmail === "on"
+          ? ProblemOfficialEmail.REQUESTED
+          : ProblemOfficialEmail.NONE,
       createdAt: new Date(), // Set the current date/time
       updatedAt: null, // Explicitly set to null
       status: ProblemStatus.WAITING,
