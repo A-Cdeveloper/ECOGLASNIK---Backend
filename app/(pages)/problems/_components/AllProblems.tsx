@@ -21,6 +21,7 @@ import { getAllProblems } from "@/app/_utils/api_utils/problems";
 import { ProblemCustumType } from "@/app/types/prismaTypes";
 import Link from "next/link";
 import { problemStatusOptions } from "./FilterOptions";
+import { ProblemStatus } from "@prisma/client";
 
 const AllProblems = async ({
   searchParams,
@@ -40,7 +41,7 @@ const AllProblems = async ({
   // Fetch problems with pagination
   const { problems, totalProblems } = (await getAllProblems(
     sortBy,
-    status,
+    status as ProblemStatus,
     category,
     Number(days) || undefined,
     (currentPage - 1) * MAX_PAGE_SIZE,
