@@ -32,7 +32,7 @@ const Operations = <T extends string | number>({
     <>
       {isModalOpen && deleteAction && (
         <Modal
-          message={`Da li zaista zelite da obrisete ovu službu ${id}?`}
+          message={`Da li ste sigurni?`}
           onClose={() => setIsModalOpen(false)} // Close modal
           onConfirm={async () => {
             await deleteAction(id); // Call the delete action

@@ -32,7 +32,7 @@ const Headline = ({ level = 1, children, className = "" }: HeadlineProps) => {
   }
 
   return (
-    <Tag className={clsx(`${className} ${fontSizeClasses} ${generalClasses}`)}>
+    <Tag className={clsx(`${fontSizeClasses} ${generalClasses} ${className}`)}>
       {children}
     </Tag>
   );
