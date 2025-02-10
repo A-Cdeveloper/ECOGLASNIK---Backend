@@ -8,6 +8,8 @@ import {
   HiOutlinePencil,
   HiOutlineTrash,
 } from "react-icons/hi2";
+import Modal from "../ui/PromptsAndModals/Modal";
+import { useState } from "react";
 
 type OperationsProps<T extends string | number> = {
   id: T;
@@ -22,33 +24,46 @@ const Operations = <T extends string | number>({
   cloneAction,
   deleteAction,
 }: OperationsProps<T>) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const modalHandler = () => setIsModalOpen((prev) => !prev);
+
   return (
-    <div className="flex justify-end items-center space-x-[8px] text-[18px] text-winter-100/70">
-      {basePath !== "users" && basePath !== "partners" && (
-        <Link href={`/${basePath}/${id}`}>
-          <HiOutlineEye />
+    <>
+      {isModalOpen && deleteAction && (
+        <Modal
+          message={`Da li zaista zelite da obrisete ovu službu ${id}?`}
+          onClose={() => setIsModalOpen(false)} // Close modal
+          onConfirm={async () => {
+            await deleteAction(id); // Call the delete action
+            setIsModalOpen(false); // Close modal after action
+          }}
+        />
+      )}
+
+      <div className="flex justify-end items-center space-x-[8px] text-[18px] text-winter-100/70">
+        {basePath !== "users" && basePath !== "partners" && (
+          <Link href={`/${basePath}/${id}`}>
+            <HiOutlineEye />
+          </Link>
+        )}
+        <Link href={`/${basePath}/${id}/edit`}>
+          <HiOutlinePencil />
         </Link>
-      )}
-      <Link href={`/${basePath}/${id}/edit`}>
-        <HiOutlinePencil />
-      </Link>
-      {cloneAction && (
-        <IconButton
-          onClick={async () => {
-            await cloneAction(id);
-          }}
-          icon={<HiOutlineDocumentDuplicate />}
-        />
-      )}
-      {deleteAction && (
-        <IconButton
-          onClick={async () => {
-            await deleteAction(id);
-          }}
-          icon={<HiOutlineTrash />}
-        />
-      )}
-    </div>
+        {cloneAction && (
+          <IconButton
+            onClick={async () => {
+              await cloneAction(id);
+            }}
+            icon={<HiOutlineDocumentDuplicate />}
+          />
+        )}
+
+        {deleteAction && (
+          <IconButton onClick={modalHandler} icon={<HiOutlineTrash />} />
+        )}
+      </div>
+    </>
   );
 };
 
