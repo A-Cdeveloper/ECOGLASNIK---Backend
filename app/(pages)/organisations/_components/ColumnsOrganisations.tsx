@@ -74,11 +74,7 @@ export const getColumnsOrganisations = ({
             <Operations
               id={row.oid as number}
               basePath="organisations"
-              deleteAction={
-                row.categories.length === 0
-                  ? deleteOrganisationByIdAction
-                  : undefined
-              }
+              deleteAction={deleteOrganisationByIdAction}
             />
           ),
         },
