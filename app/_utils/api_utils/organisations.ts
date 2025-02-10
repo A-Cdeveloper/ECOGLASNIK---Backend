@@ -1,6 +1,7 @@
 import { MAX_PAGE_SIZE } from "@/app/config";
 import prisma from "../db/db";
 import tailwindConfig from "../../../tailwind.config";
+import { ProblemStatus } from "@prisma/client";
 
 export const getAllOrganisations = async (
   sortBy: string = "oid-asc",
@@ -105,7 +106,7 @@ export const getAllOrganisationsProblems = async () => {
             problems: {
               where: {
                 status: {
-                  not: "archive", // Exclude problems with status "archive"
+                  not: ProblemStatus.ARCHIVE,
                 },
               },
               select: {
@@ -150,7 +151,7 @@ export const getOrganisationProblems = async (oid: number) => {
             problems: {
               where: {
                 status: {
-                  not: "archive", // Exclude problems with status "archive"
+                  not: ProblemStatus.ARCHIVE,
                 },
               },
               select: {
@@ -175,14 +176,21 @@ export const getOrganisationProblems = async (oid: number) => {
     // Count problems by status
     const statusCounts = allProblems.reduce(
       (acc, problem) => {
-        acc[problem.status] = (acc[problem.status] || 0) + 1;
+        if (problem.status !== ProblemStatus.ARCHIVE) {
+          acc[problem.status as keyof typeof acc] += 1;
+        }
         return acc;
       },
-      { active: 0, done: 0, waiting: 0 } as Record<string, number>
+      {
+        [ProblemStatus.ACTIVE]: 0,
+        [ProblemStatus.DONE]: 0,
+        [ProblemStatus.WAITING]: 0,
+      }
     );
 
     // Total problems
-    const totalProblems = statusCounts.active + statusCounts.done;
+    const totalProblems =
+      statusCounts.ACTIVE + statusCounts.DONE + statusCounts.WAITING;
 
     // Calculate percentages
     const getPercentage = (count: number) =>
@@ -192,20 +200,20 @@ export const getOrganisationProblems = async (oid: number) => {
     const pieData = [
       {
         name: `U OBRADI`,
-        value: statusCounts.waiting,
-        percent: getPercentage(statusCounts.waiting),
+        value: statusCounts.WAITING,
+        percent: getPercentage(statusCounts.WAITING),
         color: tailwindConfig.theme.extend.colors.skyblue["200"],
       },
       {
         name: `AKTIVNI`,
-        value: statusCounts.active,
-        percent: getPercentage(statusCounts.active),
+        value: statusCounts.ACTIVE,
+        percent: getPercentage(statusCounts.ACTIVE),
         color: tailwindConfig.theme.extend.colors.danger["200"],
       },
       {
         name: `REŠENI`,
-        value: statusCounts.done,
-        percent: getPercentage(statusCounts.done),
+        value: statusCounts.DONE,
+        percent: getPercentage(statusCounts.DONE),
         color: tailwindConfig.theme.extend.colors.success["200"],
       },
     ];

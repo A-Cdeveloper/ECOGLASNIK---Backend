@@ -1,5 +1,6 @@
 import DynamicIcon from "@/app/_components/ui/DynamicIcon";
 import { formatDate } from "@/app/_utils/helpers/";
+import { ProblemStatus } from "@prisma/client";
 import Link from "next/link";
 import {
   HiMiniCheckCircle,
@@ -51,28 +52,28 @@ export const getColumnsProblems = ({
           header: "Status",
           accessor: (row: any) => {
             switch (row.status) {
-              case "active":
+              case ProblemStatus.ACTIVE:
                 return (
                   <DynamicIcon
                     Icon={HiMiniExclamationCircle}
                     className="text-red-500 ms-3"
                   />
                 );
-              case "done":
+              case ProblemStatus.DONE:
                 return (
                   <DynamicIcon
                     Icon={HiMiniCheckCircle}
                     className="text-success-200 ms-3"
                   />
                 );
-              case "archive":
+              case ProblemStatus.ARCHIVE:
                 return (
                   <DynamicIcon
                     Icon={HiPauseCircle}
                     className="text-warrning-500 ms-3"
                   />
                 );
-              case "waiting":
+              case ProblemStatus.WAITING:
                 return (
                   <DynamicIcon
                     Icon={HiMiniQuestionMarkCircle}

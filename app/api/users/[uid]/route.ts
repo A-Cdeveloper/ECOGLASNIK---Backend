@@ -7,6 +7,7 @@ import {
   getSuperAdmin,
   getUserById,
 } from "@/app/_utils/api_utils/users";
+import { ProblemStatus } from "@prisma/client";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export async function GET(request: NextRequest, { params }: { params: any }) {
@@ -83,7 +84,7 @@ export async function DELETE(
       },
       data: {
         uid: 1,
-        status: "archive",
+        status: ProblemStatus.ARCHIVE,
         updatedAt: new Date(), // Set updatedAt to the current timestamp
       },
     });

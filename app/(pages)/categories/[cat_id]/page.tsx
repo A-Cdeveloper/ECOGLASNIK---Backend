@@ -4,7 +4,7 @@ import BackButton from "@/app/_components/ui/Buttons/BackButton";
 import Headline from "@/app/_components/ui/Headline";
 import Table from "@/app/_components/ui/Tables/Table";
 import { getCategoryById } from "@/app/_utils/api_utils/categories";
-import { Problem } from "@prisma/client";
+import { Problem, ProblemStatus } from "@prisma/client";
 import { Suspense } from "react";
 import Stats from "../../../_components/dataOperations/problemsStats/Stats";
 import ChartProblemsByCategory, {
@@ -23,7 +23,7 @@ const CategoryPage = async ({
   const category = await getCategoryById(+cat_id);
 
   const notArchivedProblems = category?.problems.filter((problem) => {
-    return problem.status !== "archive";
+    return problem.status !== ProblemStatus.ARCHIVE;
   });
 
   return (

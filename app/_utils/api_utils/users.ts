@@ -1,4 +1,4 @@
-import { UserRole } from "@prisma/client";
+import { ProblemStatus, UserRole } from "@prisma/client";
 import { MAX_PAGE_SIZE } from "@/app/config";
 import prisma from "../db/db";
 import { sortByPropertyLength } from "../helpers";
@@ -51,7 +51,7 @@ export const getAllUsers = async (
           include: {
             problems: {
               where: {
-                status: { not: "archive" }, // Exclude archived problems
+                status: { not: ProblemStatus.ARCHIVE },
               },
               select: {
                 title: true,
@@ -77,7 +77,7 @@ export const getAllUsers = async (
           include: {
             problems: {
               where: {
-                status: { not: "archive" }, // Exclude archived problems
+                status: { not: ProblemStatus.ARCHIVE },
               },
               select: {
                 title: true,

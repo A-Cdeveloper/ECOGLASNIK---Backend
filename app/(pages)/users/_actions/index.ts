@@ -13,7 +13,7 @@ import {
 import { randomBytes } from "crypto";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { UserRole } from "@prisma/client";
+import { ProblemStatus, UserRole } from "@prisma/client";
 
 export const addNewUserAction = async (
   prevFormData: any,
@@ -123,7 +123,7 @@ export const deleteUserAction = async (uid: number) => {
     },
     data: {
       uid: 1,
-      status: "archive",
+      status: ProblemStatus.ARCHIVE,
       updatedAt: new Date(), // Set updatedAt to the current timestamp
     },
   });

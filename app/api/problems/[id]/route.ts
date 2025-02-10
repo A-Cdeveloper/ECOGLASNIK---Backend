@@ -10,6 +10,7 @@ import {
   getProblemById,
   updateProblem,
 } from "@/app/_utils/api_utils/problems-api";
+import { ProblemStatus } from "@prisma/client";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export async function GET(request: NextRequest, { params }: { params: any }) {
@@ -141,7 +142,7 @@ export async function DELETE(
 
     const archiveProblem = await updateProblem(id, {
       uid: superadmin?.uid,
-      status: "archive",
+      status: ProblemStatus.ARCHIVE,
     });
 
     return NextResponse.json(archiveProblem, { status: 200 });

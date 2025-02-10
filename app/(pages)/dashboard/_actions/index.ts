@@ -1,4 +1,5 @@
 import prisma from "@/app/_utils/db/db";
+import { ProblemStatus } from "@prisma/client";
 
 export async function getCounts() {
   const [problemsCount, categoriesCount, usersCount, organisationsCount] =
@@ -6,7 +7,7 @@ export async function getCounts() {
       prisma.problem.count({
         where: {
           status: {
-            not: "archive",
+            not: ProblemStatus.ARCHIVE,
           },
         },
       }),

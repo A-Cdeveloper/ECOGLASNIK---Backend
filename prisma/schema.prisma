@@ -27,6 +27,13 @@ model Organisation {
   @@map("organisations")
 }
 
+enum ProblemStatus {
+  ACTIVE
+  DONE
+  ARCHIVE
+  WAITING
+}
+
 model Problem {
   id            String          @id @default(uuid())
   title         String
@@ -34,7 +41,7 @@ model Problem {
   position      Json
   createdAt     DateTime        @default(now())
   updatedAt     DateTime?
-  status        String          @default("active")
+  status        ProblemStatus   @default(WAITING)
   cat_id        Int
   uid           Int
   officialEmail String          @default("0")

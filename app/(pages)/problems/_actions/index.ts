@@ -19,6 +19,7 @@ import { updateProblemSchema } from "@/app/_utils/zod/problemSchemas";
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import { ProblemStatus } from "@prisma/client";
 // import { redirect } from "next/navigation";
 
 export const cloneProblemByIdAction = async (id: string) => {
@@ -63,17 +64,13 @@ export const updateProblemAction = async (
     id: formData.get("id") as string,
     title: formData.get("title") as string,
     description: formData.get("description") as string,
-    status: formData.get("status") as
-      | "active"
-      | "done"
-      | "archived"
-      | "waiting",
+    status: formData.get("status") as ProblemStatus,
     position: JSON.parse(formData.get("position") as string),
     cat_id: Number(formData.get("cat_id")) as number,
     officialEmail: formData.get("officialEmail") as string,
     updatedAt:
-      formData.get("status") !== "active" &&
-      formData.get("status") !== "waiting"
+      formData.get("status") !== ProblemStatus.ACTIVE &&
+      formData.get("status") !== ProblemStatus.WAITING
         ? new Date()
         : null,
     pinata_id: formData.get("pinata_id") as string,
@@ -92,7 +89,7 @@ export const updateProblemAction = async (
     data: {
       title: updateData.title as string,
       description: updateData.description as string,
-      status: updateData.status as string,
+      status: updateData.status as ProblemStatus,
       position: updateData.position as any,
       cat_id: +updateData.cat_id,
       updatedAt: updateData.updatedAt as any,
@@ -102,7 +99,10 @@ export const updateProblemAction = async (
   });
 
   // send email to oragnisations
-  if (updateData?.officialEmail === "1" && updateData.status !== "waiting") {
+  if (
+    updateData?.officialEmail === "1" &&
+    updateData.status !== ProblemStatus.WAITING
+  ) {
     const organisations = await getOrganisationsByCategory(
       updateData?.cat_id.toString()
     );

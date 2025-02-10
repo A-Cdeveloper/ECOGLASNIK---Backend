@@ -10,6 +10,7 @@ import {
 } from "@/app/_utils/api_utils/problems-api";
 import { sendEmailToOrganisations } from "@/app/_utils/emails/sendEmail";
 import { getOrganisationsByCategory } from "@/app/_utils/api_utils/organisations";
+import { ProblemStatus } from "@prisma/client";
 
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
@@ -27,7 +28,10 @@ export async function GET(request: NextRequest) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const conditions: any = {
       NOT: {
-        OR: [{ status: "archive" }, { status: "waiting" }],
+        OR: [
+          { status: ProblemStatus.ARCHIVE },
+          { status: ProblemStatus.WAITING },
+        ],
       },
     };
     if (status) conditions.status = status;
@@ -66,7 +70,7 @@ export async function POST(request: NextRequest) {
       officialEmail: reciveData.officialEmail === "on" ? "1" : "0",
       createdAt: new Date(), // Set the current date/time
       updatedAt: null, // Explicitly set to null
-      status: "waiting",
+      status: ProblemStatus.WAITING,
       cat_id: reciveData.cat_id, // Match your database column name
       uid: reciveData.uid, // Match your database column name
       image: reciveData.image || "",

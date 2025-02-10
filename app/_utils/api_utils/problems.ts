@@ -2,12 +2,13 @@
 import { compareAsc, format, parse, subDays } from "date-fns";
 import { MAX_PAGE_SIZE } from "@/app/config";
 import prisma from "../db/db";
+import { ProblemStatus } from "@prisma/client";
 
 //import { sortByPropertyLength } from "../helpers";
 
 export const getAllProblems = async (
   sortBy: string = "createdAt-desc",
-  status?: string,
+  status?: ProblemStatus,
   category?: string,
   days?: number,
   startIndex?: number,
@@ -18,11 +19,11 @@ export const getAllProblems = async (
   const whereClause =
     status || category || days
       ? {
-          ...(status && { status: status.toLowerCase() }),
+          ...(status && { status: status }),
           ...(category && { category: { cat_id: +category } }),
           ...(days && { createdAt: { gte: subDays(new Date(), days) } }),
         }
-      : { status: { not: "archive" } };
+      : { status: { not: ProblemStatus.ARCHIVE } };
 
   try {
     const [problems, totalProblems] = await Promise.all([
@@ -112,7 +113,7 @@ export const getProblemTrends = async (days: number = 7) => {
     const problems = await prisma.problem.findMany({
       where: {
         createdAt: { gte: startDate, lte: endDate },
-        NOT: { status: "archive" },
+        NOT: { status: ProblemStatus.ARCHIVE },
       },
       select: {
         id: true,
@@ -135,14 +136,14 @@ export const getProblemTrends = async (days: number = 7) => {
     problems.forEach((p) => {
       const createdDateKey = format(p.createdAt, "dd.MM.yyyy");
       if (trends[createdDateKey]) {
-        if (p.status === "active") {
+        if (p.status === ProblemStatus.ACTIVE) {
           trends[createdDateKey].aktivni += 1;
         }
 
-        if (p.status === "done") {
+        if (p.status === ProblemStatus.DONE) {
           trends[createdDateKey].reseni += 1;
         }
-        if (p.status === "waiting") {
+        if (p.status === ProblemStatus.WAITING) {
           trends[createdDateKey].odrada += 1;
         }
       }

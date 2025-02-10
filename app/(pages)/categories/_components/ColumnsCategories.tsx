@@ -1,6 +1,7 @@
 import Operations from "@/app/_components/dataOperations/IconOperationsButtons";
 import Link from "next/link";
 import { cloneCategoryByIdAction, deleteCategoryByIdAction } from "../_actions";
+import { ProblemStatus } from "@prisma/client";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
@@ -50,22 +51,25 @@ export const getColumnsCategories = ({
         {
           header: "Ukupno problema",
           accessor: (row: any) =>
-            row.problems.filter((problem: any) => problem.status !== "archive")
-              .length,
+            row.problems.filter(
+              (problem: any) => problem.status !== ProblemStatus.ARCHIVE
+            ).length,
           className: "text-start md:text-center",
         },
         {
           header: "Aktivni",
           accessor: (row: any) =>
-            row.problems.filter((problem: any) => problem.status === "active")
-              .length,
+            row.problems.filter(
+              (problem: any) => problem.status === ProblemStatus.ACTIVE
+            ).length,
           className: "text-start md:text-center",
         },
         {
           header: "Rešeni",
           accessor: (row: any) =>
-            row.problems.filter((problem: any) => problem.status === "done")
-              .length,
+            row.problems.filter(
+              (problem: any) => problem.status === ProblemStatus.DONE
+            ).length,
           className: "text-start md:text-center",
         },
         {
@@ -73,7 +77,8 @@ export const getColumnsCategories = ({
           accessor: (row: any) =>
             row.problems.filter(
               (problem: any) =>
-                problem.status !== "archive" && problem.officialEmail === "1"
+                problem.status !== ProblemStatus.ARCHIVE &&
+                problem.officialEmail === "1"
             ).length,
           className: "text-start md:text-center opacity-50",
         },

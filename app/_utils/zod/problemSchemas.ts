@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { containsProfanity } from "../helpers";
+import { ProblemStatus } from "@prisma/client";
 
 // Shared position schema
 export const positionSchema = z.object({
@@ -40,10 +41,10 @@ export const problemSchema = problemBaseSchema.extend({
 export const updateProblemSchema = problemBaseSchema
   .extend({
     status: z.union([
-      z.literal("done"),
-      z.literal("active"),
-      z.literal("archived"),
-      z.literal("waiting"),
+      z.literal(ProblemStatus.DONE),
+      z.literal(ProblemStatus.ACTIVE),
+      z.literal(ProblemStatus.ARCHIVE),
+      z.literal(ProblemStatus.WAITING),
       z.undefined(),
     ]), // Additional field for updates
   })

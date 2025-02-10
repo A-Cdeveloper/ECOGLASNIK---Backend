@@ -11,6 +11,7 @@ import {
   HiMiniQuestionMarkCircle,
 } from "react-icons/hi2";
 import { cloneProblemByIdAction, deleteProblemByIdAction } from "../_actions";
+import { ProblemStatus } from "@prisma/client";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
@@ -69,13 +70,15 @@ export const getColumnsProblems = ({
           {row.officialEmail === "1" && (
             <span
               className={`flex gap-x-1 ${
-                row.status === "waiting"
+                row.status === ProblemStatus.WAITING
                   ? "text-skyblue-200"
                   : "text-success-200"
               }`}
             >
               <DynamicIcon Icon={HiMiniEnvelope} />
-              {row.status === "waiting" ? "zahtev na čekanju" : "poslat zahtev"}
+              {row.status === ProblemStatus.WAITING
+                ? "zahtev na čekanju"
+                : "poslat zahtev"}
             </span>
           )}
         </>
@@ -97,21 +100,21 @@ export const getColumnsProblems = ({
           header: "Status",
           accessor: (row: any) => {
             switch (row.status) {
-              case "active":
+              case ProblemStatus.ACTIVE:
                 return (
                   <DynamicIcon
                     Icon={HiMiniExclamationCircle}
                     className="text-red-500 ms-3"
                   />
                 );
-              case "done":
+              case ProblemStatus.DONE:
                 return (
                   <DynamicIcon
                     Icon={HiMiniCheckCircle}
                     className="text-success-200 ms-3"
                   />
                 );
-              case "archive":
+              case ProblemStatus.ARCHIVE:
                 return (
                   <DynamicIcon
                     Icon={HiMiniPauseCircle}
@@ -119,7 +122,7 @@ export const getColumnsProblems = ({
                   />
                 );
 
-              case "waiting":
+              case ProblemStatus.WAITING:
                 return (
                   <DynamicIcon
                     Icon={HiMiniQuestionMarkCircle}

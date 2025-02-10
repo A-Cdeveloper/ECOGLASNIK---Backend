@@ -3,6 +3,7 @@ import tailwindConfig from "@/tailwind.config";
 import { MAX_PAGE_SIZE } from "@/app/config";
 import prisma from "../db/db";
 import { sortByPropertyLength } from "../helpers";
+import { ProblemStatus } from "@prisma/client";
 
 export const getAllCategories = async (
   sortBy: string = "cat_id-asc",
@@ -116,7 +117,7 @@ export const getAllCategoriesProblems = async () => {
         problems: {
           where: {
             status: {
-              not: "archive", // Exclude archived problems
+              not: ProblemStatus.ARCHIVE, // Exclude archived problems
             },
           },
           select: {
@@ -147,17 +148,10 @@ export const getAllCategoriesProblems = async () => {
 export const getSingleCategoryProblems = async (id: number) => {
   try {
     const category = await prisma.problemCategory.findUnique({
-      where: {
-        cat_id: id,
-      },
-
+      where: { cat_id: id },
       select: {
         problems: {
-          where: {
-            status: {
-              not: "archive", // Exclude problems with status "archive"
-            },
-          },
+          where: { status: { not: ProblemStatus.ARCHIVE } },
           select: {
             id: true,
             status: true, // Fetch status of each problem
@@ -167,49 +161,50 @@ export const getSingleCategoryProblems = async (id: number) => {
     });
 
     if (!category) {
-      throw new Error(`category with ID ${id} not found.`);
+      throw new Error(`Category with ID ${id} not found.`);
     }
 
-    // // Flatten problems into one array
-    // const allProblems = category.problems.flatMap(
-    //   (category) => category.problems
-    // );
-
-    // // // Count problems by status
+    // Count problems by status
     const statusCounts = category.problems.reduce(
       (acc, problem) => {
         acc[problem.status] = (acc[problem.status] || 0) + 1;
         return acc;
       },
-      { active: 0, done: 0, waiting: 0 } as Record<string, number>
+      {
+        [ProblemStatus.ACTIVE]: 0,
+        [ProblemStatus.DONE]: 0,
+        [ProblemStatus.WAITING]: 0,
+      } as Record<ProblemStatus, number>
     );
 
-    // // // Total problems
+    // Total problems
     const totalProblems =
-      statusCounts.active + statusCounts.done + statusCounts.waiting;
+      statusCounts[ProblemStatus.ACTIVE] +
+      statusCounts[ProblemStatus.DONE] +
+      statusCounts[ProblemStatus.WAITING];
 
-    // // // Calculate percentages
+    // Calculate percentages
     const getPercentage = (count: number) =>
       totalProblems > 0 ? ((count / totalProblems) * 100).toFixed(2) : "0";
 
-    // // // Nivo Pie formatted data
+    // Nivo Pie formatted data
     const pieData = [
       {
-        name: `OBRADA`,
-        value: statusCounts.waiting,
-        percent: getPercentage(statusCounts.waiting),
+        name: "OBRADA",
+        value: statusCounts[ProblemStatus.WAITING],
+        percent: getPercentage(statusCounts[ProblemStatus.WAITING]),
         color: tailwindConfig.theme.extend.colors.skyblue["200"],
       },
       {
-        name: `AKTIVNI`,
-        value: statusCounts.active,
-        percent: getPercentage(statusCounts.active),
+        name: "AKTIVNI",
+        value: statusCounts[ProblemStatus.ACTIVE],
+        percent: getPercentage(statusCounts[ProblemStatus.ACTIVE]),
         color: tailwindConfig.theme.extend.colors.danger["200"],
       },
       {
-        name: `REŠENI`,
-        value: statusCounts.done,
-        percent: getPercentage(statusCounts.done),
+        name: "REŠENI",
+        value: statusCounts[ProblemStatus.DONE],
+        percent: getPercentage(statusCounts[ProblemStatus.DONE]),
         color: tailwindConfig.theme.extend.colors.success["200"],
       },
     ];

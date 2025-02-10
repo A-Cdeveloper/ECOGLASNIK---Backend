@@ -1,14 +1,17 @@
+import { ProblemStatus } from "@prisma/client";
+
 export const problemStatusOptions = [
   { value: "", label: "Svi" },
-  { value: "active", label: "Aktivni" },
-  { value: "done", label: "Rešeni" },
-  { value: "waiting", label: "U odradi" },
+  { value: ProblemStatus.ACTIVE, label: "Aktivni" },
+  { value: ProblemStatus.DONE, label: "Rešeni" },
+  { value: ProblemStatus.WAITING, label: "U odradi" },
 ];
 
 export const statuses = [
-  { value: "active", label: "Aktivan" },
-  { value: "done", label: "Rešen" },
-  { value: "waiting", label: "U odradi" },
+  { value: ProblemStatus.ACTIVE, label: "Aktivan" },
+  { value: ProblemStatus.DONE, label: "Rešen" },
+  { value: ProblemStatus.WAITING, label: "U odradi" },
+  { value: ProblemStatus.ARCHIVE, label: "Arhiviran" },
 ];
 
 export const intervalOptions = [

@@ -10,6 +10,7 @@ import {
   SkeletonTable,
   SkeletonTopSection,
 } from "@/app/_components/ui/Skeletons";
+import { ProblemStatus } from "@prisma/client";
 
 const ProblemsByInterval = async ({
   searchParams,
@@ -20,7 +21,7 @@ const ProblemsByInterval = async ({
 
   const { problems } = (await getAllProblems(
     "createdAt-desc",
-    "",
+    undefined,
     "",
     days ? Number(days) : 7,
     0,
@@ -30,7 +31,7 @@ const ProblemsByInterval = async ({
   };
 
   const notArchivedProblems = problems.filter((problem) => {
-    return problem.status !== "archive";
+    return problem.status !== ProblemStatus.ARCHIVE;
   });
 
   let content = (

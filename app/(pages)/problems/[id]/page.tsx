@@ -7,6 +7,7 @@ import Picture from "@/app/_components/ui/Picture";
 import { getProblemById } from "@/app/_utils/api_utils/problems";
 import { convertLatLngToString, formatDate } from "@/app/_utils/helpers/";
 import { statuses } from "../_components/FilterOptions";
+import { ProblemStatus } from "@prisma/client";
 
 const ProblemPage = async ({ params }: { params: Promise<{ id: string }> }) => {
   const problem = await getProblemById((await params).id);
@@ -23,12 +24,12 @@ const ProblemPage = async ({ params }: { params: Promise<{ id: string }> }) => {
           naknadne izmene osim izmene statusa problema.
         </p>
       )}
-      {problem?.status === "archive" && (
+      {problem?.status === ProblemStatus.ARCHIVE && (
         <p className="bg-danger-200/80 py-3 px-4 mb-2">
           Problem je ariviran (obrisan) od strane korisnika.
         </p>
       )}
-      {problem?.status === "waiting" && (
+      {problem?.status === ProblemStatus.WAITING && (
         <p className="bg-blue-200/80 text-primary-900 py-3 px-4 mb-2">
           Problem čeka na odobrenje za prikazivanje.
         </p>
@@ -93,7 +94,7 @@ const ProblemPage = async ({ params }: { params: Promise<{ id: string }> }) => {
               }
               initialZoom={16}
             />
-            {problem?.status !== "archive" && (
+            {problem?.status !== ProblemStatus.ARCHIVE && (
               <ItemOperationsButtons
                 id={problem?.id as string}
                 basePath="problems"

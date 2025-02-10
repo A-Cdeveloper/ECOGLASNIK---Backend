@@ -26,7 +26,6 @@ const ArchiveProblems = async ({
 }) => {
   const {
     sortBy = "createdAt-desc",
-    status = "archive",
     category,
     days,
     page = "1",
@@ -37,7 +36,7 @@ const ArchiveProblems = async ({
   // Fetch problems with pagination
   const { problems, totalProblems } = (await getAllProblems(
     sortBy,
-    status,
+    "ARCHIVE",
     category,
     Number(days) || undefined,
     (currentPage - 1) * MAX_PAGE_SIZE,
