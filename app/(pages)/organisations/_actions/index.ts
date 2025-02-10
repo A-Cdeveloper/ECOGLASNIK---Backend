@@ -4,7 +4,7 @@
 import prisma from "@/app/_utils/db/db";
 import {
   handleError,
-  validateSchemaRedirect,
+  validateSchemaResponse,
 } from "@/app/_utils/helpers/errorHandler";
 import { OrganisationFormSchema } from "@/app/_utils/zod/organisationSchemas";
 import { revalidatePath } from "next/cache";
@@ -24,22 +24,43 @@ export const addNewOrganisationAction = async (
     categories: formData.getAll("categories").map((id) => Number(id)), // Convert to numbers
   };
 
-  const validation = validateSchemaRedirect(OrganisationFormSchema, data);
+  const validation = validateSchemaResponse(OrganisationFormSchema, data);
   if (validation) {
     return validation;
   }
 
-  await prisma.organisation.create({
-    data: {
-      organisation_name: data.organisation_name as string,
-      organisation_address: data.organisation_address as string,
+  const existingOrganisationEmail = await prisma.organisation.findUnique({
+    where: {
       organisation_email: data.organisation_email as string,
-      organisation_phone: data.organisation_phone as string,
-      categories: {
-        connect: data.categories.map((id) => ({ cat_id: id })),
-      },
     },
   });
+
+  if (existingOrganisationEmail) {
+    return {
+      success: false,
+      message: ["Već postoji služba koja koristi ovu email adresu!"],
+    };
+  }
+
+  try {
+    await prisma.organisation.create({
+      data: {
+        organisation_name: data.organisation_name as string,
+        organisation_address: data.organisation_address as string,
+        organisation_email: data.organisation_email as string,
+        organisation_phone: data.organisation_phone as string,
+        categories: {
+          connect: data.categories.map((id) => ({ cat_id: id })),
+        },
+      },
+    });
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  } catch (error) {
+    return {
+      success: false,
+      message: ["Greška prilikom kreiranja službe!"],
+    };
+  }
 
   revalidatePath("/organisations");
   redirect("/organisations");
@@ -59,25 +80,46 @@ export const updateOrganisationAction = async (
 
   const oid = formData.get("oid") as string;
 
-  const validation = validateSchemaRedirect(OrganisationFormSchema, updateData);
+  const validation = validateSchemaResponse(OrganisationFormSchema, updateData);
   if (validation) {
     return validation;
   }
 
-  await prisma.organisation.update({
+  const existingOrganisationEmail = await prisma.organisation.findUnique({
     where: {
-      oid: +oid,
-    },
-    data: {
-      organisation_name: updateData.organisation_name as string,
-      organisation_address: updateData.organisation_address as string,
       organisation_email: updateData.organisation_email as string,
-      organisation_phone: updateData.organisation_phone as string,
-      categories: {
-        set: updateData.categories.map((id) => ({ cat_id: id })),
-      },
     },
   });
+
+  if (existingOrganisationEmail) {
+    return {
+      success: false,
+      message: ["Već postoji služba koja koristi ovu email adresu!"],
+    };
+  }
+
+  try {
+    await prisma.organisation.update({
+      where: {
+        oid: +oid,
+      },
+      data: {
+        organisation_name: updateData.organisation_name as string,
+        organisation_address: updateData.organisation_address as string,
+        organisation_email: updateData.organisation_email as string,
+        organisation_phone: updateData.organisation_phone as string,
+        categories: {
+          set: updateData.categories.map((id) => ({ cat_id: id })),
+        },
+      },
+    });
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  } catch (error) {
+    return {
+      success: false,
+      message: ["Greška prilikom ažuriranja službe!"],
+    };
+  }
 
   revalidatePath("/organisations");
   redirect("/organisations");

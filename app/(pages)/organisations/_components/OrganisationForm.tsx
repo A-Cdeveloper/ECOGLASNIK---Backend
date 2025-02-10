@@ -1,18 +1,18 @@
 "use client";
 // import { addNewCategoryAction, updateCategoryAction } from "../_actions";
-import Input from "@/app/_components/ui/Form/Input";
-import CheckboxGroup from "@/app/_components/ui/Form/CheckboxGroup";
 import { SubmitButton } from "@/app/_components/ui/Buttons/SubmitButton";
+import CheckboxGroup from "@/app/_components/ui/Form/CheckboxGroup";
+import Input from "@/app/_components/ui/Form/Input";
 import { useActionState } from "react";
 // import ErrorsForm from "./ErrorsForm";
 import Link from "next/link";
 
 import { OrganisationType } from "@/app/types/prismaTypes";
+import ErrorsFormMessage from "../../../_components/ui/Form/ErrorsFormMessage";
 import {
   addNewOrganisationAction,
   updateOrganisationAction,
 } from "../_actions";
-import ErrorsForm from "../../../_components/ui/Form/ErrorsFormMessage";
 
 const OrganisationForm = ({
   categoriesSelection = [],
@@ -26,7 +26,10 @@ const OrganisationForm = ({
     ? updateOrganisationAction
     : addNewOrganisationAction;
 
-  const [errors, formAction] = useActionState(action, []);
+  const [response, formAction] = useActionState(action, {
+    success: false,
+    message: [],
+  });
 
   const isCategoriesExist = categoriesSelection.length > 0;
 
@@ -87,7 +90,7 @@ const OrganisationForm = ({
         </div>
       )}
 
-      {errors.length > 0 && <ErrorsForm errors={errors} />}
+      {response?.message && <ErrorsFormMessage errors={response?.message} />}
       {isCategoriesExist && (
         <SubmitButton>{organisation ? "Izmeni" : "Dodaj"}</SubmitButton>
       )}
