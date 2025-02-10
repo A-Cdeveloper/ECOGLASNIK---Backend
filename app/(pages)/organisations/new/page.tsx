@@ -3,8 +3,6 @@ import Headline from "@/app/_components/ui/Headline";
 import { getAllCategories } from "@/app/_utils/api_utils/categories";
 import OrganisationForm from "../_components/OrganisationForm";
 
-//import CategoryForm from "../_components/CategoryForm";
-
 const AddOrganisation = async () => {
   const { categories: categoriesApi } = (await getAllCategories()) as {
     categories: { cat_id: number; cat_name: string }[];
