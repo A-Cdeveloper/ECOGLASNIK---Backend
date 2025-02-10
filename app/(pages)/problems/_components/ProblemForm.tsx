@@ -13,6 +13,7 @@ import ErrorsFormMessage from "@/app/_components/ui/Form/ErrorsFormMessage";
 import Map from "../../../_components/ui/Map";
 import { convertLatLngToString } from "@/app/_utils/helpers/";
 import { statuses } from "./FilterOptions";
+import { ProblemStatus } from "@prisma/client";
 
 const ProblemForm = ({
   problem,
@@ -34,10 +35,16 @@ const ProblemForm = ({
     <>
       <form action={formAction} className="mt-4 w-full 2xl:w-2/3">
         {problem && <input type="hidden" name="id" value={problem?.id} />}
-        {isReported && (
+        {isReported && problem.status === ProblemStatus.WAITING && (
           <p className="bg-danger-200/80 py-3 px-4 mb-2">
-            Problem je zvanično prijavljen nadležnim službama. Nisu dozvoljene
-            naknadne izmene osim izmene statusa problema.
+            Korisnik je zatrazio zvanicnu prijavu problema nadležnim službama.
+            <br /> Nisu dozvoljene naknadne izmene osim izmene statusa problema.
+          </p>
+        )}
+        {isReported && problem.status !== ProblemStatus.WAITING && (
+          <p className="bg-danger-200/80 py-3 px-4 mb-2">
+            Prijava je zvanicno poslata nadležnim službama.
+            <br /> Nisu dozvoljene naknadne izmene osim izmene statusa problema.
           </p>
         )}
 
@@ -112,7 +119,11 @@ const ProblemForm = ({
 
         <div className="text-end">
           {errors.length > 0 && <ErrorsFormMessage errors={errors} />}
-          <SubmitButton loading={loadingImageUpload}>Izmeni</SubmitButton>
+          <SubmitButton loading={loadingImageUpload}>
+            {isReported && problem.status === ProblemStatus.WAITING
+              ? "Sačuvaj izmene i pošalji"
+              : "Sačuvaj izmene"}
+          </SubmitButton>
         </div>
       </form>
     </>

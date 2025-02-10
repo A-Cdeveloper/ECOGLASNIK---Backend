@@ -18,10 +18,16 @@ const ProblemPage = async ({ params }: { params: Promise<{ id: string }> }) => {
       <BackButton />
 
       <Headline level={1}>{problem?.title}</Headline>
-      {isReported && (
+      {isReported && problem.status === ProblemStatus.WAITING && (
         <p className="bg-danger-200/80 py-3 px-4 mb-2">
-          Problem je zvanično prijavljen nadležnim službama. Nisu dozvoljene
-          naknadne izmene osim izmene statusa problema.
+          Korisnik je zatrazio zvanicnu prijavu problema nadležnim službama.
+          <br /> Nisu dozvoljene naknadne izmene osim izmene statusa problema.
+        </p>
+      )}
+      {isReported && problem.status !== ProblemStatus.WAITING && (
+        <p className="bg-danger-200/80 py-3 px-4 mb-2">
+          Prijava je zvanicno poslata nadležnim službama.
+          <br /> Nisu dozvoljene naknadne izmene osim izmene statusa problema.
         </p>
       )}
       {problem?.status === ProblemStatus.ARCHIVE && (
