@@ -19,7 +19,7 @@ import { updateProblemSchema } from "@/app/_utils/zod/problemSchemas";
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { ProblemStatus } from "@prisma/client";
+import { ProblemOfficialEmail, ProblemStatus } from "@prisma/client";
 // import { redirect } from "next/navigation";
 
 export const cloneProblemByIdAction = async (id: string) => {
@@ -67,7 +67,7 @@ export const updateProblemAction = async (
     status: formData.get("status") as ProblemStatus,
     position: JSON.parse(formData.get("position") as string),
     cat_id: Number(formData.get("cat_id")) as number,
-    officialEmail: formData.get("officialEmail") as string,
+    officialEmail: formData.get("officialEmail") as ProblemOfficialEmail,
     updatedAt:
       formData.get("status") !== ProblemStatus.ACTIVE &&
       formData.get("status") !== ProblemStatus.WAITING
@@ -100,7 +100,7 @@ export const updateProblemAction = async (
 
   // send email to oragnisations
   if (
-    updateData?.officialEmail === "1" &&
+    updateData?.officialEmail === ProblemOfficialEmail.REQUESTED &&
     updateData.status !== ProblemStatus.WAITING
   ) {
     const organisations = await getOrganisationsByCategory(
@@ -113,6 +113,15 @@ export const updateProblemAction = async (
         org.categories[0].cat_name,
         newProblem
       );
+    });
+
+    await prisma.problem.update({
+      where: {
+        id: newProblem.id as string,
+      },
+      data: {
+        officialEmail: ProblemOfficialEmail.SENDED,
+      },
     });
   }
 
