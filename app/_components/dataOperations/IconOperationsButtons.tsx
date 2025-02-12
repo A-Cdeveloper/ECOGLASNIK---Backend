@@ -24,19 +24,32 @@ const Operations = <T extends string | number>({
   cloneAction,
   deleteAction,
 }: OperationsProps<T>) => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalType, setModalType] = useState<"delete" | "clone" | null>(null);
 
-  const modalHandler = () => setIsModalOpen((prev) => !prev);
+  const openDeleteModal = () => setModalType("delete");
+  const openCloneModal = () => setModalType("clone");
+  const closeModal = () => setModalType(null);
 
   return (
     <>
-      {isModalOpen && deleteAction && (
+      {modalType === "delete" && deleteAction && (
         <Modal
-          message={`Da li ste sigurni?`}
-          onClose={() => setIsModalOpen(false)} // Close modal
+          message="Da li ste sigurni?"
+          onClose={closeModal}
           onConfirm={async () => {
-            await deleteAction(id); // Call the delete action
-            setIsModalOpen(false); // Close modal after action
+            await deleteAction(id);
+            closeModal();
+          }}
+        />
+      )}
+
+      {modalType === "clone" && cloneAction && (
+        <Modal
+          message="Da li želite da klonirate ovaj element?"
+          onClose={closeModal}
+          onConfirm={async () => {
+            await cloneAction(id);
+            closeModal();
           }}
         />
       )}
@@ -52,15 +65,13 @@ const Operations = <T extends string | number>({
         </Link>
         {cloneAction && (
           <IconButton
-            onClick={async () => {
-              await cloneAction(id);
-            }}
+            onClick={openCloneModal}
             icon={<HiOutlineDocumentDuplicate />}
           />
         )}
 
         {deleteAction && (
-          <IconButton onClick={modalHandler} icon={<HiOutlineTrash />} />
+          <IconButton onClick={openDeleteModal} icon={<HiOutlineTrash />} />
         )}
       </div>
     </>
