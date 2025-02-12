@@ -1,16 +1,14 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
-import { problemSchema } from "@/app/_utils/zod/problemSchemas";
-import { NextRequest, NextResponse } from "next/server";
-import { z } from "zod";
-import { authMiddleware } from "../../_utils/auth/authMiddleware";
 import {
   addNewProblem,
   getAllProblems,
 } from "@/app/_utils/api_utils/problems-api";
-import { sendEmailToOrganisations } from "@/app/_utils/emails/sendEmail";
-import { getOrganisationsByCategory } from "@/app/_utils/api_utils/organisations";
-import { ProblemOfficialEmail, ProblemStatus } from "@prisma/client";
+import { problemSchema } from "@/app/_utils/zod/problemSchemas";
+import { ProblemStatus } from "@prisma/client";
+import { NextRequest, NextResponse } from "next/server";
+import { z } from "zod";
+import { authMiddleware } from "../../_utils/auth/authMiddleware";
 
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
@@ -67,10 +65,7 @@ export async function POST(request: NextRequest) {
         lat: parseFloat(reciveData.position.lat),
         lng: parseFloat(reciveData.position.lng),
       },
-      officialEmail:
-        reciveData.officialEmail === "on"
-          ? ProblemOfficialEmail.REQUESTED
-          : ProblemOfficialEmail.NONE,
+      officialEmail: reciveData.officialEmail,
       createdAt: new Date(), // Set the current date/time
       updatedAt: null, // Explicitly set to null
       status: ProblemStatus.WAITING,
