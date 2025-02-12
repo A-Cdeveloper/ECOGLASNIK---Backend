@@ -9,6 +9,7 @@ import { convertLatLngToString, formatDate } from "@/app/_utils/helpers/";
 import { statuses } from "../_components/FilterOptions";
 import { ProblemStatus } from "@prisma/client";
 import ProblemInfoMessage from "../_components/ProblemInfoMessage";
+import StatusBadge from "@/app/_components/ui/StatusBadge";
 
 const ProblemPage = async ({ params }: { params: Promise<{ id: string }> }) => {
   const problem = await getProblemById((await params).id);
@@ -58,7 +59,8 @@ const ProblemPage = async ({ params }: { params: Promise<{ id: string }> }) => {
               {statuses
                 .filter((s) => s.value === problem?.status)
                 .map((s) => (
-                  <p key={s.value}>{s.label}</p>
+                  // <p key={s.value}>{s.label}</p>
+                  <StatusBadge key={s.value} status={s.value} />
                 ))}
             </div>
 
