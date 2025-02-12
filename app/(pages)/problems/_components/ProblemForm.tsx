@@ -116,7 +116,9 @@ const ProblemForm = ({
         <div className="text-end">
           {errors.length > 0 && <ErrorsFormMessage errors={errors} />}
           <SubmitButton loading={loadingImageUpload}>
-            {isNotEditable && problem.status === ProblemStatus.WAITING
+            {isNotEditable &&
+            problem.status === ProblemStatus.WAITING &&
+            problem.officialEmail === ProblemOfficialEmail.REQUESTED
               ? "Sačuvaj izmene i pošalji"
               : "Sačuvaj izmene"}
           </SubmitButton>
