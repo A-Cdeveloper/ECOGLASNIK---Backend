@@ -32,7 +32,7 @@ const ProblemForm = ({
 
   const isNotEditable =
     problem?.officialEmail === ProblemOfficialEmail.REQUESTED ||
-    problem?.officialEmail === ProblemOfficialEmail.SENDED ||
+    problem?.officialEmail === ProblemOfficialEmail.SENT ||
     problem?.status === ProblemStatus.ARCHIVE;
 
   return (

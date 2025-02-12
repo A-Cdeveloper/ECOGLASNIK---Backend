@@ -120,7 +120,7 @@ export const updateProblemAction = async (
         id: newProblem.id as string,
       },
       data: {
-        officialEmail: ProblemOfficialEmail.SENDED,
+        officialEmail: ProblemOfficialEmail.SENT,
       },
     });
   }

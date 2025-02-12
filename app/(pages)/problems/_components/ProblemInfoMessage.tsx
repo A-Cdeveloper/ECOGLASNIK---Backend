@@ -17,7 +17,7 @@ const ProblemInfoMessage = ({
               Korisnik je zatrazio zvanicnu prijavu problema nadležnim službama.
             </p>
           )}
-        {officialEmail === ProblemOfficialEmail.SENDED &&
+        {officialEmail === ProblemOfficialEmail.SENT &&
           status !== ProblemStatus.ARCHIVE && (
             <p className="bg-danger-100 text-primary-900 p-1 px-[15px]">
               Prijava je zvanicno prosleđena nadležnim službama. Nisu dozvoljene

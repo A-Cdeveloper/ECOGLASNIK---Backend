@@ -37,7 +37,7 @@ enum ProblemStatus {
 enum ProblemOfficialEmail {
   NONE
   REQUESTED
-  SENDED
+  SENT
 }
 
 model Problem {
