@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use server";
 
+import { LogoutUserAction } from "@/app/(auth)/_actions";
 import { hashPassword } from "@/app/_utils/auth/index";
 import prisma from "@/app/_utils/db/db";
 import {
@@ -101,11 +102,13 @@ export const updateProfilePasswordAction = async (
 
 export const deleteProfileAction = async (userId: number) => {
   try {
+    await LogoutUserAction(userId);
     await prisma.user.delete({
       where: {
         uid: userId,
       },
     });
+
     return {
       success: true,
       message: ["Profil je uspešno obrisan!"],
