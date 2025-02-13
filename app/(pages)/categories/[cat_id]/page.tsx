@@ -12,7 +12,7 @@ import ChartProblemsByCategory, {
 } from "../../dashboard/_components/appCharts/ChartProblemsByCategory";
 import { getColumnsOrganisations } from "../../organisations/_components/ColumnsOrganisations";
 import { getColumnsProblems } from "../../problems/_components/ColumnsProblems";
-import { cloneCategoryByIdAction, deleteCategoryByIdAction } from "../_actions";
+import { deleteCategoryByIdAction } from "../_actions";
 
 const CategoryPage = async ({
   params,
@@ -74,7 +74,6 @@ const CategoryPage = async ({
         <ItemOperationsButtons
           id={category?.cat_id as number}
           basePath="categories"
-          cloneAction={cloneCategoryByIdAction}
           deleteAction={
             notArchivedProblems?.length === 0
               ? deleteCategoryByIdAction
