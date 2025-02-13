@@ -10,7 +10,7 @@ const getFrontendBaseUrl = () => {
 
   const matchedUrl = urls.find((url) => hostname.includes(url));
   return matchedUrl
-    ? `https://${matchedUrl}.ecoglasnik.org`
+    ? `https://www.${matchedUrl}.ecoglasnik.org`
     : "https://www.demo.ecoglasnik.org"; // Fallback URL
 };
 
