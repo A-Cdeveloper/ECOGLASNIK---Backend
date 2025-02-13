@@ -9,7 +9,7 @@ const ChartsProblems = async ({
 }: {
   searchParams: Promise<{ [key: string]: string | undefined }>;
 }) => {
-  const { chartProblemsFilter = "organisations", organisationId = "1" } =
+  const { chartProblemsFilter = "organisations", organisationId } =
     await searchParams;
 
   return (
@@ -21,7 +21,7 @@ const ChartsProblems = async ({
       </div>
       <div className="w-full 2xl:w-[47%] min-h-[300px] flex flex-col">
         <Suspense fallback={<ChartProblemsByOrganisationSkeleton />}>
-          <ChartProblemsByOrganisation organisationId={organisationId} />{" "}
+          <ChartProblemsByOrganisation organisationId={organisationId} />
         </Suspense>
       </div>
     </div>

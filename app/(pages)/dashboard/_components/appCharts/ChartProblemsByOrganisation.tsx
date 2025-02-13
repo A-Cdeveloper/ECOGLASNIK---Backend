@@ -20,7 +20,7 @@ const ChartProblemsByOrganisation = async ({
   organisationId,
   showHeader = true,
 }: {
-  organisationId: string;
+  organisationId?: string;
   showHeader?: boolean;
 }) => {
   const { organisations } = (await getAllOrganisations("oid-asc")) as {
@@ -32,17 +32,23 @@ const ChartProblemsByOrganisation = async ({
     label: org.organisation_name,
   }));
 
-  const data = (await getOrganisationProblems(+organisationId)) as
-    | PieChartData[]
-    | undefined;
-
   let content = (
     <NoResurcesFound className="h-[300px]">
       Podaci nisu dostupni.
     </NoResurcesFound>
   );
 
-  if (data && data.some((item) => item.value !== 0)) {
+  if (!organisationId) {
+    organisationId = organisationSelection?.[0]?.id;
+  }
+
+  const data =
+    organisationId &&
+    ((await getOrganisationProblems(+organisationId)) as
+      | PieChartData[]
+      | undefined);
+
+  if (data && data.some((item) => item.value !== 0) && organisationId) {
     content = <PieElement data={data as PieChartData[]} />;
   }
 
