@@ -1,1 +1,1 @@
-export const urls = ["demo", "vlasotince", "leskovac"];
+export const urls = ["demo", "blank", "vlasotince", "leskovac"];
