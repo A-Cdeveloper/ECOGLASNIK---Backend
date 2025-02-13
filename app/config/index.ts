@@ -8,13 +8,10 @@ const getFrontendBaseUrl = () => {
     return "http://localhost:5173"; // Local Frontend
   }
 
-  urls.map((url) => {
-    if (hostname.includes(url)) {
-      return `https://${url}.ecoglasnik.org`;
-    }
-  });
-
-  return "https://www.demo.ecoglasnik.org"; // Fallback
+  const matchedUrl = urls.find((url) => hostname.includes(url));
+  return matchedUrl
+    ? `https://${matchedUrl}.ecoglasnik.org`
+    : "https://www.demo.ecoglasnik.org"; // Fallback URL
 };
 
 export const MAX_UPLOAD_FILE_SIZE = 10 * 1024 * 1024;
