@@ -1,7 +1,7 @@
 import Operations from "@/app/_components/dataOperations/IconOperationsButtons";
 import Link from "next/link";
 import { cloneCategoryByIdAction, deleteCategoryByIdAction } from "../_actions";
-import { ProblemStatus } from "@prisma/client";
+import { ProblemOfficialEmail, ProblemStatus } from "@prisma/client";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
@@ -78,7 +78,7 @@ export const getColumnsCategories = ({
             row.problems.filter(
               (problem: any) =>
                 problem.status !== ProblemStatus.ARCHIVE &&
-                problem.officialEmail === "1"
+                problem.officialEmail === ProblemOfficialEmail.SENT
             ).length,
           className: "text-start md:text-center opacity-50",
         },
