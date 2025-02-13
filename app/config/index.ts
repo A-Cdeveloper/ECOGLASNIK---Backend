@@ -24,25 +24,22 @@ const getFrontendBaseUrl = () => {
   return "https://www.demo.ecoglasnik.org"; // Fallback
 };
 
-const getDatabaseUrl = () => {
-  const hostname = process.env.VERCEL_URL || "localhost";
+export const getDatabaseUrl = () => {
+  const hostname = process.env.VERCEL_URL || "localhost"; // Get Vercel URL or fallback to localhost
 
   if (hostname.includes("localhost")) {
-    return process.env.DATABASE_URL_LOCALHOST; // Local Database
+    return process.env.DATABASE_URL_LOCALHOST; // Local environment URL
   }
 
-  // Find a matching URL from the predefined list
-  const matchedUrl = urls.find((url) => hostname.includes(url));
-
-  if (matchedUrl) {
-    const envVarName = `DATABASE_URL_${matchedUrl.toUpperCase()}`;
-    return process.env[envVarName]; // Fetch the correct DB URL
+  for (const url of urls) {
+    if (hostname.includes(url)) {
+      return process.env[`DATABASE_URL_${url.toUpperCase()}`]; // Dynamic environment variable based on domain
+    }
   }
 
-  return process.env.DATABASE_URL_DEMO; // Default fallback
+  return process.env.DATABASE_URL_DEFAULT; // Fallback URL for other cases
 };
 
 export const MAX_UPLOAD_FILE_SIZE = 10 * 1024 * 1024;
 export const MAX_PAGE_SIZE = 10;
 export const BASE_URL = getFrontendBaseUrl();
-export const DATABASE_URL = getDatabaseUrl();
