@@ -28,16 +28,18 @@ const getDatabaseUrl = () => {
   const hostname = process.env.VERCEL_URL || "localhost";
 
   if (hostname.includes("localhost")) {
-    return process.env.DATABASE_URL_LOCALHOST;
+    return process.env.DATABASE_URL_LOCALHOST; // Local Database
   }
 
-  urls.map((url) => {
-    if (hostname.includes(url)) {
-      return process.env[`DATABASE_URL_${url.toUpperCase()}`];
-    }
-  });
+  // Find a matching URL from the predefined list
+  const matchedUrl = urls.find((url) => hostname.includes(url));
 
-  return process.env.DATABASE_URL_DEMO; // Default Database
+  if (matchedUrl) {
+    const envVarName = `DATABASE_URL_${matchedUrl.toUpperCase()}`;
+    return process.env[envVarName]; // Fetch the correct DB URL
+  }
+
+  return process.env.DATABASE_URL_DEMO; // Default fallback
 };
 
 export const MAX_UPLOAD_FILE_SIZE = 10 * 1024 * 1024;
