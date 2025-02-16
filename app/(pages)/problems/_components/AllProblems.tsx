@@ -10,18 +10,17 @@ import { getColumnsProblems } from "./ColumnsProblems";
 import { sortOptions } from "./SortOptions";
 
 import FilterButtons from "@/app/_components/ui/Filters/FilterButtons";
-import FilterSelector from "@/app/_components/ui/Filters/FilterSelector";
 import {
   SkeletonPagination,
   SkeletonTable,
   SkeletonTopBar,
 } from "@/app/_components/ui/Skeletons";
-import { getAllCategories } from "@/app/_utils/api_utils/categories";
 import { getAllProblems } from "@/app/_utils/api_utils/problems";
 import { ProblemCustumType } from "@/app/types/prismaTypes";
-import Link from "next/link";
-import { problemStatusOptions } from "./FilterOptions";
 import { ProblemStatus } from "@prisma/client";
+import Link from "next/link";
+import FilterCategories from "./FilterCategories";
+import { problemStatusOptions } from "./FilterOptions";
 
 const AllProblems = async ({
   searchParams,
@@ -53,17 +52,6 @@ const AllProblems = async ({
 
   const totalPages = Math.ceil(totalProblems / MAX_PAGE_SIZE);
 
-  const { categories: categoriesApi } = (await getAllCategories()) as {
-    categories: { cat_id: number; cat_name: string }[];
-  };
-
-  const categoriesSelection = categoriesApi?.map((cat) => {
-    return {
-      id: cat.cat_id.toString(),
-      label: cat.cat_name,
-    };
-  });
-
   if (totalProblems === 0) {
     return (
       <>
@@ -92,10 +80,7 @@ const AllProblems = async ({
           Arhivirani problemi
         </Link>
         <FilterButtons filterList={problemStatusOptions} queryKey="status" />
-        <FilterSelector
-          filterList={categoriesSelection || []}
-          queryKey="category"
-        />
+        <FilterCategories />
         <SortSelector options={sortOptions} defaultSort="id-asc" />
       </TopBar>
       <div className="overflow-x-auto">
