@@ -108,7 +108,7 @@ export const getCategoryById = async (id: number) => {
   }
 };
 
-export const getAllCategoriesProblems = async () => {
+export const getAllCategoriesProblemsForChart = async () => {
   try {
     const categories = await prisma.problemCategory.findMany({
       select: {
@@ -145,7 +145,7 @@ export const getAllCategoriesProblems = async () => {
   }
 };
 
-export const getSingleCategoryProblems = async (id: number) => {
+export const getSingleCategoryProblemsForChart = async (id: number) => {
   try {
     const category = await prisma.problemCategory.findUnique({
       where: { cat_id: id },

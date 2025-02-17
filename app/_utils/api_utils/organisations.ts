@@ -41,12 +41,10 @@ export const getAllOrganisations = async (
   }
 };
 
-export const getOrganisation = async (oid: string) => {
+export const getOrganisation = async (oid?: string) => {
   try {
-    const organisation = await prisma.organisation.findUnique({
-      where: {
-        oid: +oid,
-      },
+    const organisation = await prisma.organisation.findFirst({
+      where: oid ? { oid: +oid } : undefined,
       include: {
         categories: {
           include: {
@@ -95,7 +93,7 @@ export const getOrganisationsByCategory = async (cat_id: string) => {
   }
 };
 
-export const getAllOrganisationsProblems = async () => {
+export const getAllOrganisationsProblemsForCharts = async () => {
   try {
     const organisations = await prisma.organisation.findMany({
       select: {
@@ -140,10 +138,10 @@ export const getAllOrganisationsProblems = async () => {
   }
 };
 
-export const getOrganisationProblems = async (oid: number) => {
+export const getOrganisationProblemsForCharts = async (oid?: number) => {
   try {
-    const organisation = await prisma.organisation.findUnique({
-      where: { oid },
+    const organisation = await prisma.organisation.findFirst({
+      where: oid ? { oid } : undefined,
       select: {
         organisation_name: true,
         categories: {
@@ -165,7 +163,7 @@ export const getOrganisationProblems = async (oid: number) => {
     });
 
     if (!organisation) {
-      throw new Error(`Organisation with ID ${oid} not found.`);
+      throw new Error(`Organisation not found.`);
     }
 
     // Flatten problems into one array

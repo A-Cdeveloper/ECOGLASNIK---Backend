@@ -67,7 +67,7 @@ export const convertLatLngToString = (position: {
   return `Latitude: ${position.lat},\n Longitude: ${position.lng}`;
 };
 
-export const formatDate = (dateString: string) => {
+export const formatDate = (dateString: string | undefined) => {
   return dateString ? format(new Date(dateString), "dd.MM.yyyy") : "-";
 };
 

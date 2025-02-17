@@ -1,19 +1,14 @@
 import PieElement, {
   PieChartData,
 } from "@/app/_components/ui/Charts/PieElement";
-import FilterSelector from "@/app/_components/ui/Filters/FilterSelector";
+import FilterOrganisations from "@/app/_components/ui/Filters/FilterOrganisations";
 import Headline from "@/app/_components/ui/Headline";
 import NoResurcesFound from "@/app/_components/ui/NoResurcesFound";
 import {
   PieSkeleton,
   SkeletonTopSection,
 } from "@/app/_components/ui/Skeletons";
-import {
-  getAllOrganisations,
-  getOrganisationProblems,
-} from "@/app/_utils/api_utils/organisations";
-
-import { Organisation } from "@prisma/client";
+import { getOrganisationProblemsForCharts } from "@/app/_utils/api_utils/organisations";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const ChartProblemsByOrganisation = async ({
@@ -23,32 +18,17 @@ const ChartProblemsByOrganisation = async ({
   organisationId?: string;
   showHeader?: boolean;
 }) => {
-  const { organisations } = (await getAllOrganisations("oid-asc")) as {
-    organisations: Organisation[];
-  };
-
-  const organisationSelection = organisations?.map((org) => ({
-    id: org.oid.toString(),
-    label: org.organisation_name,
-  }));
-
   let content = (
     <NoResurcesFound className="h-[300px]">
       Podaci nisu dostupni.
     </NoResurcesFound>
   );
 
-  if (!organisationId) {
-    organisationId = organisationSelection?.[0]?.id;
-  }
+  const data = (await getOrganisationProblemsForCharts(+organisationId!)) as
+    | PieChartData[]
+    | undefined;
 
-  const data =
-    organisationId &&
-    ((await getOrganisationProblems(+organisationId)) as
-      | PieChartData[]
-      | undefined);
-
-  if (data && data.some((item) => item.value !== 0) && organisationId) {
+  if (data) {
     content = <PieElement data={data as PieChartData[]} />;
   }
 
@@ -63,14 +43,7 @@ const ChartProblemsByOrganisation = async ({
             Status problema po službama
           </Headline>
 
-          {organisations && (
-            <FilterSelector
-              filterList={organisationSelection}
-              queryKey="organisationId"
-              noDefaultLabel={true}
-              className="w-full md:w-[250px]"
-            />
-          )}
+          <FilterOrganisations />
         </div>
       )}
 

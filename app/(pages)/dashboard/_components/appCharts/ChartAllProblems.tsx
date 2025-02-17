@@ -8,14 +8,14 @@ import {
   PieSkeleton,
   SkeletonTopSection,
 } from "@/app/_components/ui/Skeletons";
-import { getAllCategoriesProblems } from "@/app/_utils/api_utils/categories";
-import { getAllOrganisationsProblems } from "@/app/_utils/api_utils/organisations";
+import { getAllCategoriesProblemsForChart } from "@/app/_utils/api_utils/categories";
+import { getAllOrganisationsProblemsForCharts } from "@/app/_utils/api_utils/organisations";
 
 const ChartAllProblems = async ({ filter }: { filter: string }) => {
   const dataAllProblems =
     filter === "organisations"
-      ? await getAllOrganisationsProblems()
-      : await getAllCategoriesProblems();
+      ? await getAllOrganisationsProblemsForCharts()
+      : await getAllCategoriesProblemsForChart();
 
   let content = <PieElement data={dataAllProblems as PieChartData[]} />;
 

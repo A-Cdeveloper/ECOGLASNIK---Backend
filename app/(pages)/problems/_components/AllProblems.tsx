@@ -19,7 +19,7 @@ import { getAllProblems } from "@/app/_utils/api_utils/problems";
 import { ProblemCustumType } from "@/app/types/prismaTypes";
 import { ProblemStatus } from "@prisma/client";
 import Link from "next/link";
-import FilterCategories from "./FilterCategories";
+import FilterCategories from "../../../_components/ui/Filters/FilterCategories";
 import { problemStatusOptions } from "./FilterOptions";
 
 const AllProblems = async ({
