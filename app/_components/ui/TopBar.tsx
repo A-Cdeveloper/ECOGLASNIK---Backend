@@ -9,9 +9,9 @@ const TopBar = ({
   count: number;
 }) => {
   return (
-    <div className="flex flex-wrap justify-start sm:justify-between items-center mt-6 w-full 2xl:w-3/4">
+    <div className="flex flex-wrap justify-start sm:justify-between items-center mt-6 w-full 2xl:w-3/4 gap-3 ">
       <div className="w-auto">
-        <span className="bg-secondary-500 inline-block px-2 py-[4px] text-primary-900 text-[13px] lg:mb-0 mb-2">
+        <span className="bg-secondary-500 inline-block px-2 py-[4px] text-primary-900 text-[13px]">
           Ukupno: {count}
         </span>
       </div>

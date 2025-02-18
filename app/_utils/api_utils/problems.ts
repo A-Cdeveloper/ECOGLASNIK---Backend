@@ -2,13 +2,14 @@
 import { compareAsc, format, parse, subDays } from "date-fns";
 import { MAX_PAGE_SIZE } from "@/app/config";
 import prisma from "../db/db";
-import { ProblemStatus } from "@prisma/client";
+import { ProblemOfficialEmail, ProblemStatus } from "@prisma/client";
 
 //import { sortByPropertyLength } from "../helpers";
 
 export const getAllProblems = async (
   sortBy: string = "createdAt-desc",
   status?: ProblemStatus,
+  officialEmail?: ProblemOfficialEmail,
   category?: string,
   days?: number,
   startIndex?: number,
@@ -16,14 +17,13 @@ export const getAllProblems = async (
 ) => {
   const [field, order] = sortBy.split("-") as [string, "asc" | "desc"];
 
-  const whereClause =
-    status || category || days
-      ? {
-          ...(status && { status: status }),
-          ...(category && { category: { cat_id: +category } }),
-          ...(days && { createdAt: { gte: subDays(new Date(), days) } }),
-        }
-      : { status: { not: ProblemStatus.ARCHIVE } };
+  const whereClause = {
+    status: { not: ProblemStatus.ARCHIVE }, // Always exclude archived problems
+    ...(status && { status }),
+    ...(officialEmail && { officialEmail }),
+    ...(category && { category: { cat_id: +category } }),
+    ...(days && { createdAt: { gte: subDays(new Date(), days) } }),
+  };
 
   try {
     const [problems, totalProblems] = await Promise.all([

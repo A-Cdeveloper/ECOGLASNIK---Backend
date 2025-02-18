@@ -22,7 +22,8 @@ const ProblemsByInterval = async ({
   const { problems } = (await getAllProblems(
     "createdAt-desc",
     undefined,
-    "",
+    undefined,
+    undefined,
     days ? Number(days) : 7,
     0,
     1000

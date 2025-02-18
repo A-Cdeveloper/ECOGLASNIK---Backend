@@ -17,10 +17,10 @@ import {
 } from "@/app/_components/ui/Skeletons";
 import { getAllProblems } from "@/app/_utils/api_utils/problems";
 import { ProblemCustumType } from "@/app/types/prismaTypes";
-import { ProblemStatus } from "@prisma/client";
+import { ProblemOfficialEmail, ProblemStatus } from "@prisma/client";
 import Link from "next/link";
 import FilterCategories from "../../../_components/ui/Filters/FilterCategories";
-import { problemStatusOptions } from "./FilterOptions";
+import { problemOfficialOptions, problemStatusOptions } from "./FilterOptions";
 
 const AllProblems = async ({
   searchParams,
@@ -30,6 +30,7 @@ const AllProblems = async ({
   const {
     sortBy = "createdAt-desc",
     status,
+    officialEmail,
     category,
     days,
     page = "1",
@@ -41,6 +42,7 @@ const AllProblems = async ({
   const { problems, totalProblems } = (await getAllProblems(
     sortBy,
     status as ProblemStatus,
+    officialEmail as ProblemOfficialEmail,
     category,
     Number(days) || undefined,
     (currentPage - 1) * MAX_PAGE_SIZE,
@@ -79,10 +81,22 @@ const AllProblems = async ({
         >
           Arhivirani problemi
         </Link>
-        <FilterButtons filterList={problemStatusOptions} queryKey="status" />
         <FilterCategories />
         <SortSelector options={sortOptions} defaultSort="id-asc" />
       </TopBar>
+      <div className="flex flex-wrap justify-start 2xl:justify-end items-center mt-1 w-full 2xl:w-3/4 gap-x-4 ">
+        <div className="flex items-center gap-2">
+          <span className="text-winter-100/40 w-full">Prijava:</span>
+          <FilterButtons
+            filterList={problemOfficialOptions}
+            queryKey="officialEmail"
+          />
+        </div>{" "}
+        <div className="flex items-center gap-2">
+          <span className="text-winter-100/40 w-full">Status:</span>
+          <FilterButtons filterList={problemStatusOptions} queryKey="status" />
+        </div>
+      </div>
       <div className="overflow-x-auto">
         <Table
           data={problems}

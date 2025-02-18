@@ -1,16 +1,22 @@
-import { ProblemStatus } from "@prisma/client";
+import { ProblemOfficialEmail, ProblemStatus } from "@prisma/client";
 
 export const problemStatusOptions = [
   { value: "", label: "Svi" },
   { value: ProblemStatus.ACTIVE, label: "Aktivni" },
   { value: ProblemStatus.DONE, label: "Rešeni" },
-  { value: ProblemStatus.WAITING, label: "U odradi" },
+  { value: ProblemStatus.WAITING, label: "Odrada" },
+];
+
+export const problemOfficialOptions = [
+  { value: "", label: "Svi" },
+  { value: ProblemOfficialEmail.REQUESTED, label: "Zatražena" },
+  { value: ProblemOfficialEmail.SENT, label: "Poslata" },
 ];
 
 export const statuses = [
   { value: ProblemStatus.ACTIVE, label: "Aktivan" },
   { value: ProblemStatus.DONE, label: "Rešen" },
-  { value: ProblemStatus.WAITING, label: "U odradi" },
+  { value: ProblemStatus.WAITING, label: "Odrada" },
   { value: ProblemStatus.ARCHIVE, label: "Arhiviran" },
 ];
 

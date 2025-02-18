@@ -37,6 +37,7 @@ const ArchiveProblems = async ({
   const { problems, totalProblems } = (await getAllProblems(
     sortBy,
     "ARCHIVE",
+    undefined,
     category,
     Number(days) || undefined,
     (currentPage - 1) * MAX_PAGE_SIZE,
