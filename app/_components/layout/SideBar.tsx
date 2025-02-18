@@ -1,10 +1,11 @@
 "use client";
 
+import useOutsideClick from "@/app/hooks/useOutsideClick";
 import clsx from "clsx";
 import { useState } from "react";
+import { HiChevronDoubleLeft, HiChevronDoubleRight } from "react-icons/hi2";
 import IconButton from "../ui/Buttons/IconButton";
-import { HiChevronDoubleRight, HiChevronDoubleLeft } from "react-icons/hi2";
-import useOutsideClick from "@/app/hooks/useOutsideClick";
+import FrontEndLink from "./FrontEndLink";
 
 const SideBar = ({ children }: { children: React.ReactNode }) => {
   const [isSidebarOpen, setiSSidebarOpen] = useState(true);
@@ -33,6 +34,7 @@ const SideBar = ({ children }: { children: React.ReactNode }) => {
       </div>
       {/* navigation */}
       {children}
+      <FrontEndLink />
     </aside>
   );
 };
