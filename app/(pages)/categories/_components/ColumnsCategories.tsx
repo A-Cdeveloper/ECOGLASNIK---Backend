@@ -73,13 +73,22 @@ export const getColumnsCategories = ({
           className: "text-start md:text-center",
         },
         {
-          header: "Zvanične prijave",
-          accessor: (row: any) =>
-            row.problems.filter(
+          header: "Zvanične prijave/rešeni",
+          accessor: (row: any) => {
+            const totalSent = row.problems.filter(
               (problem: any) =>
                 problem.status !== ProblemStatus.ARCHIVE &&
                 problem.officialEmail === ProblemOfficialEmail.SENT
-            ).length,
+            ).length;
+            const totalSentDone = row.problems.filter(
+              (problem: any) =>
+                problem.status === ProblemStatus.DONE &&
+                problem.officialEmail === ProblemOfficialEmail.SENT
+            ).length;
+
+            return `${totalSent} / ${totalSentDone}`;
+          },
+
           className: "text-start md:text-center opacity-50",
         },
       ]

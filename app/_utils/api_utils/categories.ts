@@ -89,18 +89,41 @@ export const getAllCategories = async (
 };
 
 /////////////////////////
-export const getCategoryById = async (id: number) => {
+export const getCategoryById = async (
+  id: number,
+  startIndex?: number,
+  pageSize?: number
+) => {
   try {
     const category = await prisma.problemCategory.findUnique({
       where: {
         cat_id: id,
       },
       include: {
-        organisations: true,
-        problems: true,
+        organisations: {
+          select: {
+            oid: true,
+            organisation_name: true,
+          },
+        },
+        problems: {
+          skip: startIndex || 0,
+          take: pageSize || MAX_PAGE_SIZE,
+          where: {
+            status: { not: ProblemStatus.ARCHIVE }, // ✅ Fetch only non-archived problems
+          },
+        },
       },
     });
-    return category;
+
+    const allProblems = await prisma.problem.findMany({
+      where: {
+        cat_id: id,
+        status: { not: ProblemStatus.ARCHIVE },
+      },
+    });
+
+    return { ...category, allProblems };
   } catch (error: unknown) {
     if (error instanceof Error) {
       throw new Error(`Greška prilikom preuzimanja kategorije`);

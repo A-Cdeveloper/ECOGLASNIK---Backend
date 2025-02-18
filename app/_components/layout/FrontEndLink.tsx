@@ -1,12 +1,7 @@
 import { BASE_URL } from "@/app/config";
 import Link from "next/link";
 import React from "react";
-import {
-  HiGlobeAlt,
-  HiMap,
-  HiMiniGlobeAlt,
-  HiPaperAirplane,
-} from "react-icons/hi2";
+import { HiGlobeAlt } from "react-icons/hi2";
 
 const FrontEndLink = () => {
   return (
