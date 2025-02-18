@@ -7,7 +7,7 @@ import { srLatn } from "date-fns/locale";
 import "react-datepicker/dist/react-datepicker.css";
 
 type CalendarPickerProps = {
-  dateKey: "startDate" | "endDate"; // Define whether this is for startDate or endDate
+  dateKey: "startDateCat" | "endDateCat" | "startDateOrg" | "endDateOrg";
 };
 
 export default function CalendarPicker({ dateKey }: CalendarPickerProps) {
@@ -20,26 +20,29 @@ export default function CalendarPicker({ dateKey }: CalendarPickerProps) {
 
   const [selectedDate, setSelectedDate] = useState<Date | null>(initialDate);
 
-  // Update search params when the date changes
   useEffect(() => {
-    if (!selectedDate) return;
+    const params = new URLSearchParams(searchParams.toString()); // ✅ Create a new instance
 
-    const params = new URLSearchParams(searchParams);
-    params.set(dateKey, selectedDate.toISOString().split("T")[0]);
+    if (selectedDate) {
+      params.set(dateKey, selectedDate.toISOString().split("T")[0]);
+    } else {
+      params.delete(dateKey); // ✅ Remove param when date is cleared
+    }
 
-    router.push(`?${params.toString()}`, { scroll: false });
-  }, [selectedDate, dateKey, searchParams, router]);
+    router.replace(`?${params.toString()}`, { scroll: false }); // ✅ Use replace to prevent history spam
+  }, [selectedDate, dateKey, router, searchParams]);
 
   return (
     <DatePicker
       selected={selectedDate}
-      onSelect={(date) => setSelectedDate(date)}
+      onChange={(date) => setSelectedDate(date)}
       dateFormat="dd.MM.yyyy"
       showYearDropdown
       scrollableMonthYearDropdown
-      shouldCloseOnSelect={true}
+      shouldCloseOnSelect={true} // ✅ Close calendar on select
       placeholderText="Izaberite datum"
       locale={srLatn}
+      isClearable // ✅ Allow clearing selection
       showPopperArrow={false}
       className="text-winter-900 p-1 bg-transparent border border-secondary-500/30"
     />

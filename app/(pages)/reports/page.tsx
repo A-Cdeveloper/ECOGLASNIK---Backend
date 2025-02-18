@@ -1,5 +1,6 @@
 import Headline from "@/app/_components/ui/Headline";
 import ProblemsByOrganisations from "./_components/ProblemsByOrganisations";
+import ProblemsByCategories from "./_components/ProblemsByCategories";
 
 const ReportsPage = async ({
   searchParams,
@@ -12,6 +13,7 @@ const ReportsPage = async ({
         Izveštaji
       </Headline>
       <ProblemsByOrganisations searchParams={searchParams} />
+      <ProblemsByCategories searchParams={searchParams} />
     </>
   );
 };

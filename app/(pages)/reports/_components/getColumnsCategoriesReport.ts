@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-export const getColumnsOrganisationsReport = () => [
+export const getColumnsCategoriesReport = () => [
   {
-    header: "Služba",
+    header: "Kategorija",
     accessor: (row: any) => {
       return row.name;
     },
