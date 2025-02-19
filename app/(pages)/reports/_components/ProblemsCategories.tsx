@@ -2,26 +2,26 @@ import { getAllCategoriesProblemsReport } from "../_actions";
 
 import CalendarDatePicker from "@/app/_components/ui/DatePicker/CalendarDatePicker";
 import Table from "@/app/_components/ui/Tables/Table";
-import { getColumnsCategoriesReport } from "./getColumnsCategoriesReport";
+import { getColCategoriesReport } from "./getColCategoriesReport";
 
-const ProblemsByCategories = async ({
+const ProblemsCategories = async ({
   searchParams,
 }: {
   searchParams: Promise<{ [key: string]: string | undefined }>;
 }) => {
-  const { startDateCat, endDateCat } = await searchParams;
+  const { startDate, endDate } = await searchParams;
 
   let content;
 
-  if (startDateCat && endDateCat) {
+  if (startDate && endDate) {
     const categories = await getAllCategoriesProblemsReport(
-      new Date(startDateCat as string),
-      new Date(endDateCat as string)
+      new Date(startDate as string),
+      new Date(endDate as string)
     );
     content = (
       <Table
         data={categories?.categoriesWithProblemCounts || []}
-        columns={getColumnsCategoriesReport()}
+        columns={getColCategoriesReport()}
         rowKey={(row) => row.name}
       />
     );
@@ -30,13 +30,12 @@ const ProblemsByCategories = async ({
   return (
     <>
       <div className="my-4 flex gap-2 items-center">
-        Prijavljeni komunalni problemi po kategorijama za period od:{" "}
         <span>
-          <CalendarDatePicker dateKey="startDateCat" />
+          <CalendarDatePicker dateKey="startDate" />
         </span>
         do:
         <span>
-          <CalendarDatePicker dateKey="endDateCat" />
+          <CalendarDatePicker dateKey="endDate" />
         </span>
       </div>
       <div className="my-4">{content}</div>
@@ -44,4 +43,4 @@ const ProblemsByCategories = async ({
   );
 };
 
-export default ProblemsByCategories;
+export default ProblemsCategories;

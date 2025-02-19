@@ -7,7 +7,7 @@ import { srLatn } from "date-fns/locale";
 import "react-datepicker/dist/react-datepicker.css";
 
 type CalendarPickerProps = {
-  dateKey: "startDateCat" | "endDateCat" | "startDateOrg" | "endDateOrg";
+  dateKey: "startDate" | "endDate";
 };
 
 export default function CalendarPicker({ dateKey }: CalendarPickerProps) {

@@ -4,7 +4,7 @@ export const problemStatusOptions = [
   { value: "", label: "Svi" },
   { value: ProblemStatus.ACTIVE, label: "Aktivni" },
   { value: ProblemStatus.DONE, label: "Rešeni" },
-  { value: ProblemStatus.WAITING, label: "Odrada" },
+  { value: ProblemStatus.WAITING, label: "Obrada" },
 ];
 
 export const problemOfficialOptions = [
@@ -16,7 +16,7 @@ export const problemOfficialOptions = [
 export const statuses = [
   { value: ProblemStatus.ACTIVE, label: "Aktivan" },
   { value: ProblemStatus.DONE, label: "Rešen" },
-  { value: ProblemStatus.WAITING, label: "Odrada" },
+  { value: ProblemStatus.WAITING, label: "Obrada" },
   { value: ProblemStatus.ARCHIVE, label: "Arhiviran" },
 ];
 

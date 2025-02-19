@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-export const getColumnsCategoriesReport = () => [
+export const getColOrganisationsReport = () => [
   {
-    header: "Kategorija",
+    header: "Služba",
     accessor: (row: any) => {
       return row.name;
     },
@@ -33,14 +33,6 @@ export const getColumnsCategoriesReport = () => [
     header: "Zvanično prijavljeno/rešeno",
     accessor: (row: any) =>
       `${row.problemsCounts.SENT} / ${row.problemsCounts.officialDone}`,
-    className: "text-start md:text-center opacity-50",
-  },
-
-  {
-    header: "",
-    accessor: () => {
-      return "info";
-    },
     className: "text-start md:text-center opacity-50",
   },
 ];
