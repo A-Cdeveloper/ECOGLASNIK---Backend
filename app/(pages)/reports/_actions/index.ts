@@ -1,4 +1,5 @@
 import prisma from "@/app/_utils/db/db";
+//import { wait } from "@/app/_utils/helpers";
 import { ProblemOfficialEmail, ProblemStatus } from "@prisma/client";
 
 export const getAllOrganisationsProblemsReport = async (
@@ -203,16 +204,21 @@ export const getSingleOrganisationProblemsReport = async (
     });
 
     const organisationProblems =
-      organisation?.categories.flatMap((category) => {
-        return category.problems.filter((problem) => {
-          const problemDate = new Date(problem.createdAt);
-          return (
-            !isNaN(problemDate.getTime()) &&
-            problemDate >= startDate &&
-            problemDate <= endDate
-          );
-        });
-      }) || [];
+      organisation?.categories
+        .flatMap((category) => {
+          return category.problems.filter((problem) => {
+            const problemDate = new Date(problem.createdAt);
+            return (
+              !isNaN(problemDate.getTime()) &&
+              problemDate >= startDate &&
+              problemDate <= endDate
+            );
+          });
+        })
+        ?.sort(
+          (a, b) =>
+            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+        ) || [];
 
     return {
       startDate,
@@ -316,6 +322,62 @@ export const getSingleOrganisationCategoriesReport = async (
       startDate,
       endDate,
       categoriesWithProblemCounts,
+    };
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      throw new Error(`Greška.`);
+    }
+  }
+};
+
+export const getSingleCategoryProblemsReport = async (
+  startDate: Date,
+  endDate: Date,
+  categoryId?: string
+) => {
+  if (!categoryId) return;
+  try {
+    const category = await prisma.problemCategory.findUnique({
+      where: {
+        cat_id: Number(categoryId) || 1,
+      },
+
+      select: {
+        problems: {
+          select: {
+            id: true,
+            title: true,
+            status: true,
+            createdAt: true,
+            updatedAt: true,
+            officialEmail: true,
+          },
+          where: {
+            status: {
+              not: ProblemStatus.ARCHIVE,
+            },
+          },
+          orderBy: {
+            createdAt: "desc",
+          },
+        },
+      },
+    });
+
+    const categoryProblems =
+      category?.problems.filter((problem) => {
+        const problemDate = new Date(problem.createdAt);
+        return (
+          !isNaN(problemDate.getTime()) &&
+          problemDate >= startDate &&
+          problemDate <= endDate
+        );
+      }) || [];
+
+    return {
+      startDate,
+      endDate,
+      categoryProblems,
     };
   } catch (error: unknown) {
     if (error instanceof Error) {

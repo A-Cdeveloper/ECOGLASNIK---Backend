@@ -24,7 +24,7 @@ const ReportsPage = () => {
           </Link>
         </li>
         <li>
-          <Link href="/reports/byorganisations">
+          <Link href="/reports/bysinglecategory">
             Prijavljeni komunalni problemi po određenu kategoriju za period.
           </Link>
         </li>

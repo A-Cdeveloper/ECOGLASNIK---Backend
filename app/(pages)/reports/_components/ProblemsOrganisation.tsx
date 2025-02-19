@@ -8,6 +8,8 @@ import FilterOrganisations from "@/app/_components/ui/Filters/FilterOrganisation
 import Table from "@/app/_components/ui/Tables/Table";
 import { getColOrganisationReport } from "./getColOrganisationReport";
 import { getColCategoriesReport } from "./getColCategoriesReport";
+import { Suspense } from "react";
+import { SkeletonTable } from "@/app/_components/ui/Skeletons";
 
 const ProblemsOrganisation = async ({
   searchParams,
@@ -19,29 +21,22 @@ const ProblemsOrganisation = async ({
   let content;
 
   if (startDate && endDate) {
-    const organisationProblems = await getSingleOrganisationProblemsReport(
-      new Date(startDate as string),
-      new Date(endDate as string),
-      organisationId
-    );
-    const orgCategories = await getSingleOrganisationCategoriesReport(
-      new Date(startDate as string),
-      new Date(endDate as string),
-      organisationId
-    );
-
     content = (
       <div className="space-y-9">
-        <Table
-          data={orgCategories?.categoriesWithProblemCounts || []}
-          columns={getColCategoriesReport()}
-          rowKey={(row) => row.name}
-        />
-        <Table
-          data={organisationProblems?.organisationProblems || []}
-          columns={getColOrganisationReport()}
-          rowKey={(row) => row.id}
-        />
+        <Suspense fallback={<SkeletonTable />}>
+          <ProblemsSingleCategoriesFetch
+            startDate={startDate}
+            endDate={endDate}
+            organisationId={organisationId as string}
+          />
+        </Suspense>
+        <Suspense fallback={<SkeletonTable />}>
+          <ProblemsSingleOrganisationFetch
+            startDate={startDate}
+            endDate={endDate}
+            organisationId={organisationId as string}
+          />
+        </Suspense>
       </div>
     );
   }
@@ -64,3 +59,53 @@ const ProblemsOrganisation = async ({
 };
 
 export default ProblemsOrganisation;
+
+/////////////////////////////////////////////////////
+const ProblemsSingleCategoriesFetch = async ({
+  startDate,
+  endDate,
+  organisationId,
+}: {
+  startDate: string;
+  endDate: string;
+  organisationId: string;
+}) => {
+  const orgCategories = await getSingleOrganisationCategoriesReport(
+    new Date(startDate as string),
+    new Date(endDate as string),
+    organisationId
+  );
+
+  return (
+    <Table
+      data={orgCategories?.categoriesWithProblemCounts || []}
+      columns={getColCategoriesReport()}
+      rowKey={(row) => row.name}
+    />
+  );
+};
+
+/////////////////////////////////////////////////////
+const ProblemsSingleOrganisationFetch = async ({
+  startDate,
+  endDate,
+  organisationId,
+}: {
+  startDate: string;
+  endDate: string;
+  organisationId: string;
+}) => {
+  const organisationProblems = await getSingleOrganisationProblemsReport(
+    new Date(startDate as string),
+    new Date(endDate as string),
+    organisationId
+  );
+
+  return (
+    <Table
+      data={organisationProblems?.organisationProblems || []}
+      columns={getColOrganisationReport()}
+      rowKey={(row) => row.id}
+    />
+  );
+};

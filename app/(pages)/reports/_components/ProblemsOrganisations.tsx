@@ -3,6 +3,8 @@ import { getAllOrganisationsProblemsReport } from "../_actions";
 import { getColOrganisationsReport } from "./getColOrganisationsReport";
 import Table from "@/app/_components/ui/Tables/Table";
 import CalendarDatePicker from "@/app/_components/ui/DatePicker/CalendarDatePicker";
+import { Suspense } from "react";
+import { SkeletonTable } from "@/app/_components/ui/Skeletons";
 
 const ProblemsOrganisations = async ({
   searchParams,
@@ -14,16 +16,10 @@ const ProblemsOrganisations = async ({
   let content;
 
   if (startDate && endDate) {
-    const organisations = await getAllOrganisationsProblemsReport(
-      new Date(startDate as string),
-      new Date(endDate as string)
-    );
     content = (
-      <Table
-        data={organisations?.organisationsWithProblemCounts || []}
-        columns={getColOrganisationsReport()}
-        rowKey={(row) => row.name}
-      />
+      <Suspense fallback={<SkeletonTable />}>
+        <ProblemsOrganisationsFetch startDate={startDate} endDate={endDate} />
+      </Suspense>
     );
   }
 
@@ -44,3 +40,25 @@ const ProblemsOrganisations = async ({
 };
 
 export default ProblemsOrganisations;
+
+/////////////////////////////////////////////////////
+const ProblemsOrganisationsFetch = async ({
+  startDate,
+  endDate,
+}: {
+  startDate: string;
+  endDate: string;
+}) => {
+  const organisations = await getAllOrganisationsProblemsReport(
+    new Date(startDate as string),
+    new Date(endDate as string)
+  );
+
+  return (
+    <Table
+      data={organisations?.organisationsWithProblemCounts || []}
+      columns={getColOrganisationsReport()}
+      rowKey={(row) => row.name}
+    />
+  );
+};
