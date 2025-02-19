@@ -1,6 +1,7 @@
 import NavLink from "./NavLink";
 
 import {
+  HiMiniDocument,
   HiOutlineBellAlert,
   HiOutlineBriefcase,
   HiOutlineCog6Tooth,
@@ -35,6 +36,10 @@ const Navigation = () => {
 
         <NavLink href="/settings" icon={<HiOutlineCog6Tooth />}>
           Podešavanja
+        </NavLink>
+
+        <NavLink href="/reports" icon={<HiMiniDocument />}>
+          Izveštaji
         </NavLink>
       </ul>
     </nav>
