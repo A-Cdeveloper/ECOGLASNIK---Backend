@@ -162,3 +162,15 @@ input.disabled {
   stroke: inherit !important;
   background: transparent !important;
 }
+
+@media print {
+  .print-page-break-before {
+    page-break-before: always;
+  }
+  .print-page-break-after {
+    page-break-after: always;
+  }
+  .print-no-break-inside {
+    page-break-inside: avoid;
+  }
+}

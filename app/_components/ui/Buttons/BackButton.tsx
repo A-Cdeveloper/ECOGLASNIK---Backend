@@ -11,7 +11,7 @@ const BackButton = ({ to }: { to?: string }) => {
         onClick={() => {
           return to ? router.replace(to) : router.back();
         }}
-        className="border-transparent text-secondary-900 hover:text-secondary-500 -ms-2"
+        className="border-transparent text-secondary-900 hover:text-secondary-500 -ms-2 print:hidden"
       >
         &laquo; Nazad
       </button>

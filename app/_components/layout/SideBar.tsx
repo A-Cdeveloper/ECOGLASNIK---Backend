@@ -19,7 +19,7 @@ const SideBar = ({ children }: { children: React.ReactNode }) => {
     <aside
       className={clsx(
         `text-white h-screen border-r border-secondary-500/20 fixed top-[60px] start-0 z-30 overflow-hidden transition-width 
-    duration-300 ease-in-out`,
+    duration-300 ease-in-out print:hidden`,
         openSidebarClass
       )}
     >

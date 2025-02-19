@@ -30,6 +30,7 @@ const ProblemsOrganisation = async ({
             organisationId={organisationId as string}
           />
         </Suspense>
+
         <Suspense fallback={<SkeletonTable />}>
           <ProblemsSingleOrganisationFetch
             startDate={startDate}
