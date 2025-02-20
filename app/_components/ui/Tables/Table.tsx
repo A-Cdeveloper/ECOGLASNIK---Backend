@@ -37,31 +37,33 @@ const Table = <T,>({
     : (TableHeader as (props: { columns: Column<T>[] }) => JSX.Element);
 
   return (
-    <div className={wrapperClasses}>
-      <table className={tableClasses}>
-        {React.createElement(HeaderComponent, { columns })}
-        <tbody className={isMiniTable ? "overflow-y-scroll" : ""}>
-          {data.map((row, rowIndex) => (
-            <tr
-              key={rowKey(row)}
-              className={`${
-                isMiniTable
-                  ? "text-winter-100/60 border-b border-secondary-500/20"
-                  : rowIndex % 2 === 0
-                  ? ""
-                  : "bg-secondary-100/10"
-              } md:table-row block border-b border-secondary-500/20 text-winter-100/60`}
-            >
-              <TableCell
-                columns={columns}
-                row={row as T extends { status?: unknown } ? T : never}
-                isMiniTable={isMiniTable}
-              />
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+    <>
+      <div className={wrapperClasses}>
+        <table className={tableClasses}>
+          {React.createElement(HeaderComponent, { columns })}
+          <tbody className={isMiniTable ? "overflow-y-scroll" : ""}>
+            {data.map((row, rowIndex) => (
+              <tr
+                key={rowKey(row)}
+                className={`${
+                  isMiniTable
+                    ? "text-winter-100/60 border-b border-secondary-500/20"
+                    : rowIndex % 2 === 0
+                    ? ""
+                    : "bg-secondary-100/10"
+                } md:table-row block border-b border-secondary-500/20 text-winter-100/60`}
+              >
+                <TableCell
+                  columns={columns}
+                  row={row as T extends { status?: unknown } ? T : never}
+                  isMiniTable={isMiniTable}
+                />
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </>
   );
 };
 
@@ -117,7 +119,7 @@ const TableCell = <T extends { status?: unknown }>({
       {columns.map((col, colIndex) => (
         <td
           key={colIndex}
-          className={`px-2 lg:px-4 py-1 lg:py-[8px] block md:table-cell ${
+          className={`px-2 lg:px-4 py-1 lg:py-[8px] block md:table-cell print:text-black ${
             col.className || ""
           } ${status === 1 && !isMiniTable ? "text-success-100" : ""}`}
           data-header={col.header} // Data attribute for accessibility

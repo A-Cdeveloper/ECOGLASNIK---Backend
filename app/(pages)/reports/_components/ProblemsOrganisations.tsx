@@ -1,10 +1,11 @@
 import { getAllOrganisationsProblemsReport } from "../_actions";
 
-import { getColOrganisationsReport } from "./getColOrganisationsReport";
-import Table from "@/app/_components/ui/Tables/Table";
-import CalendarDatePicker from "@/app/_components/ui/DatePicker/CalendarDatePicker";
-import { Suspense } from "react";
 import { SkeletonTable } from "@/app/_components/ui/Skeletons";
+import Table from "@/app/_components/ui/Tables/Table";
+import { Suspense } from "react";
+import Calendars from "./Calendars";
+import { getColOrganisationsReport } from "./getColOrganisationsReport";
+import PrintButton from "./PrintButton";
 
 const ProblemsOrganisations = async ({
   searchParams,
@@ -25,14 +26,9 @@ const ProblemsOrganisations = async ({
 
   return (
     <>
-      <div className="my-4 flex gap-2 items-center">
-        <span>
-          <CalendarDatePicker dateKey="startDate" />
-        </span>
-        do:
-        <span>
-          <CalendarDatePicker dateKey="endDate" />
-        </span>
+      <div className="my-4 flex flex-wrap gap-2 items-center">
+        <Calendars />
+        {startDate && endDate && <PrintButton />}
       </div>
       <div className="my-4">{content}</div>
     </>

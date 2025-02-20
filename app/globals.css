@@ -2,6 +2,28 @@
 @tailwind components;
 @tailwind utilities;
 
+@media print {
+  body {
+    font-size: 14px;
+    color: black !important;
+  }
+
+  .page-break {
+    page-break-after: always; /* For older browsers */
+    break-after: page; /* Modern browsers */
+  }
+
+  /* Landscape orientation */
+  @page {
+    size: A4 landscape;
+    margin: 20mm 10mm;
+  }
+
+  h1 {
+    font-size: 18px !important;
+  }
+}
+
 body {
   @apply h-screen text-sm bg-primary-900/90 text-winter-100/80;
 }
