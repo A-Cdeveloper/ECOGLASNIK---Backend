@@ -1,19 +1,25 @@
-// apiMiddleware.ts
 import { NextRequest, NextResponse } from "next/server";
-import { BASE_URL } from "./app/config";
+
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://www.demo.ecoglasnik.org",
+];
 
 export async function apiMiddleware(request: NextRequest) {
   const url = request.nextUrl.clone();
   const pathname = url.pathname;
+  const origin = request.headers.get("origin");
 
   const response = NextResponse.next();
 
-  // Handle CORS for API routes
   if (pathname.startsWith("/api")) {
-    response.headers.set("Access-Control-Allow-Origin", BASE_URL);
+    if (origin && allowedOrigins.includes(origin)) {
+      response.headers.set("Access-Control-Allow-Origin", origin);
+    }
+
     response.headers.set(
       "Access-Control-Allow-Methods",
-      "GET,POST,PUT,DELETE,OPTIONS"
+      "GET, POST, PUT, DELETE, OPTIONS"
     );
     response.headers.set(
       "Access-Control-Allow-Headers",
@@ -25,7 +31,7 @@ export async function apiMiddleware(request: NextRequest) {
       return new NextResponse(null, {
         status: 204,
         headers: {
-          "Access-Control-Allow-Origin": BASE_URL,
+          "Access-Control-Allow-Origin": origin || "",
           "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
           "Access-Control-Allow-Headers":
             "Content-Type, Authorization, X-Requested-With",
@@ -35,7 +41,7 @@ export async function apiMiddleware(request: NextRequest) {
       });
     }
 
-    // Add security headers (applied to all routes)
+    // Security Headers
     response.headers.set("X-Content-Type-Options", "nosniff");
     response.headers.set("X-Frame-Options", "DENY");
     response.headers.set("X-XSS-Protection", "1; mode=block");
