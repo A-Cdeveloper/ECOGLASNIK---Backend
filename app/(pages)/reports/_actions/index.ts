@@ -15,14 +15,11 @@ export const getAllOrganisationsProblemsReport = async (
           select: {
             problems: {
               where: {
-                status: {
-                  not: ProblemStatus.ARCHIVE,
-                },
+                status: { not: ProblemStatus.ARCHIVE },
+                createdAt: { gte: startDate, lte: endDate },
               },
               select: {
-                id: true,
                 status: true,
-                createdAt: true,
                 officialEmail: true,
               },
             },
@@ -32,43 +29,28 @@ export const getAllOrganisationsProblemsReport = async (
     });
 
     const organisationsWithProblemCounts = organisations.map((org) => {
-      const problemsCounts = org.categories.reduce(
-        (acc, category) => {
-          category.problems.forEach((problem) => {
-            if (problem.status === ProblemStatus.ARCHIVE) return;
+      const problems = org.categories.flatMap((category) => category.problems);
 
-            const problemDate = new Date(problem.createdAt);
-
-            if (
-              !isNaN(problemDate.getTime()) &&
-              problemDate >= startDate &&
-              problemDate <= endDate
-            ) {
-              acc.total++;
-              acc[problem.status]++;
-
-              if (problem.officialEmail === ProblemOfficialEmail.SENT) {
-                acc[ProblemOfficialEmail.SENT]++;
-              }
-              if (
-                problem.officialEmail === ProblemOfficialEmail.SENT &&
-                problem.status === ProblemStatus.DONE
-              ) {
-                acc.officialDone++;
-              }
-            }
-          });
-          return acc;
-        },
-        {
-          total: 0,
-          [ProblemStatus.ACTIVE]: 0,
-          [ProblemStatus.DONE]: 0,
-          [ProblemStatus.WAITING]: 0,
-          [ProblemOfficialEmail.SENT]: 0,
-          officialDone: 0,
-        }
-      );
+      const problemsCounts = {
+        total: problems.length,
+        [ProblemStatus.ACTIVE]: problems.filter(
+          (p) => p.status === ProblemStatus.ACTIVE
+        ).length,
+        [ProblemStatus.DONE]: problems.filter(
+          (p) => p.status === ProblemStatus.DONE
+        ).length,
+        [ProblemStatus.WAITING]: problems.filter(
+          (p) => p.status === ProblemStatus.WAITING
+        ).length,
+        [ProblemOfficialEmail.SENT]: problems.filter(
+          (p) => p.officialEmail === ProblemOfficialEmail.SENT
+        ).length,
+        officialDone: problems.filter(
+          (p) =>
+            p.officialEmail === ProblemOfficialEmail.SENT &&
+            p.status === ProblemStatus.DONE
+        ).length,
+      };
 
       return {
         name: org.organisation_name,
@@ -76,11 +58,7 @@ export const getAllOrganisationsProblemsReport = async (
       };
     });
 
-    return {
-      startDate,
-      endDate,
-      organisationsWithProblemCounts,
-    };
+    return { startDate, endDate, organisationsWithProblemCounts };
   } catch (error: unknown) {
     if (error instanceof Error) {
       throw new Error(`Greška.`);
@@ -98,57 +76,40 @@ export const getAllCategoriesProblemsReport = async (
         cat_name: true,
         problems: {
           where: {
-            status: {
-              not: ProblemStatus.ARCHIVE, // Exclude archived problems
-            },
+            status: { not: ProblemStatus.ARCHIVE },
+            createdAt: { gte: startDate, lte: endDate },
           },
           select: {
-            id: true,
             status: true,
             officialEmail: true,
-            createdAt: true,
           },
         },
       },
     });
 
     const categoriesWithProblemCounts = categories.map((cat) => {
-      const problemsCounts = cat.problems.reduce(
-        (acc, problem) => {
-          if (problem.status === ProblemStatus.ARCHIVE) return acc;
+      const problems = cat.problems;
 
-          const problemDate = new Date(problem.createdAt);
-
-          if (
-            !isNaN(problemDate.getTime()) &&
-            problemDate >= startDate &&
-            problemDate <= endDate
-          ) {
-            acc.total++;
-            acc[problem.status]++;
-
-            if (problem.officialEmail === ProblemOfficialEmail.SENT) {
-              acc[ProblemOfficialEmail.SENT]++;
-            }
-            if (
-              problem.officialEmail === ProblemOfficialEmail.SENT &&
-              problem.status === ProblemStatus.DONE
-            ) {
-              acc.officialDone++;
-            }
-          }
-
-          return acc;
-        },
-        {
-          total: 0,
-          [ProblemStatus.ACTIVE]: 0,
-          [ProblemStatus.DONE]: 0,
-          [ProblemStatus.WAITING]: 0,
-          [ProblemOfficialEmail.SENT]: 0,
-          officialDone: 0,
-        }
-      );
+      const problemsCounts = {
+        total: problems.length,
+        [ProblemStatus.ACTIVE]: problems.filter(
+          (p) => p.status === ProblemStatus.ACTIVE
+        ).length,
+        [ProblemStatus.DONE]: problems.filter(
+          (p) => p.status === ProblemStatus.DONE
+        ).length,
+        [ProblemStatus.WAITING]: problems.filter(
+          (p) => p.status === ProblemStatus.WAITING
+        ).length,
+        [ProblemOfficialEmail.SENT]: problems.filter(
+          (p) => p.officialEmail === ProblemOfficialEmail.SENT
+        ).length,
+        officialDone: problems.filter(
+          (p) =>
+            p.officialEmail === ProblemOfficialEmail.SENT &&
+            p.status === ProblemStatus.DONE
+        ).length,
+      };
 
       return {
         name: cat.cat_name,
@@ -174,13 +135,15 @@ export const getSingleOrganisationProblemsReport = async (
       where: {
         oid: Number(organisationId) || 1,
       },
-
       select: {
         oid: true,
-
         categories: {
           select: {
             problems: {
+              where: {
+                status: { not: ProblemStatus.ARCHIVE },
+                createdAt: { gte: startDate, lte: endDate },
+              },
               select: {
                 id: true,
                 title: true,
@@ -188,11 +151,6 @@ export const getSingleOrganisationProblemsReport = async (
                 createdAt: true,
                 updatedAt: true,
                 officialEmail: true,
-              },
-              where: {
-                status: {
-                  not: ProblemStatus.ARCHIVE,
-                },
               },
               orderBy: {
                 createdAt: "desc",
@@ -204,21 +162,7 @@ export const getSingleOrganisationProblemsReport = async (
     });
 
     const organisationProblems =
-      organisation?.categories
-        .flatMap((category) => {
-          return category.problems.filter((problem) => {
-            const problemDate = new Date(problem.createdAt);
-            return (
-              !isNaN(problemDate.getTime()) &&
-              problemDate >= startDate &&
-              problemDate <= endDate
-            );
-          });
-        })
-        ?.sort(
-          (a, b) =>
-            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-        ) || [];
+      organisation?.categories.flatMap((category) => category.problems) || [];
 
     return {
       startDate,
@@ -246,12 +190,15 @@ export const getSingleOrganisationCategoriesReport = async (
       select: {
         oid: true,
         organisation_name: true,
-
         categories: {
           select: {
             cat_id: true,
             cat_name: true,
             problems: {
+              where: {
+                status: { not: ProblemStatus.ARCHIVE },
+                createdAt: { gte: startDate, lte: endDate },
+              },
               select: {
                 id: true,
                 title: true,
@@ -259,11 +206,6 @@ export const getSingleOrganisationCategoriesReport = async (
                 createdAt: true,
                 updatedAt: true,
                 officialEmail: true,
-              },
-              where: {
-                status: {
-                  not: ProblemStatus.ARCHIVE,
-                },
               },
               orderBy: {
                 createdAt: "desc",
@@ -277,27 +219,18 @@ export const getSingleOrganisationCategoriesReport = async (
     const categoriesWithProblemCounts = organisation?.categories.map((cat) => {
       const problemsCounts = cat.problems.reduce(
         (acc, problem) => {
-          if (problem.status === ProblemStatus.ARCHIVE) return acc;
+          if (ProblemStatus.ARCHIVE === problem.status) return acc;
+          acc.total++;
+          acc[problem.status]++;
 
-          const problemDate = new Date(problem.createdAt);
-
+          if (problem.officialEmail === ProblemOfficialEmail.SENT) {
+            acc[ProblemOfficialEmail.SENT]++;
+          }
           if (
-            !isNaN(problemDate.getTime()) &&
-            problemDate >= startDate &&
-            problemDate <= endDate
+            problem.officialEmail === ProblemOfficialEmail.SENT &&
+            problem.status === ProblemStatus.DONE
           ) {
-            acc.total++;
-            acc[problem.status]++;
-
-            if (problem.officialEmail === ProblemOfficialEmail.SENT) {
-              acc[ProblemOfficialEmail.SENT]++;
-            }
-            if (
-              problem.officialEmail === ProblemOfficialEmail.SENT &&
-              problem.status === ProblemStatus.DONE
-            ) {
-              acc.officialDone++;
-            }
+            acc.officialDone++;
           }
 
           return acc;
@@ -335,49 +268,37 @@ export const getSingleCategoryProblemsReport = async (
   endDate: Date,
   categoryId?: string
 ) => {
-  if (!categoryId) return;
   try {
-    const category = await prisma.problemCategory.findUnique({
+    const problems = await prisma.problem.findMany({
       where: {
-        cat_id: Number(categoryId) || 1,
-      },
-
-      select: {
-        problems: {
-          select: {
-            id: true,
-            title: true,
-            status: true,
-            createdAt: true,
-            updatedAt: true,
-            officialEmail: true,
-          },
-          where: {
-            status: {
-              not: ProblemStatus.ARCHIVE,
-            },
-          },
-          orderBy: {
-            createdAt: "desc",
-          },
+        status: {
+          not: ProblemStatus.ARCHIVE,
         },
+        createdAt: {
+          gte: startDate,
+          lte: endDate,
+        },
+        ...(categoryId
+          ? { category: { cat_id: Number(categoryId) || 1 } }
+          : {}), // If no categoryId, fetch all problems
+      },
+      select: {
+        id: true,
+        title: true,
+        status: true,
+        createdAt: true,
+        updatedAt: true,
+        officialEmail: true,
+      },
+      orderBy: {
+        createdAt: "desc",
       },
     });
-
-    const categoryProblems =
-      category?.problems.filter((problem) => {
-        const problemDate = new Date(problem.createdAt);
-        return (
-          !isNaN(problemDate.getTime()) &&
-          problemDate >= startDate &&
-          problemDate <= endDate
-        );
-      }) || [];
 
     return {
       startDate,
       endDate,
-      categoryProblems,
+      categoryProblems: problems,
     };
   } catch (error: unknown) {
     if (error instanceof Error) {
