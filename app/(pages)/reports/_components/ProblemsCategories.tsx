@@ -59,7 +59,7 @@ const ProblemsCategoriesFetch = async ({
         rowKey={(row) => row.name}
       />
       <Table
-        data={[categories?.totalproblems] || []}
+        data={[categories?.totalproblems]}
         columns={getColTotalReport()}
         rowKey={() => Math.random()}
       />
