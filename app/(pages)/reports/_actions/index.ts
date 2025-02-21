@@ -2,6 +2,28 @@ import prisma from "@/app/_utils/db/db";
 //import { wait } from "@/app/_utils/helpers";
 import { ProblemOfficialEmail, ProblemStatus } from "@prisma/client";
 
+type TotalProblemsType = {
+  total: number;
+  [ProblemStatus.ACTIVE]: number;
+  [ProblemStatus.DONE]: number;
+  [ProblemOfficialEmail.SENT]: number;
+  officialDone: number;
+};
+
+const calculateTotalProblems = (
+  problemsCounts: TotalProblemsType,
+  totalproblems: TotalProblemsType
+) => {
+  totalproblems.total += problemsCounts.total;
+  totalproblems[ProblemStatus.ACTIVE] += problemsCounts[ProblemStatus.ACTIVE];
+  totalproblems[ProblemStatus.DONE] += problemsCounts[ProblemStatus.DONE];
+  totalproblems[ProblemOfficialEmail.SENT] +=
+    problemsCounts[ProblemOfficialEmail.SENT];
+  totalproblems.officialDone += problemsCounts.officialDone;
+
+  return totalproblems;
+};
+
 export const getAllOrganisationsProblemsReport = async (
   startDate: Date,
   endDate: Date
@@ -28,6 +50,14 @@ export const getAllOrganisationsProblemsReport = async (
       },
     });
 
+    const totalproblems = {
+      total: 0,
+      [ProblemStatus.ACTIVE]: 0,
+      [ProblemStatus.DONE]: 0,
+      [ProblemOfficialEmail.SENT]: 0,
+      officialDone: 0,
+    };
+
     const organisationsWithProblemCounts = organisations.map((org) => {
       const problems = org.categories.flatMap((category) => category.problems);
 
@@ -39,9 +69,6 @@ export const getAllOrganisationsProblemsReport = async (
         [ProblemStatus.DONE]: problems.filter(
           (p) => p.status === ProblemStatus.DONE
         ).length,
-        [ProblemStatus.WAITING]: problems.filter(
-          (p) => p.status === ProblemStatus.WAITING
-        ).length,
         [ProblemOfficialEmail.SENT]: problems.filter(
           (p) => p.officialEmail === ProblemOfficialEmail.SENT
         ).length,
@@ -52,13 +79,20 @@ export const getAllOrganisationsProblemsReport = async (
         ).length,
       };
 
+      calculateTotalProblems(problemsCounts, totalproblems);
+
       return {
         name: org.organisation_name,
         problemsCounts,
       };
     });
 
-    return { startDate, endDate, organisationsWithProblemCounts };
+    return {
+      startDate,
+      endDate,
+      organisationsWithProblemCounts,
+      totalproblems,
+    };
   } catch (error: unknown) {
     if (error instanceof Error) {
       throw new Error(`Greška.`);
@@ -87,6 +121,14 @@ export const getAllCategoriesProblemsReport = async (
       },
     });
 
+    const totalproblems = {
+      total: 0,
+      [ProblemStatus.ACTIVE]: 0,
+      [ProblemStatus.DONE]: 0,
+      [ProblemOfficialEmail.SENT]: 0,
+      officialDone: 0,
+    };
+
     const categoriesWithProblemCounts = categories.map((cat) => {
       const problems = cat.problems;
 
@@ -98,9 +140,6 @@ export const getAllCategoriesProblemsReport = async (
         [ProblemStatus.DONE]: problems.filter(
           (p) => p.status === ProblemStatus.DONE
         ).length,
-        [ProblemStatus.WAITING]: problems.filter(
-          (p) => p.status === ProblemStatus.WAITING
-        ).length,
         [ProblemOfficialEmail.SENT]: problems.filter(
           (p) => p.officialEmail === ProblemOfficialEmail.SENT
         ).length,
@@ -111,13 +150,15 @@ export const getAllCategoriesProblemsReport = async (
         ).length,
       };
 
+      calculateTotalProblems(problemsCounts, totalproblems);
+
       return {
         name: cat.cat_name,
         problemsCounts,
       };
     });
 
-    return { startDate, endDate, categoriesWithProblemCounts };
+    return { startDate, endDate, categoriesWithProblemCounts, totalproblems };
   } catch (error: unknown) {
     if (error instanceof Error) {
       throw new Error(`Greška.`);
@@ -216,6 +257,14 @@ export const getSingleOrganisationCategoriesReport = async (
       },
     });
 
+    const totalproblems = {
+      total: 0,
+      [ProblemStatus.ACTIVE]: 0,
+      [ProblemStatus.DONE]: 0,
+      [ProblemOfficialEmail.SENT]: 0,
+      officialDone: 0,
+    };
+
     const categoriesWithProblemCounts = organisation?.categories.map((cat) => {
       const problemsCounts = cat.problems.reduce(
         (acc, problem) => {
@@ -245,6 +294,8 @@ export const getSingleOrganisationCategoriesReport = async (
         }
       );
 
+      calculateTotalProblems(problemsCounts, totalproblems);
+
       return {
         name: cat.cat_name,
         problemsCounts,
@@ -255,6 +306,7 @@ export const getSingleOrganisationCategoriesReport = async (
       startDate,
       endDate,
       categoriesWithProblemCounts,
+      totalproblems,
     };
   } catch (error: unknown) {
     if (error instanceof Error) {

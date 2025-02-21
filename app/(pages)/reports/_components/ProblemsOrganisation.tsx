@@ -11,6 +11,7 @@ import Calendars from "./Calendars";
 import { getColCategoriesReport } from "./getColCategoriesReport";
 import { getColOrganisationReport } from "./getColOrganisationReport";
 import PrintButton from "./PrintButton";
+import { getColTotalReport } from "./getColTotalReport";
 
 const ProblemsOrganisation = async ({
   searchParams,
@@ -74,11 +75,18 @@ const ProblemsSingleCategoriesFetch = async ({
   );
 
   return (
-    <Table
-      data={orgCategories?.categoriesWithProblemCounts || []}
-      columns={getColCategoriesReport()}
-      rowKey={(row) => row.name}
-    />
+    <>
+      <Table
+        data={orgCategories?.categoriesWithProblemCounts || []}
+        columns={getColCategoriesReport()}
+        rowKey={(row) => row.name}
+      />
+      <Table
+        data={[orgCategories?.totalproblems] || []}
+        columns={getColTotalReport()}
+        rowKey={() => Math.random()}
+      />
+    </>
   );
 };
 

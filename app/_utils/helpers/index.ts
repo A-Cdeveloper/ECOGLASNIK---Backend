@@ -100,3 +100,6 @@ export const wait = (ms: number) =>
   new Promise((resolve) => setTimeout(resolve, ms));
 
 export const containsProfanity = (text: string) => bannedRegex.test(text);
+
+export const getPercentage = (count: number, totalProblems: number) =>
+  totalProblems > 0 ? ((count / totalProblems) * 100).toFixed(2) : "0";

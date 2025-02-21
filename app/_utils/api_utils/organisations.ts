@@ -2,6 +2,7 @@ import { MAX_PAGE_SIZE } from "@/app/config";
 import prisma from "../db/db";
 import tailwindConfig from "../../../tailwind.config";
 import { ProblemStatus } from "@prisma/client";
+import { getPercentage } from "../helpers";
 
 export const getAllOrganisations = async (
   sortBy: string = "oid-asc",
@@ -190,28 +191,24 @@ export const getOrganisationProblemsForCharts = async (oid?: number) => {
     const totalProblems =
       statusCounts.ACTIVE + statusCounts.DONE + statusCounts.WAITING;
 
-    // Calculate percentages
-    const getPercentage = (count: number) =>
-      totalProblems > 0 ? ((count / totalProblems) * 100).toFixed(2) : "0";
-
     // Nivo Pie formatted data
     const pieData = [
       {
         name: `U OBRADI`,
         value: statusCounts.WAITING,
-        percent: getPercentage(statusCounts.WAITING),
+        percent: getPercentage(statusCounts.WAITING, totalProblems),
         color: tailwindConfig.theme.extend.colors.skyblue["200"],
       },
       {
         name: `AKTIVNI`,
         value: statusCounts.ACTIVE,
-        percent: getPercentage(statusCounts.ACTIVE),
+        percent: getPercentage(statusCounts.ACTIVE, totalProblems),
         color: tailwindConfig.theme.extend.colors.danger["200"],
       },
       {
         name: `REŠENI`,
         value: statusCounts.DONE,
-        percent: getPercentage(statusCounts.DONE),
+        percent: getPercentage(statusCounts.DONE, totalProblems),
         color: tailwindConfig.theme.extend.colors.success["200"],
       },
     ];

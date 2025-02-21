@@ -5,6 +5,7 @@ type Column<T> = {
   header: string;
   accessor: (row: T) => React.ReactNode;
   className?: string;
+  cellClassName?: string;
   isMiniTable?: boolean;
 };
 
@@ -121,7 +122,9 @@ const TableCell = <T extends { status?: unknown }>({
           key={colIndex}
           className={`px-2 lg:px-4 py-1 lg:py-[8px] block md:table-cell print:text-black ${
             col.className || ""
-          } ${status === 1 && !isMiniTable ? "text-success-100" : ""}`}
+          } ${col.cellClassName || ""} ${
+            status === 1 && !isMiniTable ? "text-success-100" : ""
+          }`}
           data-header={col.header} // Data attribute for accessibility
         >
           {/* Show the header caption only on small screens */}

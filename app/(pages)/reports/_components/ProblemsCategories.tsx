@@ -6,6 +6,7 @@ import { Suspense } from "react";
 import Calendars from "./Calendars";
 import { getColCategoriesReport } from "./getColCategoriesReport";
 import PrintButton from "./PrintButton";
+import { getColTotalReport } from "./getColTotalReport";
 
 const ProblemsCategories = async ({
   searchParams,
@@ -51,10 +52,17 @@ const ProblemsCategoriesFetch = async ({
   );
 
   return (
-    <Table
-      data={categories?.categoriesWithProblemCounts || []}
-      columns={getColCategoriesReport()}
-      rowKey={(row) => row.name}
-    />
+    <>
+      <Table
+        data={categories?.categoriesWithProblemCounts || []}
+        columns={getColCategoriesReport()}
+        rowKey={(row) => row.name}
+      />
+      <Table
+        data={[categories?.totalproblems] || []}
+        columns={getColTotalReport()}
+        rowKey={() => Math.random()}
+      />
+    </>
   );
 };
