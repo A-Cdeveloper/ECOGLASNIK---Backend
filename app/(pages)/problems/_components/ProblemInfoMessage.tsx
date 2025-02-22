@@ -21,7 +21,8 @@ const ProblemInfoMessage = ({
           status !== ProblemStatus.ARCHIVE && (
             <p className="bg-danger-100 text-primary-900 p-1 px-[15px]">
               Prijava je zvanicno prosleđena nadležnim službama. Nisu dozvoljene
-              naknadne izmene, osim izmene statusa problema.
+              naknadne izmene, osim izmene statusa problema i odgovora nadležnih
+              službi.
             </p>
           )}
         {status === ProblemStatus.ARCHIVE && (

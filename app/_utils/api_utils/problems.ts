@@ -42,6 +42,7 @@ export const getAllProblems = async (
           status: true,
           image: true,
           officialEmail: true,
+          answer: true,
           category: {
             select: {
               cat_id: true,
@@ -79,6 +80,7 @@ export const getProblemById = async (id: string) => {
         status: true,
         image: true,
         position: true,
+        answer: true,
         officialEmail: true,
         category: {
           select: {

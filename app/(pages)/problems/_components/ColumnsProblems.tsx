@@ -2,8 +2,10 @@ import Operations from "@/app/_components/dataOperations/IconOperationsButtons";
 import DynamicIcon from "@/app/_components/ui/DynamicIcon";
 import Picture from "@/app/_components/ui/Picture";
 import { formatDate } from "@/app/_utils/helpers/";
+import { ProblemOfficialEmail, ProblemStatus } from "@prisma/client";
 import Link from "next/link";
 import {
+  HiMiniChatBubbleBottomCenter,
   HiMiniCheckCircle,
   HiMiniEnvelope,
   HiMiniExclamationCircle,
@@ -11,7 +13,6 @@ import {
   HiMiniQuestionMarkCircle,
 } from "react-icons/hi2";
 import { cloneProblemByIdAction, deleteProblemByIdAction } from "../_actions";
-import { ProblemOfficialEmail, ProblemStatus } from "@prisma/client";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
@@ -80,6 +81,18 @@ export const getColumnsProblems = ({
                 ? "zahtev na čekanju"
                 : "prijava poslata"}
             </span>
+          )}
+        </>
+      );
+    },
+  },
+  {
+    header: "Odgovor",
+    accessor: (row: any) => {
+      return (
+        <>
+          {row.answer && (
+            <DynamicIcon Icon={HiMiniChatBubbleBottomCenter} className="ms-5" />
           )}
         </>
       );

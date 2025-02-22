@@ -113,6 +113,16 @@ const ProblemForm = ({
           </div>
         </div>
 
+        {isNotEditable && (
+          <div className="mb-4">
+            <TextArea
+              name="answer"
+              placeholder="Odgovor nadležne službe"
+              defaultValue={problem?.answer}
+            />
+          </div>
+        )}
+
         <div className="text-end">
           {errors.length > 0 && <ErrorsFormMessage errors={errors} />}
           <SubmitButton loading={loadingImageUpload}>

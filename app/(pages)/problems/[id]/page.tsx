@@ -92,6 +92,14 @@ const ProblemPage = async ({ params }: { params: Promise<{ id: string }> }) => {
             )}
           </div>
         </div>{" "}
+        {problem?.answer && (
+          <div>
+            <Headline level={4}>Odgovor nadležne službe</Headline>
+            <p className="border-y border-secondary-100/30 py-3">
+              {problem?.answer}
+            </p>
+          </div>
+        )}
       </div>
     </>
   );

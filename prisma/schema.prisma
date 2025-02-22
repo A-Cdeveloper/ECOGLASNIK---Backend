@@ -51,6 +51,7 @@ model Problem {
   cat_id        Int
   uid           Int
   officialEmail ProblemOfficialEmail @default(NONE) // Use the enum type
+  answer        String               @default("")
   image         String               @db.VarChar(400)
   pinata_id     String               @default("") @db.VarChar(400)
   category      ProblemCategory      @relation(fields: [cat_id], references: [cat_id])

@@ -68,6 +68,7 @@ export const updateProblemAction = async (
     position: JSON.parse(formData.get("position") as string),
     cat_id: Number(formData.get("cat_id")) as number,
     officialEmail: formData.get("officialEmail") as ProblemOfficialEmail,
+    answer: formData.get("answer") as string,
     updatedAt:
       formData.get("status") !== ProblemStatus.ACTIVE &&
       formData.get("status") !== ProblemStatus.WAITING
@@ -92,6 +93,7 @@ export const updateProblemAction = async (
       status: updateData.status as ProblemStatus,
       position: updateData.position as any,
       cat_id: +updateData.cat_id,
+      answer: updateData.answer as string,
       updatedAt: updateData.updatedAt as any,
       pinata_id: updateData.pinata_id as string,
       image: updateData.image as string,
