@@ -118,7 +118,6 @@ const ProblemForm = ({
             name="answer"
             placeholder="Odgovor nadležne službe"
             defaultValue={problem?.answer || ""}
-            readOnly={isNotEditable}
           />
         </div>
 
