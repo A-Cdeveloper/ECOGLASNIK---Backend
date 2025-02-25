@@ -113,15 +113,14 @@ const ProblemForm = ({
           </div>
         </div>
 
-        {isNotEditable && (
-          <div className="mb-4">
-            <TextArea
-              name="answer"
-              placeholder="Odgovor nadležne službe"
-              defaultValue={problem?.answer}
-            />
-          </div>
-        )}
+        <div className={`mb-4 ${isNotEditable ? "" : "hidden"}`}>
+          <TextArea
+            name="answer"
+            placeholder="Odgovor nadležne službe"
+            defaultValue={problem?.answer || ""}
+            readOnly={isNotEditable}
+          />
+        </div>
 
         <div className="text-end">
           {errors.length > 0 && <ErrorsFormMessage errors={errors} />}

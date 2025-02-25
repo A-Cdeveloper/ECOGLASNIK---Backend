@@ -92,7 +92,7 @@ export const updateProblemAction = async (
       description: updateData.description as string,
       status: updateData.status as ProblemStatus,
       position: updateData.position as any,
-      cat_id: +updateData.cat_id,
+      cat_id: updateData.cat_id as number,
       answer: updateData.answer as string,
       updatedAt: updateData.updatedAt as any,
       pinata_id: updateData.pinata_id as string,
@@ -100,7 +100,7 @@ export const updateProblemAction = async (
     },
   });
 
-  // send email to oragnisations
+  //send email to oragnisations
   if (
     updateData?.officialEmail === ProblemOfficialEmail.REQUESTED &&
     updateData.status !== ProblemStatus.WAITING
