@@ -1,16 +1,17 @@
 "use client";
 
 import Headline from "@/app/_components/ui/Headline";
-import { UserRestrictedType } from "@/app/types/prismaTypes";
 import { formatDate } from "@/app/_utils/helpers/";
-import { useUser } from "@/app/context/authContext";
+import { UserContext } from "@/app/context/authContext";
+import { UserRestrictedType } from "@/app/types/prismaTypes";
 import Image from "next/image";
+import { use } from "react";
 import ProfileDelete from "./ProfileDelete";
 import ProfileForm from "./ProfileForm";
 import ProfilePasswordForm from "./ProfilePasswordForm";
 
 const Profile = () => {
-  const { user, refreshUser } = useUser();
+  const { user, refreshUser } = use(UserContext);
 
   if (!user) {
     return null;

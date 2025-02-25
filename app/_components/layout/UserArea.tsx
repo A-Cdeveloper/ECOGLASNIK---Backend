@@ -1,15 +1,15 @@
 "use client";
 
-import { useUser } from "@/app/context/authContext";
+import { UserContext } from "@/app/context/authContext";
 import useOutsideClick from "@/app/hooks/useOutsideClick";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 import { getDisplayName } from "../../_utils/helpers";
-import UserMiniMenu from "./UserMiniMenu";
 import MiniSpinner from "./MiniSpinner";
+import UserMiniMenu from "./UserMiniMenu";
 
 const UserArea = () => {
-  const { user } = useUser();
+  const { user } = use(UserContext);
 
   const [miniMenuOpen, setMiniMenuOpen] = useState(false);
   const [displayName, setDisplayName] = useState("");

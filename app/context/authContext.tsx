@@ -1,15 +1,10 @@
 "use client";
 
-import React, {
-  createContext,
-  useCallback,
-  useContext,
-  useEffect,
-} from "react";
+import React, { createContext, useCallback, useEffect } from "react";
 import { getUserFromToken } from "../(auth)/_actions";
-import { UserRestrictedType } from "../types/prismaTypes";
-import useSessionStorage from "../hooks/useSessionStorage";
 import { useAutoLogout } from "../hooks/useAutoLogout ";
+import useSessionStorage from "../hooks/useSessionStorage";
+import { UserRestrictedType } from "../types/prismaTypes";
 
 type UserContextType = {
   user: UserRestrictedType;
@@ -19,7 +14,7 @@ type UserContextType = {
   setTokenExpiry: (tokenExpiry: string | null) => void;
 };
 
-const UserContext = createContext({} as UserContextType);
+export const UserContext = createContext({} as UserContextType);
 
 export const UserContextProvider = ({
   children,
@@ -92,12 +87,4 @@ export const UserContextProvider = ({
   };
 
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
-};
-
-export const useUser = () => {
-  const context = useContext(UserContext);
-  if (!context) {
-    throw new Error("useUser must be used within a UserContextProvider");
-  }
-  return context;
 };
