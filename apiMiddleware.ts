@@ -1,7 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
-import { BASE_URL } from "./app/config";
+import { BASE_URL_DEMO, BASE_URL_VLASOTINCE, BASE_URL_NIS } from "./app/config";
 
-const allowedOrigins = ["http://localhost:5173", BASE_URL];
+const allowedOrigins = [
+  "http://localhost:5173",
+  BASE_URL_DEMO,
+  BASE_URL_VLASOTINCE,
+  BASE_URL_NIS,
+];
 
 export async function apiMiddleware(request: NextRequest) {
   const url = request.nextUrl.clone();

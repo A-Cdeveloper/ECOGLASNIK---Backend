@@ -9,4 +9,6 @@ export const bannedRegex = new RegExp(
     .join("|"), // Join into a single regex
   "gi" // Global and case-insensitive
 );
-export const BASE_URL = "https://www.demo.ecoglasnik.org";
+export const BASE_URL_DEMO = "https://www.demo.ecoglasnik.org";
+export const BASE_URL_VLASOTINCE = "https://www.vlasotince.ecoglasnik.org";
+export const BASE_URL_NIS = "https://www.nis.ecoglasnik.org";
