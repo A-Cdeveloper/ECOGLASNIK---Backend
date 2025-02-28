@@ -1,8 +1,8 @@
 import { Problem } from "@prisma/client";
 import { formatDate } from "../helpers";
-import { BASE_URL } from "@/app/config";
+import { BASE_FRONTEND_URL } from "@/app/config";
 
-const logo = `${BASE_URL}/ecoglasnik.png`;
+const logo = `${BASE_FRONTEND_URL}/ecoglasnik.png`;
 
 export const emailHtml = (
   url: string,
@@ -62,7 +62,7 @@ export const emailHtml = (
       <body>
         <div class="email-container">
           <div class="header">
-            <a href="${BASE_URL}"><img src="${logo}" alt="ECOGLASNIK" /></a>
+            <a href="${BASE_FRONTEND_URL}"><img src="${logo}" alt="ECOGLASNIK" /></a>
           </div>
           <div class="content">
             <p>${emailText}</p>
@@ -126,17 +126,17 @@ export const emailToOrganisationHtml = (problem: Problem) => {
       <body>
         <div class="email-container">
           <div class="header">
-            <a href="${BASE_URL}"><img src="${logo}" alt="ECOGLASNIK" /></a>
+            <a href="${BASE_FRONTEND_URL}"><img src="${logo}" alt="ECOGLASNIK" /></a>
           </div>
           <div class="content">
             <p>Poštovani, na platofrmi ECOGLASNIK dana ${formatDate(
               problem.createdAt.toString()
             )} prijavljen je komunalni problem iz Vaše nadležnosti:</p>
-            <p>Detalje problema možete pogledati <a href="${BASE_URL}/problems/${
+            <p>Detalje problema možete pogledati <a href="${BASE_FRONTEND_URL}/problems/${
     problem.id
   }/?lat=${lat}&lng=${lng}">OVDE</a><br /><br /></p>
             <p>Za sve dodatne detalje i informacije stojimo Vam na raspolaganju.<br /><br />
-            Hvala,<br />Vaš <a href="${BASE_URL}">ECOGLASNIK</a></p>
+            Hvala,<br />Vaš <a href="${BASE_FRONTEND_URL}">ECOGLASNIK</a></p>
           </div>
         </div>
       </body>

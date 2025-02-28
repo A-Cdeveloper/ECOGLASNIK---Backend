@@ -2,7 +2,7 @@ import nodemailer from "nodemailer";
 import { emailHtml, emailToOrganisationHtml } from "./";
 import { headers } from "next/headers";
 import { Problem } from "@prisma/client";
-import { BASE_URL } from "@/app/config";
+import { BASE_FRONTEND_URL } from "@/app/config";
 
 export const getRootUrl = async (): Promise<string> => {
   // Server-side
@@ -43,7 +43,7 @@ export const sendEmail = async (
 /// FRONTEND APP
 
 export const sendVerificationEmail = async (email: string, token: string) => {
-  const verificationUrl = `${BASE_URL}/login/verify-account?token=${token}`;
+  const verificationUrl = `${BASE_FRONTEND_URL}/login/verify-account?token=${token}`;
   await sendEmail(
     email,
     verificationUrl,
@@ -54,7 +54,7 @@ export const sendVerificationEmail = async (email: string, token: string) => {
 };
 
 export const sendPasswordResetEmail = async (email: string, token: string) => {
-  const resetUrl = `${BASE_URL}/login/reset-password?token=${token}`;
+  const resetUrl = `${BASE_FRONTEND_URL}/login/reset-password?token=${token}`;
 
   await sendEmail(
     email,
