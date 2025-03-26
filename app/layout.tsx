@@ -10,6 +10,7 @@ const notosans = Noto_Sans({
 export const metadata = {
   title: "ECOGLASNIK - Admin panel",
   description: "Login to the admin panel",
+  robots: "noindex, nofollow",
   other: {
     "google-site-verification": "mh-CXyRSXkr01wcG0gmBCokyrSSj9Dcyr6cCFqr7dS0",
   },
