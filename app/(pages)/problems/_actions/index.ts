@@ -165,7 +165,9 @@ export const uploadProblemImageAction = async (file: File) => {
   const optimizeFile = await optimizeImage(file);
 
   try {
-    const uploadImage = await pinata.upload.file(optimizeFile);
+    const uploadImage = await pinata.upload
+      .file(optimizeFile)
+      .group(`${process.env.PINATA_GROUPID}`);
     const url = (await getOptimizedImageURL(uploadImage.cid)) as string;
 
     return {

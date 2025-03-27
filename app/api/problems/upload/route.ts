@@ -35,7 +35,9 @@ export async function POST(request: NextRequest) {
 
     const optimizedFile = await optimizeImage(file);
 
-    const uploadData = await pinata.upload.file(optimizedFile);
+    const uploadData = await pinata.upload
+      .file(optimizedFile)
+      .group(`${process.env.PINATA_GROUPID}`);
 
     const url = await getOptimizedImageURL(uploadData.cid);
 
