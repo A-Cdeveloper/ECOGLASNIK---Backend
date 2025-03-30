@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { getCategoryById } from "@/app/_utils/api_utils/categories";
 import { NextRequest, NextResponse } from "next/server";
+import { t } from "@/app/_utils/messages";
 
 export async function GET(request: NextRequest, { params }: { params: any }) {
   const { id } = await params;
@@ -10,7 +11,7 @@ export async function GET(request: NextRequest, { params }: { params: any }) {
 
     if (!category) {
       return NextResponse.json(
-        { error: "Kategorija nije pronađena" },
+        { error: t("category.not_exist") },
         { status: 404 }
       );
     }

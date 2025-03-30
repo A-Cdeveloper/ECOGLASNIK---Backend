@@ -3,6 +3,7 @@ import prisma from "../db/db";
 import tailwindConfig from "../../../tailwind.config";
 import { ProblemStatus } from "@prisma/client";
 import { getPercentage } from "../helpers";
+import { t } from "../messages";
 
 export const getAllOrganisations = async (
   sortBy: string = "oid-asc",
@@ -16,7 +17,7 @@ export const getAllOrganisations = async (
   const validOrder = ["asc", "desc"];
 
   if (!validFields.includes(field) || !validOrder.includes(order)) {
-    throw new Error("Invalid sorting parameters.");
+    throw new Error(t("invalid_sort"));
   }
 
   try {
@@ -37,7 +38,7 @@ export const getAllOrganisations = async (
     return { organisations, totalOrganisations };
   } catch (error: unknown) {
     if (error instanceof Error) {
-      throw new Error(`Greška prilikom preuzimanja nadležnih organizacija.`);
+      throw new Error(t("organisations.no_organisations_found"));
     }
   }
 };
@@ -57,7 +58,7 @@ export const getOrganisation = async (oid?: string) => {
     return organisation;
   } catch (error: unknown) {
     if (error instanceof Error) {
-      throw new Error(`Greška prilikom preuzimanja nadležne službe.`);
+      throw new Error(t("organisations.no_organisation_found"));
     }
   }
 };

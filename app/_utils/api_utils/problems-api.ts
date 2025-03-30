@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import prisma from "../db/db";
+import { t } from "../messages";
 
 export const getAllProblems = async (conditions: any, orderBy: any) => {
   try {
@@ -10,7 +11,7 @@ export const getAllProblems = async (conditions: any, orderBy: any) => {
     return problems;
   } catch (error: unknown) {
     if (error instanceof Error) {
-      throw new Error(`Greška prilikom preuzimanja problema`);
+      throw new Error(t("problems.no_problems_found"));
     }
   }
 };
@@ -27,7 +28,7 @@ export const getProblemById = async (id: string, include?: any) => {
     return problem;
   } catch (error: unknown) {
     if (error instanceof Error) {
-      throw new Error(`Greška prilikom preuzimanja problema`);
+      throw new Error(t("problems.no_problem_found"));
     }
   }
 };
@@ -40,7 +41,7 @@ export const addNewProblem = async (recivedData: any) => {
     return newProblem;
   } catch (error: unknown) {
     if (error instanceof Error) {
-      throw new Error(`Greška prilikom dodavanja problema`);
+      throw new Error(t("problems.add_problem_error"));
     }
   }
 };
@@ -56,7 +57,7 @@ export const updateProblem = async (id: string, data: any) => {
     return updatedProblem;
   } catch (error: unknown) {
     if (error instanceof Error) {
-      throw new Error(`Greška prilikom azuriranja problema`);
+      throw new Error(t("problems.edit_problem_error"));
     }
   }
 };

@@ -8,7 +8,7 @@ import {
   getUserById,
 } from "@/app/_utils/api_utils/users";
 import { ProblemStatus } from "@prisma/client";
-
+import { t } from "@/app/_utils/messages";
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export async function GET(request: NextRequest, { params }: { params: any }) {
   const authResponse = await authMiddleware(request);
@@ -26,22 +26,19 @@ export async function GET(request: NextRequest, { params }: { params: any }) {
     const user = await getUserById(+uid);
 
     if (!user) {
-      return NextResponse.json(
-        { error: "Korisnik nije pronađen." },
-        { status: 404 }
-      );
+      return NextResponse.json({ error: t("users.no_user") }, { status: 404 });
     }
     const superadmin = await getSuperAdmin(adminId);
     if (authenticatedUserId !== +uid && !superadmin) {
       return NextResponse.json(
-        { error: "Samo administratori mogu preuzeti druge korisnike." },
+        { error: t("users.restrict_access") },
         { status: 403 }
       );
     }
 
     return NextResponse.json(user, { status: 200 });
   } catch (error) {
-    return NextResponse.json({ error: "Greška na serveru" }, { status: 500 });
+    return NextResponse.json({ error: t("server_error") }, { status: 500 });
   }
 }
 
@@ -64,16 +61,13 @@ export async function DELETE(
     const user = await getUserById(+uid);
 
     if (!user) {
-      return NextResponse.json(
-        { error: "Korisnik nije pronađen." },
-        { status: 404 }
-      );
+      return NextResponse.json({ error: t("users.no_user") }, { status: 404 });
     }
     const superadmin = await getSuperAdmin(adminId);
 
     if (authenticatedUserId !== +uid && !superadmin) {
       return NextResponse.json(
-        { error: "Nemate dozvolu za brisanje drugih korisnika." },
+        { error: t("users.no_delete_permision") },
         { status: 403 }
       );
     }
@@ -92,7 +86,7 @@ export async function DELETE(
     const deletedUser = await deleteUser(+uid);
 
     const response = NextResponse.json({
-      message: "Nalog je uspešno obrisan.",
+      message: t("users.user_deleted_success"),
       data: { ...deletedUser, status: 200 },
     });
 

@@ -2,7 +2,7 @@ import { ProblemStatus, UserRole } from "@prisma/client";
 import { MAX_PAGE_SIZE } from "@/app/config";
 import prisma from "../db/db";
 import { sortByPropertyLength } from "../helpers";
-
+import { t } from "../messages";
 export const getSuperAdmin = async (adminId: number) => {
   try {
     const superadmin = await prisma.user.findUnique({
@@ -32,7 +32,7 @@ export const getAllUsers = async (
   const validOrder = ["asc", "desc"];
 
   if (!validFields.includes(field) || !validOrder.includes(order)) {
-    throw new Error("Invalid sorting parameters.");
+    throw new Error(t("invalid_sort"));
   }
 
   const whereClause = role
@@ -92,7 +92,7 @@ export const getAllUsers = async (
     }
   } catch (error: unknown) {
     if (error instanceof Error) {
-      throw new Error(`Greška prilikom preuzimanja korisnika.`);
+      throw new Error(t("users.no_users_found"));
     }
   }
 };
@@ -118,7 +118,7 @@ export const getUserById = async (id: number) => {
     return user;
   } catch (error: unknown) {
     if (error instanceof Error) {
-      throw new Error(`Greška prilikom preuzimanja korisnika`);
+      throw new Error(t("users.no_user_found"));
     }
   }
 };
@@ -133,7 +133,7 @@ export const deleteUser = async (id: number) => {
     return user;
   } catch (error: unknown) {
     if (error instanceof Error) {
-      throw new Error(`Greška prilikom brisanja korisnika`);
+      throw new Error(t("users.user_delete_error"));
     }
   }
 };

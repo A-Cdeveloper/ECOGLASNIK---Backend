@@ -2,6 +2,7 @@ import { decodeJWT } from "@/app/_utils/auth/index";
 import prisma from "@/app/_utils/db/db";
 import { NextResponse } from "next/server";
 import { z } from "zod";
+import { t } from "@/app/_utils/messages";
 
 //Api handler for get user from cookies
 export const GET = async (req: Request) => {
@@ -10,7 +11,7 @@ export const GET = async (req: Request) => {
 
     if (!cookieHeader) {
       return NextResponse.json(
-        { error: "Token nije pronađen." },
+        { error: t("auth.user_cookies.token_not_exist") },
         { status: 401 }
       );
     }
@@ -26,7 +27,7 @@ export const GET = async (req: Request) => {
 
     if (!token) {
       return NextResponse.json(
-        { error: "Nemate pravo pristupa" },
+        { error: t("auth.user_cookies.forbidden") },
         { status: 401 }
       );
     }
@@ -52,7 +53,7 @@ export const GET = async (req: Request) => {
     if (!user) {
       return NextResponse.json(
         {
-          error: "Korisnik ne postoji ili nije verifikovan.",
+          error: t("auth.user_cookies.user_not_exist"),
         },
         { status: 404 }
       );

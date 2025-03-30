@@ -1,5 +1,7 @@
 import { pinata } from "@/app/_utils/pinata/config";
 import { NextRequest, NextResponse } from "next/server";
+import { t } from "@/app/_utils/messages";
+import { authMiddleware } from "@/app/_utils/auth/authMiddleware";
 
 // Helper function to delete a file from Pinata
 const deleteFileFromPinata = async (pinata_id: string) => {
@@ -24,6 +26,11 @@ const deleteFileFromPinata = async (pinata_id: string) => {
 
 // Next.js 15 API route handler
 export async function POST(request: NextRequest) {
+  const authResponse = await authMiddleware(request);
+  if (!authResponse.ok) {
+    return authResponse; // If unauthorized, return the middleware response
+  }
+
   try {
     const body = await request.json();
     const { id } = body;
@@ -40,7 +47,7 @@ export async function POST(request: NextRequest) {
     const result = await deleteFileFromPinata(id);
 
     return NextResponse.json({
-      message: "File deleted successfully",
+      message: t("problems.image.delete_success "),
       result,
     });
     // eslint-disable-next-line @typescript-eslint/no-explicit-any

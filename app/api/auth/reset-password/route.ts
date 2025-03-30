@@ -3,14 +3,14 @@ import prisma from "@/app/_utils/db/db"; // Adjust path to your Prisma client
 import { resetPasswordSchema } from "@/app/_utils/zod/authSchemas"; // Import your Zod schema
 import { NextResponse } from "next/server";
 import { z } from "zod";
-
+import { t } from "@/app/_utils/messages";
 export async function POST(req: Request) {
   const { searchParams } = new URL(req.url);
   const token = searchParams.get("token");
 
   if (token === "null" || token === null) {
     return NextResponse.json(
-      { message: "Verifikacioni token nije pronađen." },
+      { message: t("auth.reset-password.token_not_exist") },
       { status: 400 }
     );
   }
@@ -30,7 +30,7 @@ export async function POST(req: Request) {
 
     if (!existingUser) {
       return NextResponse.json(
-        { message: "Token ne postoji u bazi podataka ili je neispravan." },
+        { message: t("auth.reset-password.token_wrong") },
         { status: 400 }
       );
     }
@@ -48,7 +48,7 @@ export async function POST(req: Request) {
     });
 
     return NextResponse.json(
-      { message: "Vaša lozinka je uspesno promijenjena." },
+      { message: t("auth.reset-password.success_reset_password") },
       { status: 200 }
     );
   } catch (error) {

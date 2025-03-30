@@ -1,30 +1,30 @@
 import { z } from "zod";
 import { containsProfanity } from "../helpers";
 import { ProblemStatus } from "@prisma/client";
-
+import { t } from "../messages";
 // Shared position schema
 export const positionSchema = z.object({
-  lat: z.string().min(1, "Latitude is required"),
-  lng: z.string().min(1, "Longitude is required"),
+  lat: z.string().min(1, t("zod.latitude_empty")),
+  lng: z.string().min(1, t("zod.longitude_empty")),
 });
 
 // Shared problem fields
 const problemBaseSchema = z.object({
   title: z
     .string()
-    .min(1, "Naslov problema je obavezan")
-    .max(60, "Naslov mora biti maksimalno 60 karaktera")
+    .min(1, t("zod.problem_title_empty"))
+    .max(60, t("zod.problem_title_too_long"))
     .transform((val) => val.trim())
     .refine((val) => !containsProfanity(val), {
-      message: "Nalov sadrži neprimerene reči.",
+      message: t("zod.problem_title_banned"),
     }),
   description: z
     .string()
-    .min(1, "Opis problema je obavezan.")
-    .max(300, "Opis problema mora biti maksimalno 300 karaktera")
+    .min(1, t("zod.problem_description_empty"))
+    .max(300, t("zod.problem_description_too_long"))
     .transform((val) => val.trim())
     .refine((val) => !containsProfanity(val), {
-      message: "Opis sadrži neprimerene reči.",
+      message: t("zod.problem_description_banned"),
     }),
   officialEmail: z.string().optional(),
   cat_id: z.number().int(),

@@ -3,7 +3,7 @@ import prisma from "@/app/_utils/db/db";
 import { UserRole } from "@prisma/client";
 //import prisma from "@/app/_utils/db/db";
 import { NextRequest, NextResponse } from "next/server";
-
+import { t } from "@/app/_utils/messages";
 export async function POST(request: NextRequest) {
   const authResponse = await authMiddleware(request);
   if (!authResponse.ok) {
@@ -24,7 +24,7 @@ export async function POST(request: NextRequest) {
   // Create a response that clears the `authToken` cookie
   const response = NextResponse.json({
     success: true,
-    message: "Uspešno ste se odjavili.",
+    message: t("auth.logout.success_logout"),
   });
 
   // Clear the `authToken` cookie by setting it with a past expiration date

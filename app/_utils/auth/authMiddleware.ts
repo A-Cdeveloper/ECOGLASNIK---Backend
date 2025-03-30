@@ -3,6 +3,8 @@ import { NextResponse, NextRequest } from "next/server";
 import { JWTPayload } from "jose";
 import { verifyJWT } from ".";
 
+import { t } from "@/app/_utils/messages";
+
 type AuthResponseSuccess = {
   userId: JWTPayload["userId"]; // Adjust `JWTPayload` to the actual type returned by `verifyJWT`.
 };
@@ -20,7 +22,7 @@ export async function authMiddleware(
   if (!cookieHeader) {
     return NextResponse.json(
       {
-        error: "Pristup nije autorizovan.",
+        error: t("auth.no_access"),
         userId: null,
       },
       { status: 401 }
@@ -35,7 +37,7 @@ export async function authMiddleware(
   if (!token) {
     return NextResponse.json(
       {
-        error: "Pristup nije autorizovan.",
+        error: t("auth.no_access"),
         userId: null,
       },
       { status: 401 }
@@ -51,7 +53,7 @@ export async function authMiddleware(
   } catch (error) {
     return NextResponse.json(
       {
-        error: "Pristup nije autorizovan.",
+        error: t("auth.no_access"),
         userId: null,
       },
       { status: 401 }

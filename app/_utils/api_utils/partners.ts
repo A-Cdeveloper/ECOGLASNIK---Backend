@@ -1,6 +1,6 @@
 import { MAX_PAGE_SIZE } from "@/app/config";
 import prisma from "../db/db";
-//import tailwindConfig from "../../../tailwind.config";
+import { t } from "../messages";
 
 export const getAllPartners = async (
   sortBy: string = "pid-asc",
@@ -14,7 +14,7 @@ export const getAllPartners = async (
   const validOrder = ["asc", "desc"];
 
   if (!validFields.includes(field) || !validOrder.includes(order)) {
-    throw new Error("Invalid sorting parameters.");
+    throw new Error(t("invalid_sort"));
   }
 
   try {
@@ -32,7 +32,7 @@ export const getAllPartners = async (
     return { partners, totalPartners };
   } catch (error: unknown) {
     if (error instanceof Error) {
-      throw new Error(`Greška prilikom preuzimanja partnera.`);
+      throw new Error(t("partners.no_partners_found"));
     }
   }
 };
@@ -47,7 +47,7 @@ export const getPartner = async (pid: string) => {
     return partner;
   } catch (error: unknown) {
     if (error instanceof Error) {
-      throw new Error(`Greška prilikom preuzimanja partnera.`);
+      throw new Error(t("partners.no_partner_found"));
     }
   }
 };

@@ -1,5 +1,6 @@
 import { Prisma } from "@prisma/client";
 import { ZodSchema } from "zod";
+import { t } from "../messages";
 
 type ErrorHandlerOptions = {
   customMessage?: string; // Optional custom error message
@@ -51,16 +52,16 @@ export function handleError(
 
   if (error instanceof Prisma.PrismaClientKnownRequestError) {
     if (error.code === "P1001") {
-      errorMessage = "Baza podataka nije dostupna.";
+      errorMessage = t("db_unavailable");
     } else {
-      errorMessage = "Greška u bazi podataka.";
+      errorMessage = t("db_error");
     }
   } else if (error instanceof Prisma.PrismaClientUnknownRequestError) {
-    errorMessage = "Baza podataka nije dostupna.";
+    errorMessage = t("db_unavailable");
   } else if (error instanceof Error) {
     errorMessage = error.message;
   } else {
-    errorMessage = customMessage ? customMessage : "Greška na serveru.";
+    errorMessage = customMessage ? customMessage : t("server_error");
   }
 
   if (throwError) {

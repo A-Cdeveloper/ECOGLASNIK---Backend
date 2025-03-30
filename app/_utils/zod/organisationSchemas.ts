@@ -1,19 +1,17 @@
 import { z } from "zod";
 import { emailSchema, phoneSchema } from "./authSchemas";
-
+import { t } from "../messages";
 // Schema for incoming form data
 export const OrganisationFormSchema = z.object({
   organisation_name: z
     .string()
-    .min(1, "Naziv službe je obavezan")
-    .max(60, "Naziv službe mora biti maksimalno 60 karaktera"),
+    .min(1, t("zod.organisation_empty"))
+    .max(60, t("zod.organisation_too_long")),
   organisation_address: z
     .string()
-    .min(1, "Adresa je obavezna")
-    .max(60, "Adresa mora biti maksimalno 60 karaktera"),
+    .min(1, t("zod.address_empty"))
+    .max(60, t("zod.address_too_long")),
   organisation_email: emailSchema,
   organisation_phone: phoneSchema,
-  categories: z
-    .array(z.number().int())
-    .min(1, "Morate odabrati barem jednu kategoriju problema"),
+  categories: z.array(z.number().int()).min(1, t("zod.organisation_category")),
 });

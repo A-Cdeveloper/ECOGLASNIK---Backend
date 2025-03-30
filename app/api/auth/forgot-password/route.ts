@@ -5,7 +5,7 @@ import prisma from "../../../_utils/db/db"; // Adjust this to your Prisma client
 import { forgotPasswordSchema } from "@/app/_utils/zod/authSchemas";
 import { z } from "zod";
 import { sendPasswordResetEmail } from "@/app/_utils/emails/sendEmail";
-
+import { t } from "@/app/_utils/messages";
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
@@ -18,7 +18,7 @@ export async function POST(request: NextRequest) {
 
     if (!existingUser) {
       return NextResponse.json(
-        { message: "Korisnik sa ovom email adresom ne postoji." },
+        { message: t("auth.forgot-password.user_not_exist") },
         { status: 404 }
       );
     }
@@ -34,7 +34,10 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json(
       {
-        message: `Link za resetovanje lozinke je poslat na ${existingUser.email}. Molimo proverite i spam folder.`,
+        message: t("auth.forgot-password.reset_link_send").replace(
+          "{email}",
+          existingUser.email
+        ),
       },
       { status: 201 }
     );

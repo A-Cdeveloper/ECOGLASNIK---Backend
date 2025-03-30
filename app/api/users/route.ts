@@ -4,6 +4,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getAllUsers, getSuperAdmin } from "@/app/_utils/api_utils/users";
 import { User } from "@prisma/client";
 import { authMiddleware } from "../../_utils/auth/authMiddleware";
+import { t } from "@/app/_utils/messages";
 
 export async function GET(request: NextRequest) {
   const authResponse = await authMiddleware(request);
@@ -18,12 +19,12 @@ export async function GET(request: NextRequest) {
     const superadmin = await getSuperAdmin(adminId);
     if (!superadmin) {
       return NextResponse.json(
-        { error: "Samo administratori mogu preuzeti korisnike." },
+        { error: t("users.restrict_access") },
         { status: 403 }
       );
     }
   } catch (error: unknown) {
-    return NextResponse.json({ error: "Greška na serveru" }, { status: 500 });
+    return NextResponse.json({ error: t("server_error") }, { status: 500 });
   }
 
   try {
@@ -37,10 +38,7 @@ export async function GET(request: NextRequest) {
     );
 
     if (!sanitizedUsers) {
-      return NextResponse.json(
-        { error: "Korisnici nisu pronađeni" },
-        { status: 404 }
-      );
+      return NextResponse.json({ error: t("users.no_users") }, { status: 404 });
     }
 
     return NextResponse.json(

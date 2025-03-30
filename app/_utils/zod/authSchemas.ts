@@ -1,13 +1,14 @@
 import { z } from "zod";
+import { t } from "../messages";
 
 // Shared Fields
 export const emailSchema = z
   .string()
   .refine((value) => value.trim() !== "", {
-    message: "Email je obavezan",
+    message: t("zod.email_empty"),
   })
   .refine((value) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value), {
-    message: "Email nije validan.",
+    message: t("zod.email_invalid"),
   })
   .transform((val) => val.trim());
 
@@ -21,8 +22,7 @@ export const phoneSchema = z
       return true;
     },
     {
-      message:
-        "Telefon mora da počinje sa +381 ili 0, a broj mora biti validan borj registrovan u Srbiji.",
+      message: t("zod.phone_invalid"),
     }
   )
   .transform((val) => val.trim());
@@ -31,39 +31,39 @@ export const phoneSchema = z
 export const registerPasswordSchema = z
   .string()
   .refine((value) => value.trim() !== "", {
-    message: "Lozinka je obavezna",
+    message: t("zod.password_empty"),
   })
   .refine((value) => value.length >= 8, {
-    message: "Lozinka mora imati najmanje 8 karaktera.",
+    message: t("zod.password_too_short"),
   })
   .refine((value) => value.length <= 100, {
-    message: "Lozinka mora biti kraća od 100 karaktera.",
+    message: t("zod.password_too_long"),
   })
   .refine((value) => /[A-Z]/.test(value), {
-    message: "Lozinka mora imati najmanje jedno veliko slovo.",
+    message: t("zod.password_alpha_caps"),
   })
   .refine((value) => /[0-9]/.test(value), {
-    message: "Lozinka mora imati najmanje jedan broj.",
+    message: t("zod.password_numeric"),
   })
   .refine((value) => /[@$!%*?&#]/.test(value), {
-    message: "Lozinka mora imati najmanje jedan specijalan karakter.",
+    message: t("zod.password_special"),
   })
   .transform((val) => val.trim());
 
 // Basic Password Validation for Login
-const loginPasswordSchema = z.string().min(1, "Lozinka je obavezna.");
+const loginPasswordSchema = z.string().min(1, t("zod.password_empty"));
 
 // Full Register Schema
 export const registerSchema = z.object({
   firstname: z
     .string()
-    .min(1, "Ime je obavezno")
-    .max(50, "Ime mora biti kraće od 50 karaktera.")
+    .min(1, t("zod.firstname_empty"))
+    .max(50, t("zod.firstname_too_long"))
     .transform((val) => val.trim()),
   lastname: z
     .string()
-    .min(1, "Prezime je obavezno")
-    .max(50, "Prezime mora biti kraće od 50 karaktera.")
+    .min(1, t("zod.lastname_empty"))
+    .max(50, t("zod.lastname_too_long"))
     .transform((val) => val.trim()),
   phone: phoneSchema,
   email: emailSchema,

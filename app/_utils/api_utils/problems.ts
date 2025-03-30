@@ -3,8 +3,7 @@ import { compareAsc, format, parse, subDays } from "date-fns";
 import { MAX_PAGE_SIZE } from "@/app/config";
 import prisma from "../db/db";
 import { ProblemOfficialEmail, ProblemStatus } from "@prisma/client";
-
-//import { sortByPropertyLength } from "../helpers";
+import { t } from "../messages";
 
 export const getAllProblems = async (
   sortBy: string = "createdAt-desc",
@@ -59,7 +58,7 @@ export const getAllProblems = async (
     return { problems, totalProblems };
   } catch (error: unknown) {
     if (error instanceof Error) {
-      throw new Error(`Greška prilikom preuzimanja problema`);
+      throw new Error(t("problems.no_problem_found"));
     }
   }
 };
@@ -101,7 +100,7 @@ export const getProblemById = async (id: string) => {
     return problem;
   } catch (error: unknown) {
     if (error instanceof Error) {
-      throw new Error(`Greška prilikom preuzimanja problema`);
+      throw new Error(t("problems.no_problem_found"));
     }
   }
 };

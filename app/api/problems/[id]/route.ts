@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { NextRequest, NextResponse } from "next/server";
-import prisma from "@/app/_utils/db/db";
+
 import { z } from "zod";
 import { updateProblemSchema } from "@/app/_utils/zod/problemSchemas";
 import { authMiddleware } from "../../../_utils/auth/authMiddleware";
-
+import { t } from "@/app/_utils/messages";
 import { getSuperAdmin } from "@/app/_utils/api_utils/users";
 import {
   getProblemById,
@@ -29,7 +29,7 @@ export async function GET(request: NextRequest, { params }: { params: any }) {
 
     if (!problem) {
       return NextResponse.json(
-        { error: "Problem nije pronađen" },
+        { error: t("problems.not_exist") },
         { status: 404 }
       );
     }
@@ -57,19 +57,19 @@ export async function PUT(request: NextRequest, { params }: { params: any }) {
     problem = await getProblemById(id);
     if (!problem) {
       return NextResponse.json(
-        { error: "Problem nije pronađen" },
+        { error: t("problems.not_exist") },
         { status: 404 }
       );
     }
     const superadmin = await getSuperAdmin(authenticatedUserId);
     if (authenticatedUserId !== +problem.uid && !superadmin) {
       return NextResponse.json(
-        { error: "Nemate dozvolu za ažuriranje problema drugih korisnika." },
+        { error: t("problems.no_edit_permision") },
         { status: 403 }
       );
     }
   } catch (error) {
-    return NextResponse.json({ error: "Greška na serveru" }, { status: 500 });
+    return NextResponse.json({ error: t("server_error") }, { status: 500 });
   }
 
   try {
@@ -121,7 +121,7 @@ export async function DELETE(
     const problem = await getProblemById(id);
     if (!problem) {
       return NextResponse.json(
-        { error: "Problem nije pronađen" },
+        { error: t("problems.not_exist") },
         { status: 404 }
       );
     }
@@ -129,12 +129,12 @@ export async function DELETE(
 
     if (authenticatedUserId !== +problem.uid && !superadmin) {
       return NextResponse.json(
-        { error: "Nemate dozvolu za bridanje problema drugih korisnika." },
+        { error: t("problems.no_delete_permision") },
         { status: 403 }
       );
     }
   } catch (error) {
-    return NextResponse.json({ error: "Greška na serveru" }, { status: 500 });
+    return NextResponse.json({ error: t("server_error") }, { status: 500 });
   }
 
   try {

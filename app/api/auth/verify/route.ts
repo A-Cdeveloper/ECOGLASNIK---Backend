@@ -1,13 +1,13 @@
 import { NextResponse } from "next/server";
 import prisma from "@/app/_utils/db/db";
-
+import { t } from "@/app/_utils/messages";
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
   const token = searchParams.get("token");
 
   if (token === "null") {
     return NextResponse.json(
-      { message: "Verifikacioni token nije pronađen." },
+      { message: t("auth.verify.token_not_exist") },
       { status: 400 }
     );
   }
@@ -24,7 +24,7 @@ export async function GET(req: Request) {
 
     if (!user) {
       return NextResponse.json(
-        { message: "Token ne postoji u bazi podataka ili je neispravan." },
+        { message: t("auth.verify.token_wrong") },
         { status: 400 }
       );
     }
@@ -39,7 +39,7 @@ export async function GET(req: Request) {
     });
 
     return NextResponse.json(
-      { message: "Vaš nalog je uspešno verifikovan." },
+      { message: t("auth.verify.success_verify") },
       { status: 200 }
     );
   } catch (error) {

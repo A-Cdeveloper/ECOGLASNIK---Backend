@@ -6,6 +6,7 @@ import { z } from "zod";
 import { hashPassword } from "@/app/_utils/auth/index";
 import { sendVerificationEmail } from "@/app/_utils/emails/sendEmail";
 import { UserRole } from "@prisma/client";
+import { t } from "@/app/_utils/messages";
 
 export async function POST(req: Request) {
   try {
@@ -28,7 +29,7 @@ export async function POST(req: Request) {
 
     if (existingUser) {
       return NextResponse.json(
-        { message: "Korisnik sa ovom email adresom već postoji." },
+        { message: t("auth.register.user_exist") },
         { status: 400 }
       );
     }
@@ -51,9 +52,10 @@ export async function POST(req: Request) {
 
     return NextResponse.json(
       {
-        message: `Nalog morate aktivirati.
-        Proverite svoju email adresu ${data.email} za verifikaciju naloga.
-        Molimo proverite i spam folder.`,
+        message: t("auth.register.success_register").replace(
+          "{email}",
+          data.email
+        ),
       },
       { status: 201 }
     );

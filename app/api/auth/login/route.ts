@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { loginSchema } from "@/app/_utils/zod/authSchemas"; // Adjust this import path accordingly
 import prisma from "@/app/_utils/db/db"; // Prisma client setup
 import { z } from "zod";
+import { t } from "@/app/_utils/messages";
 import { createJWT, verifyPassword } from "@/app/_utils/auth/index";
 
 // API handler for login
@@ -22,8 +23,7 @@ export async function POST(req: Request) {
     if (!user) {
       return NextResponse.json(
         {
-          message:
-            "Korisnik sa ovom email adresom ne postoji ili nije verifikovan.",
+          message: t("auth.login.user_not_exist"),
         },
         { status: 404 }
       );
@@ -33,7 +33,7 @@ export async function POST(req: Request) {
     const passwordMatch = await verifyPassword(password, user.passwordHash);
     if (!passwordMatch) {
       return NextResponse.json(
-        { message: "Pogrešna lozinka. Pokušajte ponovo." },
+        { message: t("auth.login.wrong_password") },
         { status: 401 }
       );
     }
@@ -41,7 +41,7 @@ export async function POST(req: Request) {
     // Check if user is verified
     if (!user.isVerified) {
       return NextResponse.json(
-        { message: "Nalog nije verifikovan." },
+        { message: t("auth.login.user_not_verify") },
         { status: 403 }
       );
     }
@@ -65,7 +65,7 @@ export async function POST(req: Request) {
 
     // Set token in HTTP-only cookie
     const response = NextResponse.json({
-      message: "Uspešna prijava.",
+      message: t("auth.login.success_login"),
       tokenExpiry: tokenExpiry,
     });
     response.cookies.set("authToken", token, {

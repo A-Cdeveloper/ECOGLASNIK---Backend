@@ -4,6 +4,7 @@ import { MAX_PAGE_SIZE } from "@/app/config";
 import prisma from "../db/db";
 import { getPercentage, sortByPropertyLength } from "../helpers";
 import { ProblemStatus } from "@prisma/client";
+import { t } from "../messages";
 
 export const getAllCategories = async (
   sortBy: string = "cat_id-asc",
@@ -17,7 +18,7 @@ export const getAllCategories = async (
   const validOrder = ["asc", "desc"];
 
   if (!validFields.includes(field) || !validOrder.includes(order)) {
-    throw new Error("Invalid sorting parameters.");
+    throw new Error(t("invalid_sort"));
   }
 
   try {
@@ -83,7 +84,7 @@ export const getAllCategories = async (
     }
   } catch (error: unknown) {
     if (error instanceof Error) {
-      throw new Error(`Greška prilikom preuzimanja kategorija.`);
+      throw new Error(t("category.no_categories_found"));
     }
   }
 };
@@ -126,7 +127,7 @@ export const getCategoryById = async (
     return { ...category, allProblems };
   } catch (error: unknown) {
     if (error instanceof Error) {
-      throw new Error(`Greška prilikom preuzimanja kategorije`);
+      throw new Error(t("category.no_category_found"));
     }
   }
 };

@@ -1,0 +1,125 @@
+{
+    "auth": {
+        "no_access": "Pristup nije autorizovan",
+        "login": {
+            "user_not_exist": "Korisnik sa ovom email adresom ne postoji ili nije verifikovan.",
+            "wrong_password": "Pogrešna lozinka. Pokušajte ponovo.",
+            "user_not_verify": "Nalog nije verifikovan.",
+            "success_login": "Uspešna prijava."
+        },
+        "register": {
+            "user_exist": "Korisnik sa ovom email adresom već postoji.",
+            "success_register": "Nalog morate aktivirati. Proverite svoju email adresu {email} za verifikaciju naloga. Molimo proverite i spam folder."
+        },
+        "logout": {
+            "success_logout": "Uspešna odjava."
+        },
+        "forgot-password": {
+            "user_not_exist": "Korisnik sa ovom email adresom ne postoji.",
+            "reset_link_send": "Link za resetovanje lozinke je poslat na {email}. Molimo proverite i spam folder."
+        },
+        "reset-password": {
+            "token_not_exist": "Verifikacioni token nije pronađen.",
+            "token_wrong": "Token ne postoji u bazi podataka ili je neispravan.",
+            "success_reset_password": "Vaša lozinka je uspešno promenjena."
+        },
+        "verify": {
+            "token_not_exist": "Verifikacioni token nije pronađen.",
+            "token_wrong": "Token ne postoji u bazi podataka ili je neispravan.",
+            "success_verify": "Vaš nalog je uspešno verifikovan."
+        },
+        "user_cookies": {
+            "token_not_exist": "Token nije pronađen.",
+            "forbidden": "Nemate pravo pristupa.",
+            "user_not_exist": "Korisnik ne postoji ili nije verifikovan."
+        }
+    },
+    "category": {
+        "no_categories_found": "Greška prilikom preuzimanja kategorija.",
+        "no_category_found": "Kategorija nije pronađena.",
+        "not_exist": "Kategorija nije pronađena"
+    },
+    "organisations": {
+        "no_organisations_found": "Greška prilikom preuzimanja nadležnih službi.",
+        "no_organisation_found": "Greška prilikom preuzimanja nadležne službe.",
+        "not_exist": "Služba nije pronađena"
+    },
+    "partners": {
+        "no_partners_found": "Greška prilikom preuzimanja partnera.",
+        "no_partner_found": "Greška prilikom preuzimanja partnera."
+    },
+    "problems": {
+        "no_problems_found": "Greška prilikom preuzimanja problema.",
+        "no_problem_found": "Greška prilikom preuzimanja problema.",
+        "add_problem_error": "Greška prilikom dodavanja problema.",
+        "edit_problem_error": "Greška prilikom ažuriranja problema.",
+        "not_exist": "Problem nije pronađen",
+        "no_edit_permision": "Nemate dozvolu za ažuriranje problema drugih korisnika.",
+        "no_delete_permision": "Nemate dozvolu za brisanje problema drugih korisnika.",
+        "image": {
+            "not_upload": "Fotografija nije uploadovana.",
+            "upload_maximage_size": "Dozvoljena veličina fotografije je 10MB",
+            "upload_image_type": "Fotografija mora biti u JPG ili PNG formatu",
+            "upload_success": "Fotografija je uspešno uploadovana.",
+            "delete_success": "Slika je uspešno obrisana."
+        }
+    },
+    "users": {
+        "no_users_found": "Greška prilikom preuzimanja korisnika.",
+        "no_user_found": "Greška prilikom preuzimanja korisnika.",
+        "restrict_access": "Samo administratori mogu preuzeti korisnike.",
+        "no_users": "Korisnici nisu pronađeni",
+        "no_user": "Korisnik nije pronađen",
+        "no_delete_permision": "Nemate dozvolu za brisanje drugih korisnika.",
+        "user_deleted_success": "Korisnik je uspešno obrisan.",
+        "user_delete_error": "Greška prilikom brisanja korisnika."
+    },
+    "settings": {
+        "error": "Izvinjavamo se.Došlo je do greške prilikom pokretanja aplikacije."
+    },
+    "zod": {
+        "email_empty": "Email je obavezan",
+        "email_invalid": "Email nije validan",
+        "phone_invalid": "Telefon mora da počinje sa +381 ili 0, a broj mora biti validan borj registrovan u Srbiji.",
+        "password_empty": "Lozinka je obavezna",
+        "password_too_short": "Lozinka mora imati najmanje 8 karaktera",
+        "password_too_long": "Lozinka mora biti kraća od 100 karaktera.",
+        "password_alpha_caps:": "Lozinka mora imati najmanje jedno veliko slovo.",
+        "password_numeric": "Lozinka mora imati najmanje jedan broj.",
+        "password_special": "Lozinka mora imati najmanje jedan specijalan karakter.",
+        "firstname_empty": "Ime je obavezno",
+        "firstname_too_long": "Ime mora biti kraće od 50 karaktera.",
+        "lastname_empty": "Prezime je obavezno",
+        "lastname_too_long": "Prezime mora biti kraće od 50 karaktera.",
+        "category_empty": "Ime kategorije je obavezno",
+        "category_too_long": "Ime kategorije mora biti maksimalno 60 karaktera",
+        "category_organisation": "Morate odabrati barem jednu nadležnu službu",
+        "organisation_empty": "Naziv službe je obavezan",
+        "organisation_too_long": "Naziv službe mora biti maksimalno 60 karaktera",
+        "address_empty": "Adresa je obavezna",
+        "address_too_long": "Adresa mora biti maksimalno 60 karaktera",
+        "organisation_category": "Morate odabrati barem jednu kategoriju problema",
+        "partner_empty": "Naziv partnera je obavezan",
+        "partner_too_long": "Naziv partnera mora biti maksimalno 60 karaktera",
+        "partner_logo_empty": "Logo partnera je obavezan",
+        "partner_logo_maxsize": "Maksimalna velicina fotografije je 10MB",
+        "partner_logo_type": "Fotografija mora biti u JPG ili PNG formatu",
+        "partner_logo_fail": "Fotografija nije uploadovana",
+        "problem_title_empty": "Naziv problema je obavezan",
+        "problem_title_too_long": "Naziv problema mora biti maksimalno 60 karaktera",
+        "problem_title_banned": "Nalov sadrži neprimerene reči",
+        "problem_description_empty": "Opis problema je obavezan",
+        "problem_description_too_long": "Opis problema mora biti maksimalno 300 karaktera",
+        "problem_description_banned": "Opis sadrži neprimerene reči",
+        "area_empty": "Područje je obavezno",
+        "area_too_long": "Područje mora biti maksimalno 60 karaktera",
+        "initial_zoom_too_low": "Inicijalni zoom mora biti minimalno 10",
+        "initial_zoom_too_high": "Inicijalni zoom mora biti maksimalno 21",
+        "latitude_empty": "Latitude je obavezna",
+        "longitude_empty": "Longitude je obavezna"
+    },
+    "server_error": "Greška na serveru",
+    "db_unavailable": "Baza podataka nije dostupna.",
+    "db_error": "Greška prilikom pristupa bazi podataka.",
+    "invalid_sort": "Neispravni parametri sortiranje"
+}
