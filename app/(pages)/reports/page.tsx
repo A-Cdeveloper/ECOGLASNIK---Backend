@@ -1,7 +1,9 @@
 import Headline from "@/app/_components/ui/Headline";
+import { authSecurityPatch } from "@/app/_utils/auth/authSecurityPatch";
 import Link from "next/link";
 
-const ReportsPage = () => {
+const ReportsPage = async () => {
+  await authSecurityPatch();
   return (
     <>
       <Headline level={1} className="mb-5">

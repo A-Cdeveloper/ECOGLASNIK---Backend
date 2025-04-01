@@ -1,8 +1,10 @@
 import BackButton from "@/app/_components/ui/Buttons/BackButton";
 import Headline from "@/app/_components/ui/Headline";
 import UserForm from "../_components/UserForm";
+import { authSecurityPatch } from "@/app/_utils/auth/authSecurityPatch";
 
 const AddUser = async () => {
+  await authSecurityPatch();
   return (
     <div>
       <BackButton />

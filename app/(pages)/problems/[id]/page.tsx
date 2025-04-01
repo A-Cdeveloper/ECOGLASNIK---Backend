@@ -10,10 +10,11 @@ import { statuses } from "../_components/FilterOptions";
 import { ProblemStatus } from "@prisma/client";
 import ProblemInfoMessage from "../_components/ProblemInfoMessage";
 import StatusBadge from "@/app/_components/ui/StatusBadge";
+import { authSecurityPatch } from "@/app/_utils/auth/authSecurityPatch";
 
 const ProblemPage = async ({ params }: { params: Promise<{ id: string }> }) => {
   const problem = await getProblemById((await params).id);
-
+  await authSecurityPatch();
   return (
     <>
       <BackButton />

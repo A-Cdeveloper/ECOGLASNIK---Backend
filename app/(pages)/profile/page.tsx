@@ -1,7 +1,9 @@
 import BackButton from "@/app/_components/ui/Buttons/BackButton";
 import Profile from "./_components/Profile";
+import { authSecurityPatch } from "@/app/_utils/auth/authSecurityPatch";
 
-const PageProfile = () => {
+const PageProfile = async () => {
+  await authSecurityPatch();
   return (
     <>
       <BackButton />

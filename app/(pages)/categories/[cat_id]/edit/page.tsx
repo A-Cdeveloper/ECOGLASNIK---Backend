@@ -5,6 +5,7 @@ import { getAllOrganisations } from "@/app/_utils/api_utils/organisations";
 import CategoryForm from "../../_components/CategoryForm";
 import { ProblemCategoriesType } from "@/app/types/prismaTypes";
 import { Organisation } from "@prisma/client";
+import { authSecurityPatch } from "@/app/_utils/auth/authSecurityPatch";
 
 const EditCategory = async ({
   params,
@@ -14,6 +15,7 @@ const EditCategory = async ({
   const { organisations: organisationsApi } = (await getAllOrganisations()) as {
     organisations: Organisation[];
   };
+  await authSecurityPatch();
 
   const category = await getCategoryById(+(await params).cat_id);
 

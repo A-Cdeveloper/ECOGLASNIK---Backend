@@ -4,8 +4,10 @@ import { getAllCategories } from "@/app/_utils/api_utils/categories";
 import { getProblemById } from "@/app/_utils/api_utils/problems";
 import { ProblemCustumTypeWithUser } from "@/app/types/prismaTypes";
 import ProblemForm from "../../_components/ProblemForm";
+import { authSecurityPatch } from "@/app/_utils/auth/authSecurityPatch";
 
 const EditProblem = async ({ params }: { params: Promise<{ id: string }> }) => {
+  await authSecurityPatch();
   const { categories: categoriesApi } = (await getAllCategories()) as {
     categories: { cat_id: number; cat_name: string }[];
   };

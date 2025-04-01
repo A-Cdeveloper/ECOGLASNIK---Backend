@@ -15,6 +15,7 @@ import { getColumnsProblems } from "../../problems/_components/ColumnsProblems";
 import { deleteCategoryByIdAction } from "../_actions";
 import Pagination from "@/app/_components/ui/Pagination/Pagination";
 import { MAX_PAGE_SIZE } from "@/app/config";
+import { authSecurityPatch } from "@/app/_utils/auth/authSecurityPatch";
 
 const CategoryPage = async ({
   params,
@@ -23,6 +24,7 @@ const CategoryPage = async ({
   params: Promise<{ cat_id: string }>;
   searchParams: Promise<{ [key: string]: string | undefined }>;
 }) => {
+  await authSecurityPatch();
   const { page = "1" } = await searchParams;
   const { cat_id } = await params;
   const currentPage = parseInt(page, 10) || 1;

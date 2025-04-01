@@ -13,12 +13,14 @@ import { Suspense } from "react";
 import ChartProblemsByOrganisation, {
   ChartProblemsByOrganisationSkeleton,
 } from "../../dashboard/_components/appCharts/ChartProblemsByOrganisation";
+import { authSecurityPatch } from "@/app/_utils/auth/authSecurityPatch";
 
 const OrganisationPage = async ({
   params,
 }: {
   params: Promise<{ oid: string }>;
 }) => {
+  await authSecurityPatch();
   const { oid } = await params;
   const organisation = await getOrganisation(oid);
 
